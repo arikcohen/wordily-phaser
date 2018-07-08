@@ -1,0 +1,17 @@
+﻿{
+    "compileOnSave": true,
+    "compilerOptions": {
+      "module": "system",        
+      "target": "es5",
+      "noImplicitAny": true,
+      "removeComments": true,
+      "preserveConstEnums": true,        
+      "outFile" : "./scripts/wordily.js",
+      "sourceRoot": "./src/",
+      "sourceMap": true
+    },
+
+    "include": [
+        "src/**/*"
+    ]
+}
