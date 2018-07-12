@@ -3,6 +3,19 @@
     export class Game extends Phaser.Game {
 
         static ScaleFactor: number = 0.8;
+        static BaseCardWidth: number = 188;
+        static BaseCardHeight: number = 225;
+
+
+
+        static get DefaultCardWidth() : number {
+            return Game.BaseCardWidth * Game.ScaleFactor;
+        }
+
+        static get DefaultCardHeight(): number {
+            return Game.BaseCardHeight * Game.ScaleFactor;
+        }
+
 
         private static _instance: Game;
 

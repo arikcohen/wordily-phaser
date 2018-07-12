@@ -36,19 +36,18 @@
             this.solitaire = this.add.sprite(this.world.width/3, this.world.centerY, "start_solitaire");
             this.solitaire.anchor.setTo(0.5, 0.5);
             this.solitaire.inputEnabled = true;
-            this.solitaire.events.onInputDown.addOnce(this.startSolitaireGame);
+            this.solitaire.events.onInputDown.addOnce(this.startSolitaireGame, this);
 
             this.multiplayer = this.add.sprite(this.world.width / 3 * 2, this.world.centerY, "start_multiplayer");
             this.multiplayer.anchor.setTo(0.5, 0.5);
             this.multiplayer.inputEnabled = true;
-            this.multiplayer.events.onInputDown.addOnce(this.startMultiplayerGame);
+            this.multiplayer.events.onInputDown.addOnce(this.startMultiplayerGame, this);
 
             
         }
         
 
-        startSolitaireGame() {
-            alert('foo');
+        startSolitaireGame() {            
             this.game.state.start('Solitaire', true, false);
             
 

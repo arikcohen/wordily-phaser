@@ -10,100 +10,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Wordily;
 (function (Wordily) {
-    var Game = (function (_super) {
-        __extends(Game, _super);
-        function Game() {
-            var _this = this;
-            if (Game._instance) {
-                throw new Error("Error: Instantiation failed: Use Game.getInstance() instead of new.");
-            }
-            _this = _super.call(this, 1280, 720, Phaser.AUTO, 'content', null) || this;
-            _this.state.add('Boot', Wordily.Boot, false);
-            _this.state.add('SplashScreen', Wordily.SplashScreen, false);
-            _this.state.add('MainMenu', Wordily.MainMenu, false);
-            _this.state.add('Solitaire', Wordily.SolitaireGame, false);
-            _this.state.start('Boot');
-            Game._instance = _this;
-            return _this;
-        }
-        Game.getInstance = function () {
-            return Game._instance;
-        };
-        Game.ScaleFactor = 0.8;
-        return Game;
-    }(Phaser.Game));
-    Wordily.Game = Game;
-    window.onload = function () {
-        var game = new Game();
-    };
-})(Wordily || (Wordily = {}));
-var Wordily;
-(function (Wordily) {
-    var Boot = (function (_super) {
-        __extends(Boot, _super);
-        function Boot() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        Boot.prototype.preload = function () {
-            this.game.load.image('background', 'assets/tiledBackground.png');
-            this.game.load.atlasJSONHash('cards', 'assets/deck/deck.png', 'assets/deck/deck.json');
-            this.game.load.image('playingArea', 'assets/gameplay/playingArea.png');
-        };
-        Boot.prototype.create = function () {
-            this.input.maxPointers = 1;
-            this.stage.disableVisibilityChange = true;
-            if (this.game.device.desktop) {
-            }
-            else {
-            }
-            this.game.state.start('SplashScreen', true, false);
-        };
-        return Boot;
-    }(Phaser.State));
-    Wordily.Boot = Boot;
-})(Wordily || (Wordily = {}));
-var Wordily;
-(function (Wordily) {
-    var MainMenu = (function (_super) {
-        __extends(MainMenu, _super);
-        function MainMenu() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        MainMenu.prototype.create = function () {
-            this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'background');
-            this.cardTitleGroup = this.add.group();
-            var wordilyStartX = 97.5 + 80;
-            var wordilyStarty = 70;
-            var constSeperation = 155;
-            this.cardW = new Wordily.Card("W", null, wordilyStartX, wordilyStarty, this.cardTitleGroup);
-            this.cardO = new Wordily.Card("O", null, wordilyStartX + constSeperation * 1, wordilyStarty, this.cardTitleGroup);
-            this.cardR = new Wordily.Card("R", null, wordilyStartX + constSeperation * 2, wordilyStarty, this.cardTitleGroup);
-            this.cardD = new Wordily.Card("D", null, wordilyStartX + constSeperation * 3, wordilyStarty, this.cardTitleGroup);
-            this.cardI = new Wordily.Card("I", null, wordilyStartX + constSeperation * 4, wordilyStarty, this.cardTitleGroup);
-            this.cardLY = new Wordily.Card("LY", null, wordilyStartX + constSeperation * 5, wordilyStarty, this.cardTitleGroup);
-            this.solitaire = this.add.sprite(this.world.width / 3, this.world.centerY, "start_solitaire");
-            this.solitaire.anchor.setTo(0.5, 0.5);
-            this.solitaire.inputEnabled = true;
-            this.solitaire.events.onInputDown.addOnce(this.startSolitaireGame);
-            this.multiplayer = this.add.sprite(this.world.width / 3 * 2, this.world.centerY, "start_multiplayer");
-            this.multiplayer.anchor.setTo(0.5, 0.5);
-            this.multiplayer.inputEnabled = true;
-            this.multiplayer.events.onInputDown.addOnce(this.startMultiplayerGame);
-        };
-        MainMenu.prototype.startSolitaireGame = function () {
-            alert('foo');
-            this.game.state.start('Solitaire', true, false);
-        };
-        MainMenu.prototype.startMultiplayerGame = function () {
-            alert('no muliplayer yet');
-        };
-        return MainMenu;
-    }(Phaser.State));
-    Wordily.MainMenu = MainMenu;
-})(Wordily || (Wordily = {}));
-var Wordily;
-(function (Wordily) {
-    var Card = (function () {
+    var Card = /** @class */ (function () {
         function Card(cardName, overrideValue, x, y, group) {
             this._x = 0;
             this._y = 0;
@@ -126,6 +33,7 @@ var Wordily;
             if (y) {
                 this._y = y;
             }
+            //this.isSelected = false;
             this.cardFront = this._game.add.sprite(this.x, this.y, "cards", this.name, group);
             this.cardFront.scale.setTo(this.scaleFactor, this.scaleFactor);
             this.cardBack = this._game.add.sprite(this.x, this.y, "cards", "cardBackground", group);
@@ -189,7 +97,7 @@ var Wordily;
 })(Wordily || (Wordily = {}));
 var Wordily;
 (function (Wordily) {
-    var Deck = (function () {
+    var Deck = /** @class */ (function () {
         function Deck() {
         }
         return Deck;
@@ -198,12 +106,157 @@ var Wordily;
 })(Wordily || (Wordily = {}));
 var Wordily;
 (function (Wordily) {
-    var SplashScreen = (function (_super) {
+    var StackOrientation;
+    (function (StackOrientation) {
+        StackOrientation[StackOrientation["Deck"] = 0] = "Deck";
+        StackOrientation[StackOrientation["Horizontal"] = 1] = "Horizontal";
+        StackOrientation[StackOrientation["Vertical"] = 2] = "Vertical";
+    })(StackOrientation = Wordily.StackOrientation || (Wordily.StackOrientation = {}));
+    var Stack = /** @class */ (function (_super) {
+        __extends(Stack, _super);
+        function Stack(state, name, orientation, x, y) {
+            var _this = _super.call(this, state.game, null, name, true, false, null) || this;
+            _this.state = state;
+            _this.orientation = orientation;
+            _this.cards = [];
+            if (x) {
+                _this.x = x;
+            }
+            if (y) {
+                _this.y = y;
+            }
+            //this.groupStack = state.add.group(null, name, true, false);            
+            _this.scale.setTo(Wordily.Game.ScaleFactor, Wordily.Game.ScaleFactor);
+            _this.dropSlot = _this.state.add.sprite(0, 0, "cards", "card_Slot", _this);
+            _this.state.add.text(0, 0, name, null, _this);
+            _this.state.add.text(0, 100, "(" + _this.x + "," + _this.y + ")", null, _this);
+            return _this;
+        }
+        Stack.prototype.update = function () {
+            if (this.cards.length > 0) {
+                this.dropSlot.alive = false;
+                console.debug("woo hoo");
+            }
+            _super.prototype.update.call(this);
+        };
+        return Stack;
+    }(Phaser.Group));
+    Wordily.Stack = Stack;
+})(Wordily || (Wordily = {}));
+var Wordily;
+(function (Wordily) {
+    var Boot = /** @class */ (function (_super) {
+        __extends(Boot, _super);
+        function Boot() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Boot.prototype.preload = function () {
+            this.game.load.image('background', 'assets/tiledBackground.png');
+            this.game.load.atlasJSONHash('cards', 'assets/deck/deck.png', 'assets/deck/deck.json');
+            this.game.load.image('playingArea', 'assets/gameplay/playingArea.png');
+        };
+        Boot.prototype.create = function () {
+            //  Unless you specifically need to support multitouch I would recommend setting this to 1
+            this.input.maxPointers = 1;
+            //  Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
+            this.stage.disableVisibilityChange = true;
+            if (this.game.device.desktop) {
+                //  If you have any desktop specific settings, they can go in here
+            }
+            else {
+                //  Same goes for mobile settings.
+            }
+            this.game.state.start('SplashScreen', true, false);
+        };
+        return Boot;
+    }(Phaser.State));
+    Wordily.Boot = Boot;
+})(Wordily || (Wordily = {}));
+var Wordily;
+(function (Wordily) {
+    var MainMenu = /** @class */ (function (_super) {
+        __extends(MainMenu, _super);
+        function MainMenu() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        MainMenu.prototype.create = function () {
+            this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'background');
+            this.cardTitleGroup = this.add.group();
+            var wordilyStartX = 97.5 + 80;
+            var wordilyStarty = 70;
+            var constSeperation = 155;
+            this.cardW = new Wordily.Card("W", null, wordilyStartX, wordilyStarty, this.cardTitleGroup);
+            this.cardO = new Wordily.Card("O", null, wordilyStartX + constSeperation * 1, wordilyStarty, this.cardTitleGroup);
+            this.cardR = new Wordily.Card("R", null, wordilyStartX + constSeperation * 2, wordilyStarty, this.cardTitleGroup);
+            this.cardD = new Wordily.Card("D", null, wordilyStartX + constSeperation * 3, wordilyStarty, this.cardTitleGroup);
+            this.cardI = new Wordily.Card("I", null, wordilyStartX + constSeperation * 4, wordilyStarty, this.cardTitleGroup);
+            this.cardLY = new Wordily.Card("LY", null, wordilyStartX + constSeperation * 5, wordilyStarty, this.cardTitleGroup);
+            this.solitaire = this.add.sprite(this.world.width / 3, this.world.centerY, "start_solitaire");
+            this.solitaire.anchor.setTo(0.5, 0.5);
+            this.solitaire.inputEnabled = true;
+            this.solitaire.events.onInputDown.addOnce(this.startSolitaireGame, this);
+            this.multiplayer = this.add.sprite(this.world.width / 3 * 2, this.world.centerY, "start_multiplayer");
+            this.multiplayer.anchor.setTo(0.5, 0.5);
+            this.multiplayer.inputEnabled = true;
+            this.multiplayer.events.onInputDown.addOnce(this.startMultiplayerGame, this);
+        };
+        MainMenu.prototype.startSolitaireGame = function () {
+            this.game.state.start('Solitaire', true, false);
+        };
+        MainMenu.prototype.startMultiplayerGame = function () {
+            alert('no muliplayer yet');
+        };
+        return MainMenu;
+    }(Phaser.State));
+    Wordily.MainMenu = MainMenu;
+})(Wordily || (Wordily = {}));
+var Wordily;
+(function (Wordily) {
+    var SolitaireGame = /** @class */ (function (_super) {
+        __extends(SolitaireGame, _super);
+        function SolitaireGame() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.stacks = [];
+            _this.score = 0;
+            _this.numStacks = 7;
+            return _this;
+        }
+        SolitaireGame.prototype.init = function (gameId) {
+        };
+        SolitaireGame.prototype.preload = function () {
+            this.game.load.image('howToPlay', 'assets/gameplay/howToPlay.png');
+            this.game.load.image('submit', 'assets/gameplay/submitWord.png');
+            this.game.load.image('clear', 'assets/gameplay/clear.png');
+        };
+        SolitaireGame.prototype.create = function () {
+            this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'background');
+            this.playingArea = this.add.sprite(this.world.centerX, 120, 'playingArea');
+            this.playingArea.anchor.setTo(0.5, 0.5);
+            this.playingArea.scale.setTo(Wordily.Game.ScaleFactor, Wordily.Game.ScaleFactor);
+            this.curWord = new Wordily.Stack(this, "currentWord", Wordily.StackOrientation.Vertical, this.playingArea.left + 20, this.playingArea.top + 10);
+            for (var iStack = 0; iStack < this.numStacks; iStack++) {
+                var s = new Wordily.Stack(this, "stack " + iStack, Wordily.StackOrientation.Vertical, (Wordily.Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + SolitaireGame.stackOffsetHorizontal, this.world.bottom - Wordily.Game.DefaultCardHeight - (SolitaireGame.stackOffsetVertical));
+                this.stacks.push(s);
+            }
+            this.stacks[3].cards.push(new Wordily.Card("A"));
+        };
+        SolitaireGame.prototype.startGame = function () {
+        };
+        SolitaireGame.stackOffsetHorizontal = 25;
+        SolitaireGame.stackOffsetVertical = 20;
+        return SolitaireGame;
+    }(Phaser.State));
+    Wordily.SolitaireGame = SolitaireGame;
+})(Wordily || (Wordily = {}));
+var Wordily;
+(function (Wordily) {
+    var SplashScreen = /** @class */ (function (_super) {
         __extends(SplashScreen, _super);
         function SplashScreen() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
         SplashScreen.prototype.preload = function () {
+            // load what's needed for the loading screen
             this.background = this.add.tileSprite(0, 0, 1280, 720, 'background');
             this.cardTitleGroup = this.add.group();
             this.cardW = new Wordily.Card("W", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
@@ -214,6 +267,7 @@ var Wordily;
             this.cardJoker = new Wordily.Card("JOKER", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
             this.cardJoker2 = new Wordily.Card("JOKER", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
             this.cardLY = new Wordily.Card("LY", null, this.world.width, this.world.height, this.cardTitleGroup);
+            // load assets for main menu
             this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
         };
@@ -241,7 +295,7 @@ var Wordily;
         };
         SplashScreen.prototype.startMainMenu = function () {
             console.debug(this.cardW.x.toString() + "," + this.cardW.y.toString());
-            this.game.state.start('Solitaire', true, false);
+            this.game.state.start('MainMenu', true, false);
         };
         return SplashScreen;
     }(Phaser.State));
@@ -249,68 +303,47 @@ var Wordily;
 })(Wordily || (Wordily = {}));
 var Wordily;
 (function (Wordily) {
-    var SolitaireGame = (function (_super) {
-        __extends(SolitaireGame, _super);
-        function SolitaireGame() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.stacks = [];
-            _this.score = 0;
-            _this.numStacks = 8;
+    var Game = /** @class */ (function (_super) {
+        __extends(Game, _super);
+        function Game() {
+            var _this = this;
+            if (Game._instance) {
+                throw new Error("Error: Instantiation failed: Use Game.getInstance() instead of new.");
+            }
+            _this = _super.call(this, 1280, 720, Phaser.AUTO, 'content', null) || this;
+            _this.state.add('Boot', Wordily.Boot, false);
+            _this.state.add('SplashScreen', Wordily.SplashScreen, false);
+            _this.state.add('MainMenu', Wordily.MainMenu, false);
+            _this.state.add('Solitaire', Wordily.SolitaireGame, false);
+            _this.state.start('Boot');
+            Game._instance = _this;
             return _this;
         }
-        SolitaireGame.prototype.init = function (gameId) {
-        };
-        SolitaireGame.prototype.preload = function () {
-            this.game.load.image('howToPlay', 'assets/gameplay/howToPlay.png');
-            this.game.load.image('submit', 'assets/gameplay/submitWord.png');
-            this.game.load.image('clear', 'assets/gameplay/clear.png');
-        };
-        SolitaireGame.prototype.create = function () {
-            this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'background');
-            this.playingArea = this.add.sprite(this.world.centerX, 120, 'playingArea');
-            this.playingArea.anchor.setTo(0.5, 0.5);
-            this.playingArea.scale.setTo(Wordily.Game.ScaleFactor, Wordily.Game.ScaleFactor);
-            this.curWord = new Wordily.Stack(this.playingArea.x + 20, this.playingArea.bottom - 10);
-        };
-        SolitaireGame.prototype.startGame = function () {
-        };
-        SolitaireGame.stackOffsetHorizontal = 50;
-        SolitaireGame.stackOffsetVertical = 20;
-        return SolitaireGame;
-    }(Phaser.State));
-    Wordily.SolitaireGame = SolitaireGame;
-})(Wordily || (Wordily = {}));
-var Wordily;
-(function (Wordily) {
-    var Stack = (function () {
-        function Stack(x, y) {
-            this._x = 0;
-            this._y = 0;
-        }
-        Object.defineProperty(Stack.prototype, "x", {
+        Object.defineProperty(Game, "DefaultCardWidth", {
             get: function () {
-                return this._x;
-            },
-            set: function (x) {
-                this._x = x;
-                this.dropSlot.x = x;
+                return Game.BaseCardWidth * Game.ScaleFactor;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Stack.prototype, "y", {
+        Object.defineProperty(Game, "DefaultCardHeight", {
             get: function () {
-                return this._y;
-            },
-            set: function (y) {
-                this._y = y;
-                this.dropSlot.y = y;
+                return Game.BaseCardHeight * Game.ScaleFactor;
             },
             enumerable: true,
             configurable: true
         });
-        return Stack;
-    }());
-    Wordily.Stack = Stack;
+        Game.getInstance = function () {
+            return Game._instance;
+        };
+        Game.ScaleFactor = 0.8;
+        Game.BaseCardWidth = 188;
+        Game.BaseCardHeight = 225;
+        return Game;
+    }(Phaser.Game));
+    Wordily.Game = Game;
+    window.onload = function () {
+        var game = new Game();
+    };
 })(Wordily || (Wordily = {}));
 //# sourceMappingURL=wordily.js.map

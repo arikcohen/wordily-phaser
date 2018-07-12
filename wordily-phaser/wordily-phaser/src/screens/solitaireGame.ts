@@ -13,8 +13,8 @@
         deckRemaining: Deck;
         score: number = 0;
 
-        private numStacks: number = 8;
-        public static stackOffsetHorizontal:number = 50;
+        private numStacks: number = 7;
+        public static stackOffsetHorizontal:number = 25;
         public static stackOffsetVertical:number = 20;
 
         init(gameId?: number) {
@@ -34,7 +34,14 @@
             this.playingArea.anchor.setTo(0.5, 0.5);
             this.playingArea.scale.setTo(Game.ScaleFactor, Game.ScaleFactor);            
 
-            this.curWord = new Stack(this.playingArea.x + 20, this.playingArea.bottom - 10);
+            this.curWord = new Stack(this, "currentWord", StackOrientation.Vertical, this.playingArea.left + 20, this.playingArea.top + 10);
+
+            for (let iStack: number = 0; iStack < this.numStacks; iStack++) {
+                let s = new Stack(this, "stack " + iStack, StackOrientation.Vertical, (Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + SolitaireGame.stackOffsetHorizontal, this.world.bottom - Game.DefaultCardHeight - (SolitaireGame.stackOffsetVertical));
+                this.stacks.push(s);
+            }
+
+            this.stacks[3].cards.push(new Card("A"));
         }
 
         startGame() {         

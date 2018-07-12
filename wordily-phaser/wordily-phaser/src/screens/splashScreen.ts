@@ -76,7 +76,7 @@
 
         startMainMenu() {
             console.debug(this.cardW.x.toString() + "," + this.cardW.y.toString());
-            this.game.state.start('Solitaire', true, false);
+            this.game.state.start('MainMenu', true, false);
         }
 
     }
