@@ -34,15 +34,22 @@
             this.playingArea.anchor.setTo(0.5, 0.5);
             this.playingArea.scale.setTo(Game.ScaleFactor, Game.ScaleFactor);            
 
-            this.curWord = new Stack(this, "currentWord", StackOrientation.Vertical, this.playingArea.left + 20, this.playingArea.top + 10);
+            this.curWord = new Stack(this, "currentWord", StackOrientation.HorizontalDisplay, this.playingArea.left + 20, this.playingArea.top + 10);
 
+            let marginForStacks: number = (this.world.width - ((Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * this.numStacks) + SolitaireGame.stackOffsetHorizontal) / 2;
+            console.debug("margin: " + marginForStacks + " default width:" + Game.DefaultCardWidth);
             for (let iStack: number = 0; iStack < this.numStacks; iStack++) {
-                let s = new Stack(this, "stack " + iStack, StackOrientation.Vertical, (Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + SolitaireGame.stackOffsetHorizontal, this.world.bottom - Game.DefaultCardHeight - (SolitaireGame.stackOffsetVertical));
+                let s = new Stack(this, "stack " + iStack, StackOrientation.VerticalStack, (Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + marginForStacks, this.world.bottom - Game.DefaultCardHeight - (SolitaireGame.stackOffsetVertical));
                 this.stacks.push(s);
             }
 
-            this.stacks[3].cards.push(new Card("A"));
+            this.stacks[3].addCard(new Card("A"));
+            this.curWord.addCard(new Card("W"));
+            this.curWord.addCard(new Card("O"));
+            this.curWord.addCard(new Card("JOKER"));
+            this.curWord.addCard(new Card("D"));
         }
+
 
         startGame() {         
 

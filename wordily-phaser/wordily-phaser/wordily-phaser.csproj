@@ -38,8 +38,9 @@
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptOutFile>scripts/wordily.js</TypeScriptOutFile>
-    <TypeScriptOutDir />
+    <TypeScriptOutFile>
+    </TypeScriptOutFile>
+    <TypeScriptOutDir>scripts</TypeScriptOutDir>
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
@@ -80,7 +81,7 @@
     <Content Include="assets\mainmenu\solitaire.png" />
     <Content Include="assets\preload\loader.png" />
     <Content Include="assets\tiledBackground.png" />
-    <Content Include="scripts\phaser.js" />
+    <Content Include="include\phaser.js" />
     <Content Include="src\phaser\typescript\tslint.json" />
     <Content Include="src\phaser\typescript\typings.json" />
     <Content Include="assets\deck\deck.json" />
@@ -112,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="scripts\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\screens\solitaireGame.ts" />

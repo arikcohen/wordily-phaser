@@ -1,53 +1,40 @@
-﻿module Wordily {
- 
-    export class SplashScreen extends Phaser.State {
-
-        
-        background: Phaser.TileSprite;
-        playingArea: Phaser.Sprite;
-        cardTitleGroup: Phaser.Group;
-        
-        cardW: Card;
-        cardO: Card;
-        cardR: Card;
-        cardD: Card;
-        cardI: Card;
-        cardLY: Card;
-        cardY: Card;
-        cardJoker: Card;
-        cardJoker2: Card;
-
-        preload() {
-
-
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var Wordily;
+(function (Wordily) {
+    var SplashScreen = /** @class */ (function (_super) {
+        __extends(SplashScreen, _super);
+        function SplashScreen() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        SplashScreen.prototype.preload = function () {
             // load what's needed for the loading screen
             this.background = this.add.tileSprite(0, 0, 1280, 720, 'background');
-                                             
             this.cardTitleGroup = this.add.group();
-
-            this.cardW = new Card("W", null , this.world.width, this.world.centerY -90, this.cardTitleGroup);
-            this.cardO = new Card("O", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardR = new Card("R", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
-            this.cardD = new Card("D", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardI = new Card("I", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardJoker = new Card("JOKER", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
-            this.cardJoker2 = new Card("JOKER", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
-            
-            this.cardLY = new Card("LY", null, this.world.width, this.world.height, this.cardTitleGroup);            
-
-
+            this.cardW = new Wordily.Card("W", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardO = new Wordily.Card("O", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardR = new Wordily.Card("R", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardD = new Wordily.Card("D", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardI = new Wordily.Card("I", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardJoker = new Wordily.Card("JOKER", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardJoker2 = new Wordily.Card("JOKER", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardLY = new Wordily.Card("LY", null, this.world.width, this.world.height, this.cardTitleGroup);
             // load assets for main menu
             this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
-        }
-
-
-        create() {                                   
-
-            var skipSplash: boolean = true;
-
+        };
+        SplashScreen.prototype.create = function () {
+            var skipSplash = true;
             if (!skipSplash) {
-                var constSeperation: number = Game.DefaultCardWidth + 10;
+                var constSeperation = Wordily.Game.DefaultCardWidth + 10;
                 var tweenW = this.add.tween(this.cardW).to({ x: this.world.centerX - (constSeperation * 3.5) }, 750, Phaser.Easing.Linear.None, true);
                 var tweenO = this.add.tween(this.cardO).to({ x: this.world.centerX - (constSeperation * 2.5) }, 750, Phaser.Easing.Linear.None, true, 250);
                 var tweenR = this.add.tween(this.cardR).to({ x: this.world.centerX - (constSeperation * 1.5) }, 750, Phaser.Easing.Linear.None, true, 500);
@@ -58,7 +45,6 @@
                 var tweenJokerAway = this.add.tween(this.cardJoker).to({ y: this.world.height * 2 }, 1500, Phaser.Easing.Linear.None, true, 2500);
                 var tweenJoker2Away = this.add.tween(this.cardJoker2).to({ y: this.world.height * 2 }, 1500, Phaser.Easing.Linear.None, true, 2500);
                 var tweenLY = this.add.tween(this.cardLY).to({ x: this.world.centerX + (constSeperation * 1.5), y: this.world.centerY - 90 }, 750, Phaser.Easing.Linear.None, true, 3250);
-
                 var tweenCards = this.add.tween(this.cardTitleGroup).to({ x: "+80" }, 750, Phaser.Easing.Linear.None, true, 3250);
                 var tweenCardsTop = this.add.tween(this.cardTitleGroup).to({ y: -200 }, 750, Phaser.Easing.Linear.None, true, 4000);
                 tweenCardsTop.onComplete.add(this.startMainMenu, this);
@@ -66,20 +52,16 @@
             else {
                 this.startMainMenu();
             }
-                                               
-        }
-
-        shutdown() {
-            
+        };
+        SplashScreen.prototype.shutdown = function () {
             this.cardTitleGroup.destroy(true);
-        }
-
-        startMainMenu() {
-            
+        };
+        SplashScreen.prototype.startMainMenu = function () {
             this.cardTitleGroup.destroy(true, true);
             this.game.state.start('MainMenu', true, false);
-        }
-
-    }
-
-}
+        };
+        return SplashScreen;
+    }(Phaser.State));
+    Wordily.SplashScreen = SplashScreen;
+})(Wordily || (Wordily = {}));
+//# sourceMappingURL=splashScreen.js.map

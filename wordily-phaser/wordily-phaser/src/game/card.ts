@@ -19,8 +19,7 @@
             this.cardBack.renderable = !this.isFaceUp;
         }
 
-
-        private _game: Game = Game.getInstance();
+        isAnimating: boolean = false;
 
         private _scaleFactor: number = Game.ScaleFactor;
         get scaleFactor(): number {
@@ -34,9 +33,8 @@
         curStack: Stack = null;
         prevStack: Stack = null;
 
-        constructor(cardName: string, overrideValue?: number, x?:number, y?:number, parent?:PIXI.DisplayObjectContainer) {
-            super(Game.getInstance(),parent, cardName, true, false, null);
-
+        constructor(cardName: string, overrideValue?: number, x?:number, y?:number, parent?:PIXI.DisplayObjectContainer, state?:Phaser.State) {
+            super(Game.getInstance(),parent, cardName);            
             this.name = cardName;
             this.scale.setTo(this.scaleFactor, this.scaleFactor);
             if (overrideValue) {
@@ -53,9 +51,19 @@
                 this.y = y;
             }
 
+            
+            if (state) {                            
+               
+            }
+            else {
+                state = Game.getInstance().state.getCurrentState();
+               
+            }
+
             //this.isSelected = false;
-            this.cardFront = this.game.state.getCurrentState().add.sprite(0, 0, "cards", this.name, this);            
-            this.cardBack = this.game.state.getCurrentState().add.sprite(0, 0, "cards", "cardBackground", this);            
+            
+            this.cardFront = state.add.sprite(0, 0, "cards", this.name, this);            
+            this.cardBack = state.add.sprite(0, 0, "cards", "cardBackground", this);            
             this.isFaceUp = true;
         }
 
