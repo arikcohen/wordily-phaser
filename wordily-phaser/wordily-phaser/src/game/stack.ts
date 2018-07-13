@@ -34,8 +34,7 @@
 
         update() {
             if (this.cards.length > 0) {
-                this.dropSlot.alive = false;
-                console.debug("woo hoo");
+                this.dropSlot.renderable = false;                
             }
 
             super.update();

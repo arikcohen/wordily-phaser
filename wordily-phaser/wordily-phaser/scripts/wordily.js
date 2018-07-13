@@ -10,60 +10,36 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Wordily;
 (function (Wordily) {
-    var Card = /** @class */ (function () {
-        function Card(cardName, overrideValue, x, y, group) {
-            this._x = 0;
-            this._y = 0;
-            this._isSelected = false;
-            this._isFaceUp = true;
-            this._game = Wordily.Game.getInstance();
-            this._scaleFactor = Wordily.Game.ScaleFactor;
-            this.curStack = null;
-            this.prevStack = null;
-            this.name = cardName;
+    var Card = /** @class */ (function (_super) {
+        __extends(Card, _super);
+        function Card(cardName, overrideValue, x, y, parent) {
+            var _this = _super.call(this, Wordily.Game.getInstance(), parent, cardName, true, false, null) || this;
+            _this._isSelected = false;
+            _this._isFaceUp = true;
+            _this._game = Wordily.Game.getInstance();
+            _this._scaleFactor = Wordily.Game.ScaleFactor;
+            _this.curStack = null;
+            _this.prevStack = null;
+            _this.name = cardName;
+            _this.scale.setTo(_this.scaleFactor, _this.scaleFactor);
             if (overrideValue) {
-                this.value = overrideValue;
+                _this.value = overrideValue;
             }
             else {
-                this.value = 2;
+                _this.value = 2;
             }
             if (x) {
-                this._x = x;
+                _this.x = x;
             }
             if (y) {
-                this._y = y;
+                _this.y = y;
             }
             //this.isSelected = false;
-            this.cardFront = this._game.add.sprite(this.x, this.y, "cards", this.name, group);
-            this.cardFront.scale.setTo(this.scaleFactor, this.scaleFactor);
-            this.cardBack = this._game.add.sprite(this.x, this.y, "cards", "cardBackground", group);
-            this.cardBack.scale.setTo(this.scaleFactor, this.scaleFactor);
-            this.isFaceUp = true;
+            _this.cardFront = _this.game.state.getCurrentState().add.sprite(0, 0, "cards", _this.name, _this);
+            _this.cardBack = _this.game.state.getCurrentState().add.sprite(0, 0, "cards", "cardBackground", _this);
+            _this.isFaceUp = true;
+            return _this;
         }
-        Object.defineProperty(Card.prototype, "x", {
-            get: function () {
-                return this._x;
-            },
-            set: function (x) {
-                this._x = x;
-                this.cardFront.x = x;
-                this.cardBack.x = x;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Card.prototype, "y", {
-            get: function () {
-                return this._y;
-            },
-            set: function (y) {
-                this._y = y;
-                this.cardFront.y = y;
-                this.cardBack.y = y;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(Card.prototype, "isFaceUp", {
             get: function () {
                 return this._isFaceUp;
@@ -82,8 +58,7 @@ var Wordily;
             },
             set: function (value) {
                 this._scaleFactor = value;
-                this.cardBack.scale.setTo(value, value);
-                this.cardFront.scale.setTo(value, value);
+                this.scale.setTo(this.scaleFactor, this.scaleFactor);
             },
             enumerable: true,
             configurable: true
@@ -92,7 +67,7 @@ var Wordily;
             return this.name + "[" + this.value + "]";
         };
         return Card;
-    }());
+    }(Phaser.Group));
     Wordily.Card = Card;
 })(Wordily || (Wordily = {}));
 var Wordily;
@@ -134,8 +109,7 @@ var Wordily;
         }
         Stack.prototype.update = function () {
             if (this.cards.length > 0) {
-                this.dropSlot.alive = false;
-                console.debug("woo hoo");
+                this.dropSlot.renderable = false;
             }
             _super.prototype.update.call(this);
         };
@@ -272,7 +246,7 @@ var Wordily;
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
         };
         SplashScreen.prototype.create = function () {
-            var skipSplash = true;
+            var skipSplash = false;
             if (!skipSplash) {
                 var constSeperation = 155;
                 var tweenW = this.add.tween(this.cardW).to({ x: this.world.centerX - (constSeperation * 3.5) }, 750, Phaser.Easing.Linear.None, true);
@@ -293,8 +267,12 @@ var Wordily;
                 this.startMainMenu();
             }
         };
+        SplashScreen.prototype.destroy = function () {
+            this.cardTitleGroup.destroy(true);
+        };
         SplashScreen.prototype.startMainMenu = function () {
             console.debug(this.cardW.x.toString() + "," + this.cardW.y.toString());
+            this.cardTitleGroup.destroy(true, true);
             this.game.state.start('MainMenu', true, false);
         };
         return SplashScreen;
@@ -343,7 +321,7 @@ var Wordily;
     }(Phaser.Game));
     Wordily.Game = Game;
     window.onload = function () {
-        var game = new Game();
+        var activeGame = new Game();
     };
 })(Wordily || (Wordily = {}));
 //# sourceMappingURL=wordily.js.map

@@ -44,7 +44,7 @@
 
         create() {                                   
 
-            var skipSplash: boolean = true;
+            var skipSplash: boolean = false;
 
             if (!skipSplash) {
                 var constSeperation: number = 155;
@@ -66,16 +66,16 @@
             else {
                 this.startMainMenu();
             }
+                                               
+        }
 
-
-            
-            
-            
-           
+        destroy() {
+            this.cardTitleGroup.destroy(true);
         }
 
         startMainMenu() {
             console.debug(this.cardW.x.toString() + "," + this.cardW.y.toString());
+            this.cardTitleGroup.destroy(true, true);
             this.game.state.start('MainMenu', true, false);
         }
 

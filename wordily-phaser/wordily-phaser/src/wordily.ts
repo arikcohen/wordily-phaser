@@ -1,7 +1,7 @@
-﻿module Wordily {
+﻿module Wordily {        
 
     export class Game extends Phaser.Game {
-
+        
         static ScaleFactor: number = 0.8;
         static BaseCardWidth: number = 188;
         static BaseCardHeight: number = 225;
@@ -35,14 +35,14 @@
 
             this.state.start('Boot');
             Game._instance = this;
-        }
-
+        }        
     }
-   
+
+    
 
     window.onload = () => {
 
-        var game = new Game();
+       var activeGame  = new Game();
 
     };
 } 
