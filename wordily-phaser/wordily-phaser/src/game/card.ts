@@ -52,9 +52,7 @@
                 this.ignoreChildInput = false;
             }
             else {
-                this.inputEnableChildren = false;
-                
-
+                this.inputEnableChildren = false;                
             }
         }
 
@@ -78,15 +76,18 @@
         curStack: Stack = null;
         prevStack: Stack = null;
 
-        constructor(cardName: string, isFaceUp = true, id?: number, x?:number, y?:number, parent?:PIXI.DisplayObjectContainer, state?:Phaser.State) {
-            super(Game.getInstance(),parent, cardName);            
-            this.name = cardName;
+        constructor(id: number = -1, name: string, isFaceUp = true, value: number, x?:number, y?:number, parent?:PIXI.DisplayObjectContainer, state?:Phaser.State) {
+            super(Game.getInstance(),parent, name);            
+            this.name = name;
+            this.value = value;
+
             this.scale.setTo(this.scaleFactor, this.scaleFactor);
-            if (id) {
+            if (id != -1) {
                 this.id= id;
             }
             else {
                 this.id = Card.nextId++;
+                
             }
             
             if (x) {
@@ -121,8 +122,9 @@
 
         
         onMouseDown(sprite: Phaser.Sprite) {
-            
-            this.curStack.cardTapped(this, false);
+            if (this.isSelectable) {
+                this.curStack.cardTapped(this, false);
+            }
         } 
 
                     

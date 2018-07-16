@@ -12,6 +12,7 @@
 
         currentWord: Stack;        
         stacks: Stack[] = [];
+        stackDiscard: Stack;
         deckRemaining: Stack;
         score: number = 0;
 
@@ -41,12 +42,12 @@
             this.submitWord = this.add.sprite(this.playingArea.right + 10, this.playingArea.centerY, 'submit');
             this.submitWord.anchor.setTo(0, 0.5);
             this.submitWord.scale.setTo(Game.ScaleFactor, Game.ScaleFactor);                        
-            
+            this.submitWord.events.onInputDown.add(this.submitWordClicked, this);
 
             this.currentWord = new Stack(this, "currentWord", StackOrientation.HorizontalDisplay, this.playingArea.left + 20, this.playingArea.top + 10);
             this.currentWord.onCardTapped.add(this.currentWordCardTapped, this);
 
-            
+            this.stackDiscard = new Stack(this, "discard", StackOrientation.Deck, this.world.left, this.world.bottom);
             
             for (let iStack: number = 0; iStack < this.numStacks; iStack++) {
                 let s = new Stack(this, "stack " + iStack, StackOrientation.VerticalStack, (Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + marginForStacks, this.currentWord.bottom + SolitaireGame.stackOffsetVertical);
@@ -87,8 +88,28 @@
             this.currentWord.addCard(c, null, true);
         }
 
+        submitWordClicked() {            
+            var checkWord = this.currentWord.getWord();
+            if (checkWord.length < 5) {
+                this.score += this.currentWord.getScore();
+                while (this.currentWord.length > 0) {
+                    let c: Card = this.currentWord.removeTopCard();
+                    c.prevStack.enableTopCard();
+                    this.stackDiscard.addCard(c, null, true);
+                }
+            }
+            else {
+                this.score -= this.currentWord.getScore();
+                while (this.currentWord.length > 0) {
+                    let c: Card = this.currentWord.removeTopCard();
+                    c.prevStack.addCard(c, null, true);
+                }
+            }
+
+        }
+
         update() {
-            if (this.currentWord.length == 0) {
+            if (this.currentWord.length < 2) {
                 this.submitWord.alpha = 0.25;
                 this.submitWord.inputEnabled = false;
             }
@@ -97,6 +118,7 @@
                 this.submitWord.inputEnabled = true;
             }
 
+            this.scoreText.text = this.score.toString();
         }
 
         startGame() {         

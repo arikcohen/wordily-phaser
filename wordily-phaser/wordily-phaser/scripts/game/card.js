@@ -12,9 +12,10 @@ var Wordily;
 (function (Wordily) {
     var Card = /** @class */ (function (_super) {
         __extends(Card, _super);
-        function Card(cardName, isFaceUp, id, x, y, parent, state) {
+        function Card(id, name, isFaceUp, value, x, y, parent, state) {
+            if (id === void 0) { id = -1; }
             if (isFaceUp === void 0) { isFaceUp = true; }
-            var _this = _super.call(this, Wordily.Game.getInstance(), parent, cardName) || this;
+            var _this = _super.call(this, Wordily.Game.getInstance(), parent, name) || this;
             _this._isFaceUp = true;
             _this._isSelected = false;
             _this._isSelectable = false;
@@ -22,9 +23,10 @@ var Wordily;
             _this._scaleFactor = Wordily.Game.ScaleFactor;
             _this.curStack = null;
             _this.prevStack = null;
-            _this.name = cardName;
+            _this.name = name;
+            _this.value = value;
             _this.scale.setTo(_this.scaleFactor, _this.scaleFactor);
-            if (id) {
+            if (id != -1) {
                 _this.id = id;
             }
             else {
@@ -107,7 +109,9 @@ var Wordily;
             configurable: true
         });
         Card.prototype.onMouseDown = function (sprite) {
-            this.curStack.cardTapped(this, false);
+            if (this.isSelectable) {
+                this.curStack.cardTapped(this, false);
+            }
         };
         Card.prototype.toString = function () {
             return this.name + "[" + this.value + "] " + this.id;

@@ -25,15 +25,15 @@
                                              
             this.cardTitleGroup = this.add.group();
 
-            this.cardW = new Card("W", true, null , this.world.width, this.world.centerY -90, this.cardTitleGroup);
-            this.cardO = new Card("O", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardR = new Card("R", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
-            this.cardD = new Card("D", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardI = new Card("I", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardJoker = new Card("JOKER", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
-            this.cardJoker2 = new Card("JOKER", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
+            this.cardW = new Card(-1, "W", true,0 , this.world.width, this.world.centerY -90, this.cardTitleGroup);
+            this.cardO = new Card(-1, "O", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardR = new Card(-1, "R", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
+            this.cardD = new Card(-1, "D", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardI = new Card(-1, "I", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardJoker = new Card(-1, "JOKER", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
+            this.cardJoker2 = new Card(-1, "JOKER", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
             
-            this.cardLY = new Card("LY", true, null, this.world.width, this.world.height, this.cardTitleGroup);            
+            this.cardLY = new Card(-1, "LY", true, 0, this.world.width, this.world.height, this.cardTitleGroup);            
 
 
             // load assets for main menu

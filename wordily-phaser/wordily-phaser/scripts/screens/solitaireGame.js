@@ -34,8 +34,10 @@ var Wordily;
             this.submitWord = this.add.sprite(this.playingArea.right + 10, this.playingArea.centerY, 'submit');
             this.submitWord.anchor.setTo(0, 0.5);
             this.submitWord.scale.setTo(Wordily.Game.ScaleFactor, Wordily.Game.ScaleFactor);
+            this.submitWord.events.onInputDown.add(this.submitWordClicked, this);
             this.currentWord = new Wordily.Stack(this, "currentWord", Wordily.StackOrientation.HorizontalDisplay, this.playingArea.left + 20, this.playingArea.top + 10);
             this.currentWord.onCardTapped.add(this.currentWordCardTapped, this);
+            this.stackDiscard = new Wordily.Stack(this, "discard", Wordily.StackOrientation.Deck, this.world.left, this.world.bottom);
             for (var iStack = 0; iStack < this.numStacks; iStack++) {
                 var s = new Wordily.Stack(this, "stack " + iStack, Wordily.StackOrientation.VerticalStack, (Wordily.Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + marginForStacks, this.currentWord.bottom + SolitaireGame.stackOffsetVertical);
                 s.onCardTapped.add(this.stackCardTapped, this);
@@ -68,8 +70,26 @@ var Wordily;
             var c = stack.removeCard(card);
             this.currentWord.addCard(c, null, true);
         };
+        SolitaireGame.prototype.submitWordClicked = function () {
+            var checkWord = this.currentWord.getWord();
+            if (checkWord.length < 5) {
+                this.score += this.currentWord.getScore();
+                while (this.currentWord.length > 0) {
+                    var c = this.currentWord.removeTopCard();
+                    c.prevStack.enableTopCard();
+                    this.stackDiscard.addCard(c, null, true);
+                }
+            }
+            else {
+                this.score -= this.currentWord.getScore();
+                while (this.currentWord.length > 0) {
+                    var c = this.currentWord.removeTopCard();
+                    c.prevStack.addCard(c, null, true);
+                }
+            }
+        };
         SolitaireGame.prototype.update = function () {
-            if (this.currentWord.length == 0) {
+            if (this.currentWord.length < 2) {
                 this.submitWord.alpha = 0.25;
                 this.submitWord.inputEnabled = false;
             }
@@ -77,6 +97,7 @@ var Wordily;
                 this.submitWord.alpha = 1;
                 this.submitWord.inputEnabled = true;
             }
+            this.scoreText.text = this.score.toString();
         };
         SolitaireGame.prototype.startGame = function () {
         };

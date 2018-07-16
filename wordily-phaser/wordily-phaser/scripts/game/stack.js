@@ -48,9 +48,7 @@ var Wordily;
             return _this;
         }
         Stack.prototype.update = function () {
-            if (this.length > 0) {
-                this.dropSlot.renderable = false;
-            }
+            this.dropSlot.renderable = (this.length == 0);
             _super.prototype.update.call(this);
         };
         Object.defineProperty(Stack.prototype, "length", {
@@ -113,6 +111,26 @@ var Wordily;
             }
             card.prevStack = card.curStack;
             card.curStack = this;
+        };
+        Stack.prototype.getWord = function () {
+            var word = "";
+            for (var i = 0; i < this.cards.length; i++) {
+                if (this.cards[i].name != "JOKER") {
+                    word += this.cards[i].name;
+                }
+                else {
+                    word += "*";
+                }
+            }
+            return word;
+        };
+        Stack.prototype.getScore = function () {
+            var score = 0;
+            for (var i = 0; i < this.cards.length; i++) {
+                console.debug(this.cards[i].value);
+                score += this.cards[i].value;
+            }
+            return score;
         };
         Stack.prototype.cardFinalLocation = function (index) {
             var x;
@@ -196,6 +214,13 @@ var Wordily;
                         console.debug("Stack: " + this.name + " updated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
                     }
                 }
+            }
+        };
+        Stack.prototype.enableTopCard = function () {
+            if (this.length > 0) {
+                var c = this.cards[this.length - 1];
+                c.isFaceUp = true;
+                c.isSelectable = true;
             }
         };
         Stack.prototype.cardTapped = function (card, doubleTapped) {

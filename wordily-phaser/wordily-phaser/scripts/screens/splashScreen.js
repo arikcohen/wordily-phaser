@@ -19,14 +19,14 @@ var Wordily;
             // load what's needed for the loading screen
             this.background = this.add.tileSprite(0, 0, 1280, 720, 'background');
             this.cardTitleGroup = this.add.group();
-            this.cardW = new Wordily.Card("W", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardO = new Wordily.Card("O", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardR = new Wordily.Card("R", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardD = new Wordily.Card("D", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardI = new Wordily.Card("I", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardJoker = new Wordily.Card("JOKER", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardJoker2 = new Wordily.Card("JOKER", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardLY = new Wordily.Card("LY", true, null, this.world.width, this.world.height, this.cardTitleGroup);
+            this.cardW = new Wordily.Card(-1, "W", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardO = new Wordily.Card(-1, "O", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardR = new Wordily.Card(-1, "R", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardD = new Wordily.Card(-1, "D", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardI = new Wordily.Card(-1, "I", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardJoker = new Wordily.Card(-1, "JOKER", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardJoker2 = new Wordily.Card(-1, "JOKER", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardLY = new Wordily.Card(-1, "LY", true, 0, this.world.width, this.world.height, this.cardTitleGroup);
             // load assets for main menu
             this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');

@@ -14,12 +14,12 @@ var Wordily;
             for (var num = 0; num < deckData.length; num++) {
                 var c = deckData[num];
                 for (var i = 0; i < c["count"]; i++) {
-                    var newCard = new Wordily.Card(c["name"], isFaceUp, c["value"]);
+                    var newCard = new Wordily.Card(-1, c["name"], isFaceUp, c["value"]);
                     cards.push(newCard);
                 }
             }
             for (var j = 0; j < numJokers; j++) {
-                var newJoker = new Wordily.Card("JOKER", isFaceUp, 0);
+                var newJoker = new Wordily.Card(-1, "JOKER", isFaceUp, 0);
                 cards.push(newJoker);
             }
             if (fShuffled) {

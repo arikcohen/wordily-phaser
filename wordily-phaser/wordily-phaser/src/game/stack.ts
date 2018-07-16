@@ -9,6 +9,7 @@
 
     export class Stack extends Phaser.Group {
 
+        
         private cards: Card[];
         private dropSlot: Phaser.Sprite;
         orientation: StackOrientation;
@@ -50,9 +51,8 @@
         }
 
         update() {
-            if (this.length > 0) {
-                this.dropSlot.renderable = false;
-            }
+            
+            this.dropSlot.renderable = (this.length == 0);            
 
             super.update();
         }
@@ -112,6 +112,30 @@
 
             card.prevStack = card.curStack;
             card.curStack = this;
+        }
+
+        getWord(): string {
+            let word: string = "";
+            for (let i = 0; i < this.cards.length; i++) {
+                if (this.cards[i].name != "JOKER") {
+                    word += this.cards[i].name
+                }
+                else {
+                    word += "*";
+                }
+            }
+            return word;
+        }
+
+        getScore(): number {
+            let score: number = 0;
+            for (let i = 0; i < this.cards.length; i++) {
+                console.debug(this.cards[i].value);
+                score += this.cards[i].value;
+            }
+
+            
+            return score;
         }
 
         private cardFinalLocation(index: number) {
@@ -216,6 +240,14 @@
 
             
         }       
+
+        enableTopCard(): void {
+            if (this.length > 0) {
+                let c: Card = this.cards[this.length - 1];
+                c.isFaceUp = true;
+                c.isSelectable = true;
+            }
+        }
 
         onCardTapped: Phaser.Signal = new Phaser.Signal();
 
