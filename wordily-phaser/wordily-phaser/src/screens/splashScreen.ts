@@ -77,7 +77,8 @@
         startMainMenu() {
             
             this.cardTitleGroup.destroy(true, true);
-            this.game.state.start('MainMenu', true, false);
+            //this.game.state.start('MainMenu', true, false);
+            this.game.state.start('Solitaire', true, false);
         }
 
     }

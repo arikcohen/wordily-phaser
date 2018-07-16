@@ -86,73 +86,115 @@ var Wordily;
                 return null;
             }
         };
-        Stack.prototype.addCard = function (card, index, fAnimateIn) {
+        Stack.prototype.addCard = function (card, index, fAnimateIn, animateDuration, animateDelay) {
             if (fAnimateIn === void 0) { fAnimateIn = false; }
+            if (animateDuration === void 0) { animateDuration = 300; }
+            if (animateDelay === void 0) { animateDelay = 0; }
+            if (fAnimateIn) {
+                card.isAnimating = true;
+            }
             if (index) {
                 this.cards.push(card);
                 this.addAt(card, index);
-                this.updateCardLocations(index);
+                this.updateCardLocations(index, fAnimateIn);
             }
             else {
                 this.cards.push(card);
-                this.updateCardLocations(this.cards.length - 1);
+                this.updateCardLocations(this.cards.length - 1, fAnimateIn);
                 this.add(card);
+            }
+            if (fAnimateIn) {
+                if (card.curStack) {
+                    card.x = card.curStack.x + card.x - this.x;
+                    card.y = card.curStack.y + card.y - this.y;
+                }
+                console.debug("animating to stack " + this.name + " card " + card.name + " from  stack " + card.curStack);
+                this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, null, true, animateDelay);
             }
             card.prevStack = card.curStack;
             card.curStack = this;
         };
-        Stack.prototype.updateCardLocations = function (startIndex) {
-            if (startIndex === void 0) { startIndex = 0; }
-            console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
+        Stack.prototype.cardFinalLocation = function (index) {
+            var x;
+            var y;
             var prevCard;
-            if (startIndex > 0) {
-                prevCard = this.cards[startIndex - 1];
+            if (index > 0) {
+                prevCard = this.cards[index - 1];
             }
-            for (var c = startIndex; c < this.length; c++) {
-                var x = void 0;
-                var y = void 0;
-                var card = this.cards[c];
-                switch (this.orientation) {
-                    case StackOrientation.Deck: {
-                        x = 0;
-                        y = 0;
-                        break;
-                    }
-                    case StackOrientation.HorizontalFull: {
-                        x = c * (this.dropSlot.width + Stack.offsetHorizonatal);
-                        y = 0;
-                        break;
-                    }
-                    case StackOrientation.HorizontalDisplay: {
-                        x = c * (Stack.offsetHorizonatalDisplay);
-                        y = 0;
-                        break;
-                    }
-                    case StackOrientation.HorizontalStack: {
-                        x = c * (Stack.offsetHorizonatal);
-                        y = 0;
-                        break;
-                    }
-                    case StackOrientation.VerticalStack: {
-                        x = 0;
-                        if (prevCard) {
-                            if (prevCard.isFaceUp) {
+            var card = this.cards[index];
+            switch (this.orientation) {
+                case StackOrientation.Deck: {
+                    x = 0;
+                    y = 0;
+                    break;
+                }
+                case StackOrientation.HorizontalFull: {
+                    x = index * (this.dropSlot.width + Stack.offsetHorizonatal);
+                    y = 0;
+                    break;
+                }
+                case StackOrientation.HorizontalDisplay: {
+                    x = index * (Stack.offsetHorizonatalDisplay);
+                    y = 0;
+                    break;
+                }
+                case StackOrientation.HorizontalStack: {
+                    x = index * (Stack.offsetHorizonatal);
+                    y = 0;
+                    break;
+                }
+                case StackOrientation.VerticalStack: {
+                    x = 0;
+                    if (prevCard) {
+                        if (prevCard.isFaceUp) {
+                            if (prevCard.isAnimating) {
+                                y = prevCard.animateFinalY + (Stack.offsetVerticalFaceUp);
+                            }
+                            else {
                                 y = prevCard.y + (Stack.offsetVerticalFaceUp);
+                            }
+                        }
+                        else {
+                            if (prevCard.isAnimating) {
+                                y = prevCard.animateFinalY + (Stack.offsetVertical);
                             }
                             else {
                                 y = prevCard.y + (Stack.offsetVertical);
                             }
                         }
-                        else {
-                            y = 0;
-                        }
-                        break;
+                    }
+                    else {
+                        y = 0;
+                    }
+                    break;
+                }
+            }
+            return { x: x, y: y };
+        };
+        Stack.prototype.updateCardLocations = function (startIndex, fAnimate) {
+            if (startIndex === void 0) { startIndex = 0; }
+            if (fAnimate === void 0) { fAnimate = false; }
+            console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
+            for (var index = startIndex; index < this.length; index++) {
+                var x = void 0;
+                var y = void 0;
+                var card = this.cards[index];
+                var location_1 = this.cardFinalLocation(index);
+                x = location_1.x;
+                y = location_1.y;
+                if (card.isAnimating) {
+                    if (card.animateFinalX != x || card.animateFinalY != y) {
+                        card.animateFinalX = x;
+                        card.animateFinalY = y;
+                        console.debug("Stack: " + this.name + " updated animated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
                     }
                 }
-                if (card.x != x || card.y != y) {
-                    card.x = x;
-                    card.y = y;
-                    console.debug("Stack: " + this.name + " updated card location " + c + " " + card.name + " (" + x + ", " + y + ")");
+                else {
+                    if (card.x != x || card.y != y) {
+                        card.x = x;
+                        card.y = y;
+                        console.debug("Stack: " + this.name + " updated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                    }
                 }
             }
         };

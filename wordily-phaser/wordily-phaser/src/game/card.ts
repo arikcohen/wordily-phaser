@@ -12,6 +12,7 @@
         private cardSelected: Phaser.Sprite;        
 
         
+        
         private _isFaceUp: boolean = true;
 
         get isFaceUp(): boolean {
@@ -59,6 +60,9 @@
 
 
         isAnimating: boolean = false;
+        animateFinalX: number;
+        animateFinalY: number;
+
 
         private _scaleFactor: number = Game.ScaleFactor;
 

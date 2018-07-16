@@ -121,7 +121,6 @@
     <Content Include="app.css" />
     <Content Include="index.html" />
     <None Include=".bowerrc" />
-    <None Include="tsconfig.json" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

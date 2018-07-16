@@ -34,14 +34,14 @@ var Wordily;
             this.submitWord = this.add.sprite(this.playingArea.right + 10, this.playingArea.centerY, 'submit');
             this.submitWord.anchor.setTo(0, 0.5);
             this.submitWord.scale.setTo(Wordily.Game.ScaleFactor, Wordily.Game.ScaleFactor);
-            this.curWord = new Wordily.Stack(this, "currentWord", Wordily.StackOrientation.HorizontalDisplay, this.playingArea.left + 20, this.playingArea.top + 10);
-            this.curWord.onCardTapped.add(this.currentWordCardTapped, this);
+            this.currentWord = new Wordily.Stack(this, "currentWord", Wordily.StackOrientation.HorizontalDisplay, this.playingArea.left + 20, this.playingArea.top + 10);
+            this.currentWord.onCardTapped.add(this.currentWordCardTapped, this);
             for (var iStack = 0; iStack < this.numStacks; iStack++) {
-                var s = new Wordily.Stack(this, "stack " + iStack, Wordily.StackOrientation.VerticalStack, (Wordily.Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + marginForStacks, this.curWord.bottom + SolitaireGame.stackOffsetVertical);
+                var s = new Wordily.Stack(this, "stack " + iStack, Wordily.StackOrientation.VerticalStack, (Wordily.Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + marginForStacks, this.currentWord.bottom + SolitaireGame.stackOffsetVertical);
                 s.onCardTapped.add(this.stackCardTapped, this);
                 this.stacks.push(s);
             }
-            this.deckRemaining = new Wordily.Stack(this, "deck", Wordily.StackOrientation.Deck, this.stacks[this.numStacks - 1].left, this.curWord.top, Wordily.Deck.CreateDeck(true, false, 4));
+            this.deckRemaining = new Wordily.Stack(this, "deck", Wordily.StackOrientation.Deck, this.stacks[this.numStacks - 1].left, this.currentWord.top, Wordily.Deck.CreateDeck(true, false, 4));
             for (var i = 0; i < 4; i++) {
                 for (var s = 0; s < this.numStacks; s++) {
                     this.stacks[s].addCard(this.deckRemaining.removeTopCard());
@@ -51,24 +51,25 @@ var Wordily;
                 var c = this.deckRemaining.removeTopCard();
                 c.isFaceUp = true;
                 c.isSelectable = true;
-                this.stacks[s].addCard(c);
+                this.stacks[s].addCard(c, null, true, 300, 300 * s);
             }
             this.scoreTitleText = this.add.text(this.stacks[0].left + Wordily.Game.DefaultCardWidth / 2, this.playingArea.top + 40, "Score", { font: "32px cutive", fill: "white", align: "center" });
             this.scoreTitleText.anchor.setTo(0.5, 0);
             this.scoreText = this.add.text(this.stacks[0].left + Wordily.Game.DefaultCardWidth / 2, this.scoreTitleText.bottom + 20, "0", { font: "32px cutive", fill: "white", align: "center" });
             this.scoreText.anchor.setTo(0.5, 0);
+            this.game.world.bringToTop(this.currentWord);
         };
         SolitaireGame.prototype.currentWordCardTapped = function (stack, card, doubleTapped) {
             var c = stack.removeCard(card);
-            c.prevStack.addCard(c);
+            c.prevStack.addCard(c, null, true);
         };
         SolitaireGame.prototype.stackCardTapped = function (stack, card, doubleTapped) {
             console.debug(stack.name + " got a card click " + card.name);
             var c = stack.removeCard(card);
-            this.curWord.addCard(c);
+            this.currentWord.addCard(c, null, true);
         };
         SolitaireGame.prototype.update = function () {
-            if (this.curWord.length == 0) {
+            if (this.currentWord.length == 0) {
                 this.submitWord.alpha = 0.25;
                 this.submitWord.inputEnabled = false;
             }
