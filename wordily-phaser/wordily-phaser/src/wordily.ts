@@ -2,7 +2,7 @@
 
     export class Game extends Phaser.Game {
         
-        static ScaleFactor: number = 0.8;
+        static ScaleFactor: number = 0.75;
         static BaseCardWidth: number = 188;
         static BaseCardHeight: number = 225;
 
@@ -26,7 +26,10 @@
             if (Game._instance) {
                 throw new Error("Error: Instantiation failed: Use Game.getInstance() instead of new.");
             }            
-            super(1280, 720, Phaser.AUTO, 'content', null);
+            super(1280, 720, Phaser.AUTO, 'content');
+            
+            
+            
 
             this.state.add('Boot', Boot, false);
             this.state.add('SplashScreen', SplashScreen, false);
@@ -34,6 +37,8 @@
             this.state.add('Solitaire', SolitaireGame, false);
 
             this.state.start('Boot');
+
+
             Game._instance = this;
         }        
     }

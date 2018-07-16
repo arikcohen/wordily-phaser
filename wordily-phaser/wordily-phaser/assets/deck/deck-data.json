@@ -1,0 +1,162 @@
+﻿[
+  {
+    "name": "A",
+    "count": 10,
+    "value": 2
+  },
+  {
+    "name": "B",
+    "count": 2,
+    "value": 8
+  },
+  {
+    "name": "C",
+    "count": 2,
+    "value": 8
+  },
+  {
+    "name": "D",
+    "count": 4,
+    "value": 5
+  },
+  {
+    "name": "E",
+    "count": 12,
+    "value": 2
+  },
+  {
+    "name": "F",
+    "count": 2,
+    "value": 6
+  },
+  {
+    "name": "G",
+    "count": 4,
+    "value": 6
+  },
+  {
+    "name": "H",
+    "count": 2,
+    "value": 7
+  },
+  {
+    "name": "J",
+    "count": 2,
+    "value": 13
+  },
+  {
+    "name": "K",
+    "count": 2,
+    "value": 8
+  },
+  {
+    "name": "L",
+    "count": 4,
+    "value": 3
+  },
+  {
+    "name": "M",
+    "count": 2,
+    "value": 5
+  },
+  {
+    "name": "N",
+    "count": 6,
+    "value": 5
+  },
+  {
+    "name": "O",
+    "count": 8,
+    "value": 2
+  },
+  {
+    "name": "P",
+    "count": 2,
+    "value": 6
+  },
+  {
+    "name": "Q",
+    "count": 2,
+    "value": 15
+  },
+  {
+    "name": "R",
+    "count": 6,
+    "value": 5
+  },
+  {
+    "name": "S",
+    "count": 4,
+    "value": 3
+  },
+  {
+    "name": "T",
+    "count": 6,
+    "value": 3
+  },
+  {
+    "name": "U",
+    "count": 6,
+    "value": 4
+  },
+  {
+    "name": "V",
+    "count": 2,
+    "value": 11
+  },
+  {
+    "name": "W",
+    "count": 2,
+    "value": 10
+  },
+  {
+    "name": "X",
+    "count": 2,
+    "value": 12
+  },
+  {
+    "name": "Y",
+    "count": 4,
+    "value": 4
+  },
+  {
+    "name": "Z",
+    "count": 2,
+    "value": 14
+  },
+  {
+    "name": "CL",
+    "count": 2,
+    "value": 10
+  },
+  {
+    "name": "ER",
+    "count": 2,
+    "value": 7
+  },
+  {
+    "name": "IN",
+    "count": 2,
+    "value": 7
+  },
+  {
+    "name": "QU",
+    "count": 2,
+    "value": 9
+  },
+  {
+    "name": "TH",
+    "count": 2,
+    "value": 9
+  },
+  {
+    "name": "ED",
+    "count": 2,
+    "value": 7
+  },
+  {
+    "name": "LY",
+    "count": 2,
+    "value": 7
+  }  
+]

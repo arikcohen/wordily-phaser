@@ -1,7 +1,6 @@
-﻿body {
-    font-family: 'Segoe UI', sans-serif;
-}
-
-span {
-    font-style: italic;
+﻿@font-face {
+    font-family: "cutive";
+    font-style: normal;
+    font-weight:100;
+    src: url("assets/Cutive.ttf");
 }

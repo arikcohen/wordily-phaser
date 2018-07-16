@@ -215,10 +215,6 @@
             <key type="filename">cards/X.png</key>
             <key type="filename">cards/Y.png</key>
             <key type="filename">cards/Z.png</key>
-            <key type="filename">cards/cardBackground.png</key>
-            <key type="filename">cards/card_Slot.png</key>
-            <key type="filename">cards/nocards.png</key>
-            <key type="filename">cards/template.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -228,6 +224,22 @@
                 <rect>47,56,94,113</rect>
                 <key>scale9Paddings</key>
                 <rect>47,56,94,113</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">cards/card_background.png</key>
+            <key type="filename">cards/card_nocards.png</key>
+            <key type="filename">cards/card_selected.png</key>
+            <key type="filename">cards/card_slot.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,56,93,113</rect>
+                <key>scale9Paddings</key>
+                <rect>47,56,93,113</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

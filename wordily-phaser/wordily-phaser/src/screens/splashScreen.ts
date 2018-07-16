@@ -25,15 +25,15 @@
                                              
             this.cardTitleGroup = this.add.group();
 
-            this.cardW = new Card("W", null , this.world.width, this.world.centerY -90, this.cardTitleGroup);
-            this.cardO = new Card("O", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardR = new Card("R", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
-            this.cardD = new Card("D", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardI = new Card("I", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
-            this.cardJoker = new Card("JOKER", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
-            this.cardJoker2 = new Card("JOKER", null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
+            this.cardW = new Card("W", true, null , this.world.width, this.world.centerY -90, this.cardTitleGroup);
+            this.cardO = new Card("O", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardR = new Card("R", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
+            this.cardD = new Card("D", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardI = new Card("I", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
+            this.cardJoker = new Card("JOKER", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
+            this.cardJoker2 = new Card("JOKER", true, null, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
             
-            this.cardLY = new Card("LY", null, this.world.width, this.world.height, this.cardTitleGroup);            
+            this.cardLY = new Card("LY", true, null, this.world.width, this.world.height, this.cardTitleGroup);            
 
 
             // load assets for main menu
@@ -44,9 +44,9 @@
 
         create() {                                   
 
-            var skipSplash: boolean = true;
+            var showSplash: boolean = false;
 
-            if (!skipSplash) {
+            if (showSplash) {
                 var constSeperation: number = Game.DefaultCardWidth + 10;
                 var tweenW = this.add.tween(this.cardW).to({ x: this.world.centerX - (constSeperation * 3.5) }, 750, Phaser.Easing.Linear.None, true);
                 var tweenO = this.add.tween(this.cardO).to({ x: this.world.centerX - (constSeperation * 2.5) }, 750, Phaser.Easing.Linear.None, true, 250);

@@ -25,12 +25,12 @@
             var wordilyStarty: number = 70;
             var constSeperation: number = 155;
 
-            this.cardW = new Card("W", null, wordilyStartX, wordilyStarty, this.cardTitleGroup, this);
-            this.cardO = new Card("O", null, wordilyStartX+ constSeperation * 1, wordilyStarty, this.cardTitleGroup, this);
-            this.cardR = new Card("R", null, wordilyStartX+ constSeperation * 2, wordilyStarty, this.cardTitleGroup, this);
-            this.cardD = new Card("D", null, wordilyStartX+ constSeperation * 3, wordilyStarty, this.cardTitleGroup, this);
-            this.cardI = new Card("I", null, wordilyStartX+ constSeperation * 4, wordilyStarty, this.cardTitleGroup, this);
-            this.cardLY = new Card("LY", null, wordilyStartX + constSeperation * 5, wordilyStarty, this.cardTitleGroup, this);            
+            this.cardW = new Card("W", true, null, wordilyStartX, wordilyStarty, this.cardTitleGroup, this);
+            this.cardO = new Card("O", true, null, wordilyStartX+ constSeperation * 1, wordilyStarty, this.cardTitleGroup, this);
+            this.cardR = new Card("R", true, null, wordilyStartX+ constSeperation * 2, wordilyStarty, this.cardTitleGroup, this);
+            this.cardD = new Card("D", true, null, wordilyStartX+ constSeperation * 3, wordilyStarty, this.cardTitleGroup, this);
+            this.cardI = new Card("I", true, null, wordilyStartX+ constSeperation * 4, wordilyStarty, this.cardTitleGroup, this);
+            this.cardLY = new Card("LY", true, null, wordilyStartX + constSeperation * 5, wordilyStarty, this.cardTitleGroup, this);            
             
             
             this.solitaire = this.add.sprite(this.world.width/3, this.world.centerY, "start_solitaire");

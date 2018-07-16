@@ -12,21 +12,23 @@ var Wordily;
 (function (Wordily) {
     var Card = /** @class */ (function (_super) {
         __extends(Card, _super);
-        function Card(cardName, overrideValue, x, y, parent, state) {
+        function Card(cardName, isFaceUp, id, x, y, parent, state) {
+            if (isFaceUp === void 0) { isFaceUp = true; }
             var _this = _super.call(this, Wordily.Game.getInstance(), parent, cardName) || this;
-            _this._isSelected = false;
             _this._isFaceUp = true;
+            _this._isSelected = false;
+            _this._isSelectable = false;
             _this.isAnimating = false;
             _this._scaleFactor = Wordily.Game.ScaleFactor;
             _this.curStack = null;
             _this.prevStack = null;
             _this.name = cardName;
             _this.scale.setTo(_this.scaleFactor, _this.scaleFactor);
-            if (overrideValue) {
-                _this.value = overrideValue;
+            if (id) {
+                _this.id = id;
             }
             else {
-                _this.value = 2;
+                _this.id = Card.nextId++;
             }
             if (x) {
                 _this.x = x;
@@ -40,9 +42,14 @@ var Wordily;
                 state = Wordily.Game.getInstance().state.getCurrentState();
             }
             //this.isSelected = false;
+            _this.inputEnableChildren = true;
+            _this.onChildInputDown.add(_this.onMouseDown, _this);
             _this.cardFront = state.add.sprite(0, 0, "cards", _this.name, _this);
             _this.cardBack = state.add.sprite(0, 0, "cards", "cardBackground", _this);
-            _this.isFaceUp = true;
+            _this.cardSelected = state.add.sprite(0, 0, "cards", "cardSelected", _this);
+            _this.isFaceUp = isFaceUp;
+            _this.isSelected = false;
+            _this.isSelectable = false;
             return _this;
         }
         Object.defineProperty(Card.prototype, "isFaceUp", {
@@ -53,6 +60,37 @@ var Wordily;
                 this._isFaceUp = value;
                 this.cardFront.renderable = this.isFaceUp;
                 this.cardBack.renderable = !this.isFaceUp;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Card.prototype, "isSelected", {
+            get: function () {
+                return this._isSelected;
+            },
+            set: function (value) {
+                if (value && !this.isSelectable) {
+                    // can't actual select
+                    return;
+                }
+                this._isSelected = value;
+                this.cardSelected.renderable = this.isSelected;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Card.prototype, "isSelectable", {
+            get: function () {
+                return this._isSelectable;
+            },
+            set: function (value) {
+                this._isSelectable = value;
+                if (this.isSelectable) {
+                    this.ignoreChildInput = false;
+                }
+                else {
+                    this.inputEnableChildren = false;
+                }
             },
             enumerable: true,
             configurable: true
@@ -68,9 +106,13 @@ var Wordily;
             enumerable: true,
             configurable: true
         });
-        Card.prototype.toString = function () {
-            return this.name + "[" + this.value + "]";
+        Card.prototype.onMouseDown = function (sprite) {
+            this.curStack.cardTapped(this, false);
         };
+        Card.prototype.toString = function () {
+            return this.name + "[" + this.value + "] " + this.id;
+        };
+        Card.nextId = 1000;
         return Card;
     }(Phaser.Group));
     Wordily.Card = Card;
