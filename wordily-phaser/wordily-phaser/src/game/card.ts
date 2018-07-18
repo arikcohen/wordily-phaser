@@ -27,9 +27,9 @@
         private static nextId: number = 1000;
         id: number;
 
-        private cardFront: Phaser.Sprite;
-        private cardBack: Phaser.Sprite;        
-        private cardSelected: Phaser.Sprite;        
+        private cardFront: ExtendedCardSprite;
+        private cardBack: ExtendedCardSprite;        
+        private cardSelected: ExtendedCardSprite;        
 
         
         

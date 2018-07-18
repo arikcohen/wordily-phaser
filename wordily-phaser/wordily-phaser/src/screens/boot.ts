@@ -14,7 +14,7 @@
         }
 
         create() {
-            var c:Card = new Wordily.Card(-1, "W", true, 0, 50, 100, null);
+            
 
             //  Unless you specifically need to support multitouch I would recommend setting this to 1
             this.input.maxPointers = 1;
@@ -35,7 +35,7 @@
                 //  Same goes for mobile settings.
             }
 
-            //this.game.state.start('SplashScreen', true, false);
+            this.game.state.start('SplashScreen', true, false);
 
         }
 

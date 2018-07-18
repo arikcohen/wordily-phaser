@@ -44,6 +44,7 @@
             
 
             this.state.add('Boot', Boot, false);
+            this.state.add('TestScreen', TestScreen, false);
             this.state.add('SplashScreen', SplashScreen, false);
             this.state.add('MainMenu', MainMenu, false);
             this.state.add('Solitaire', SolitaireGame, false);

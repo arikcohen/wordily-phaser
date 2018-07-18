@@ -30,6 +30,7 @@ var Wordily;
             }
             _this = _super.call(this, 1280, 720, Phaser.AUTO, 'content') || this;
             _this.state.add('Boot', Wordily.Boot, false);
+            _this.state.add('TestScreen', Wordily.TestScreen, false);
             _this.state.add('SplashScreen', Wordily.SplashScreen, false);
             _this.state.add('MainMenu', Wordily.MainMenu, false);
             _this.state.add('Solitaire', Wordily.SolitaireGame, false);

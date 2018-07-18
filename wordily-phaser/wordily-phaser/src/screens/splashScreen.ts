@@ -18,12 +18,12 @@
         cardJoker2: Card;
 
         
-        preload() {
-            console.log("Made it: " + this.spriteGroup);
+        preload() {            
 
             // load what's needed for the loading screen
             this.background = this.add.tileSprite(0, 0, 1280, 720, 'background');
-                                             
+            this.spriteGroup = this.add.group();
+            
             this.cardTitleGroup = this.add.group();
 
             this.cardW = new Card(-1, "W", true,0 , this.world.width, this.world.centerY -90, this.cardTitleGroup);
@@ -45,7 +45,7 @@
 
         create() {                                   
 
-            var showSplash: boolean = true;
+            var showSplash: boolean = false;
 
             if (showSplash) {
                 var constSeperation: number = Game.DefaultCardWidth + 10;
@@ -62,7 +62,7 @@
 
                 var tweenCards = this.add.tween(this.cardTitleGroup).to({ x: "+80" }, 750, Phaser.Easing.Linear.None, true, 3250);
                 var tweenCardsTop = this.add.tween(this.cardTitleGroup).to({ y: -200 }, 750, Phaser.Easing.Linear.None, true, 4000);
-                //tweenCardsTop.onComplete.add(this.startMainMenu, this);
+                tweenCardsTop.onComplete.add(this.startMainMenu, this);
             }
             else {
                 this.startMainMenu();
@@ -77,9 +77,9 @@
 
         startMainMenu() {
             
-            this.cardTitleGroup.destroy(true, true);
-            //this.game.state.start('MainMenu', true, false);
-            this.game.state.start('Solitaire', true, false);
+            
+           //this.game.state.start('MainMenu', true, false);
+            this.game.state.start('TestScreen', true, false);
         }
 
     }

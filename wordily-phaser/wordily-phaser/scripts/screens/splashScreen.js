@@ -16,9 +16,9 @@ var Wordily;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         SplashScreen.prototype.preload = function () {
-            console.log("Made it: " + this.spriteGroup);
             // load what's needed for the loading screen
             this.background = this.add.tileSprite(0, 0, 1280, 720, 'background');
+            this.spriteGroup = this.add.group();
             this.cardTitleGroup = this.add.group();
             this.cardW = new Wordily.Card(-1, "W", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
             this.cardO = new Wordily.Card(-1, "O", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);
@@ -33,7 +33,7 @@ var Wordily;
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
         };
         SplashScreen.prototype.create = function () {
-            var showSplash = true;
+            var showSplash = false;
             if (showSplash) {
                 var constSeperation = Wordily.Game.DefaultCardWidth + 10;
                 var tweenW = this.add.tween(this.cardW).to({ x: this.world.centerX - (constSeperation * 3.5) }, 750, Phaser.Easing.Linear.None, true);
@@ -48,7 +48,7 @@ var Wordily;
                 var tweenLY = this.add.tween(this.cardLY).to({ x: this.world.centerX + (constSeperation * 1.5), y: this.world.centerY - 90 }, 750, Phaser.Easing.Linear.None, true, 3250);
                 var tweenCards = this.add.tween(this.cardTitleGroup).to({ x: "+80" }, 750, Phaser.Easing.Linear.None, true, 3250);
                 var tweenCardsTop = this.add.tween(this.cardTitleGroup).to({ y: -200 }, 750, Phaser.Easing.Linear.None, true, 4000);
-                //tweenCardsTop.onComplete.add(this.startMainMenu, this);
+                tweenCardsTop.onComplete.add(this.startMainMenu, this);
             }
             else {
                 this.startMainMenu();
@@ -58,9 +58,8 @@ var Wordily;
             this.cardTitleGroup.destroy(true);
         };
         SplashScreen.prototype.startMainMenu = function () {
-            this.cardTitleGroup.destroy(true, true);
             //this.game.state.start('MainMenu', true, false);
-            this.game.state.start('Solitaire', true, false);
+            this.game.state.start('TestScreen', true, false);
         };
         return SplashScreen;
     }(Wordily.ExtendedState));

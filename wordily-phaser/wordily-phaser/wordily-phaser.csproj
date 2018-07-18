@@ -140,6 +140,7 @@
     <Folder Include="scripts\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\screens\testScreen.ts" />
     <TypeScriptCompile Include="src\screens\solitaireGame.ts" />
     <TypeScriptCompile Include="src\screens\mainMenu.ts" />
     <TypeScriptCompile Include="src\screens\splashScreen.ts" />
