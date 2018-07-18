@@ -44,8 +44,10 @@
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
-    <TypeScriptMapRoot />
-    <TypeScriptSourceRoot>src</TypeScriptSourceRoot>
+    <TypeScriptMapRoot>
+    </TypeScriptMapRoot>
+    <TypeScriptSourceRoot>
+    </TypeScriptSourceRoot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -140,6 +142,8 @@
     <Folder Include="scripts\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\screens\multiplayerLobby.ts" />
+    <TypeScriptCompile Include="src\screens\multiplayerGame.ts" />
     <TypeScriptCompile Include="src\screens\solitaireGame.ts" />
     <TypeScriptCompile Include="src\screens\mainMenu.ts" />
     <TypeScriptCompile Include="src\screens\splashScreen.ts" />

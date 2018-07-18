@@ -70,8 +70,8 @@
                 this.stacks[s].addCard(c, null, true, 300, 300*s);
             }
 
-            this.scoreTitleText = this.add.text(this.stacks[0].left + Game.DefaultCardWidth/2, this.playingArea.top + 40, "Score", { font: "32px cutive", fill: "white", align: "center" });
-            this.scoreTitleText.anchor.setTo(0.5, 0);
+            this.scoreTitleText = this.add.text(this.stacks[0].left + Game.DefaultCardWidth/2, this.playingArea.top + 40, "Score", { font: "32px cutive", fill: "yellow", align: "center" });
+            this.scoreTitleText.anchor.setTo(0.5, 0);            
             this.scoreText = this.add.text(this.stacks[0].left + Game.DefaultCardWidth / 2, this.scoreTitleText.bottom + 20, "0", { font: "32px cutive", fill: "white", align: "center" });                        
             this.scoreText.anchor.setTo(0.5, 0);
 

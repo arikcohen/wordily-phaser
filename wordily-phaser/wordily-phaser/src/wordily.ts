@@ -34,8 +34,9 @@
             this.state.add('Boot', Boot, false);
             this.state.add('SplashScreen', SplashScreen, false);
             this.state.add('MainMenu', MainMenu, false);
-            this.state.add('Solitaire', SolitaireGame, false);
-
+            this.state.add('Solitaire', SolitaireGame, false);            
+            this.state.add('MultiplayerLobby', MultiplayerLobby, false);
+            this.state.add('MultiplayerGame', MultiplayerGame, false);
             this.state.start('Boot');
 
 
