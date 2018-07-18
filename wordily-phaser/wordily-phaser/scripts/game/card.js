@@ -10,12 +10,30 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Wordily;
 (function (Wordily) {
+    var ExtendedCardSprite = /** @class */ (function (_super) {
+        __extends(ExtendedCardSprite, _super);
+        // -------------------------------------------------------------------------
+        function ExtendedCardSprite(aGame, aX, aY, aKey, aFrame, aParentTransform) {
+            var _this = _super.call(this, aGame, aX, aY, aKey, aFrame) || this;
+            _this._parentTransform = aParentTransform;
+            return _this;
+        }
+        // -------------------------------------------------------------------------
+        ExtendedCardSprite.prototype.updateTransform = function () {
+            if (!this.visible) {
+                return;
+            }
+            this.displayObjectUpdateTransform(this._parentTransform);
+        };
+        return ExtendedCardSprite;
+    }(Phaser.Sprite));
+    Wordily.ExtendedCardSprite = ExtendedCardSprite;
     var Card = /** @class */ (function (_super) {
         __extends(Card, _super);
         function Card(id, name, isFaceUp, value, x, y, parent, state) {
             if (id === void 0) { id = -1; }
             if (isFaceUp === void 0) { isFaceUp = true; }
-            var _this = _super.call(this, Wordily.Game.getInstance(), parent, name) || this;
+            var _this = _super.call(this, Wordily.Game.getInstance(), null, name) || this;
             _this._isFaceUp = true;
             _this._isSelected = false;
             _this._isSelectable = false;
@@ -46,9 +64,12 @@ var Wordily;
             //this.isSelected = false;
             _this.inputEnableChildren = true;
             _this.onChildInputDown.add(_this.onMouseDown, _this);
-            _this.cardFront = state.add.sprite(0, 0, "cards", _this.name, _this);
-            _this.cardBack = state.add.sprite(0, 0, "cards", "cardBackground", _this);
-            _this.cardSelected = state.add.sprite(0, 0, "cards", "cardSelected", _this);
+            _this.cardFront = new ExtendedCardSprite(_this.game, 0, 0, "cards", _this.name, _this);
+            _this.cardBack = new ExtendedCardSprite(_this.game, 0, 0, "cards", "cardBackground", _this);
+            _this.cardSelected = new ExtendedCardSprite(_this.game, 0, 0, "cards", "cardSelected", _this);
+            state.spriteGroup.add(_this.cardFront);
+            state.spriteGroup.add(_this.cardBack);
+            state.spriteGroup.add(_this.cardSelected);
             _this.isFaceUp = isFaceUp;
             _this.isSelected = false;
             _this.isSelectable = false;

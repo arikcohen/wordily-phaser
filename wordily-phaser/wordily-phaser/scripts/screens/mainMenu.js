@@ -43,7 +43,7 @@ var Wordily;
             alert('no muliplayer yet');
         };
         return MainMenu;
-    }(Phaser.State));
+    }(Wordily.ExtendedState));
     Wordily.MainMenu = MainMenu;
 })(Wordily || (Wordily = {}));
 //# sourceMappingURL=mainMenu.js.map

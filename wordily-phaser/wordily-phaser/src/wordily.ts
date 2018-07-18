@@ -1,4 +1,16 @@
 ﻿module Wordily {        
+    
+
+
+    export class ExtendedState extends Phaser.State {
+        spriteGroup: Phaser.Group;
+
+        init() {
+            this.spriteGroup = this.add.group();
+        }
+        
+    }
+
 
     export class Game extends Phaser.Game {
         

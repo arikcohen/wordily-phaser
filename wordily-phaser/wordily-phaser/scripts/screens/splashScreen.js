@@ -16,6 +16,7 @@ var Wordily;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         SplashScreen.prototype.preload = function () {
+            console.log("Made it: " + this.spriteGroup);
             // load what's needed for the loading screen
             this.background = this.add.tileSprite(0, 0, 1280, 720, 'background');
             this.cardTitleGroup = this.add.group();
@@ -32,7 +33,7 @@ var Wordily;
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
         };
         SplashScreen.prototype.create = function () {
-            var showSplash = false;
+            var showSplash = true;
             if (showSplash) {
                 var constSeperation = Wordily.Game.DefaultCardWidth + 10;
                 var tweenW = this.add.tween(this.cardW).to({ x: this.world.centerX - (constSeperation * 3.5) }, 750, Phaser.Easing.Linear.None, true);
@@ -47,7 +48,7 @@ var Wordily;
                 var tweenLY = this.add.tween(this.cardLY).to({ x: this.world.centerX + (constSeperation * 1.5), y: this.world.centerY - 90 }, 750, Phaser.Easing.Linear.None, true, 3250);
                 var tweenCards = this.add.tween(this.cardTitleGroup).to({ x: "+80" }, 750, Phaser.Easing.Linear.None, true, 3250);
                 var tweenCardsTop = this.add.tween(this.cardTitleGroup).to({ y: -200 }, 750, Phaser.Easing.Linear.None, true, 4000);
-                tweenCardsTop.onComplete.add(this.startMainMenu, this);
+                //tweenCardsTop.onComplete.add(this.startMainMenu, this);
             }
             else {
                 this.startMainMenu();
@@ -62,7 +63,7 @@ var Wordily;
             this.game.state.start('Solitaire', true, false);
         };
         return SplashScreen;
-    }(Phaser.State));
+    }(Wordily.ExtendedState));
     Wordily.SplashScreen = SplashScreen;
 })(Wordily || (Wordily = {}));
 //# sourceMappingURL=splashScreen.js.map

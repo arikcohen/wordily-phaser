@@ -1,4 +1,24 @@
 ﻿namespace Wordily {
+     export class ExtendedCardSprite extends Phaser.Sprite {
+
+        private _parentTransform: Phaser.Group;
+
+        // -------------------------------------------------------------------------
+        constructor(aGame: Phaser.Game, aX: number, aY: number, aKey: string, aFrame: string, aParentTransform: Phaser.Group) {
+            super(aGame, aX, aY, aKey, aFrame);
+            this._parentTransform = aParentTransform;
+        }
+
+        // -------------------------------------------------------------------------
+        public updateTransform(): void {
+            if (!this.visible) {
+                return;
+            }
+
+            this.displayObjectUpdateTransform(this._parentTransform);
+        }
+    }
+
     export class Card extends Phaser.Group{
         
         name: string;
@@ -76,8 +96,8 @@
         curStack: Stack = null;
         prevStack: Stack = null;
 
-        constructor(id: number = -1, name: string, isFaceUp = true, value: number, x?:number, y?:number, parent?:PIXI.DisplayObjectContainer, state?:Phaser.State) {
-            super(Game.getInstance(),parent, name);            
+        constructor(id: number = -1, name: string, isFaceUp = true, value: number, x?:number, y?:number, parent?:PIXI.DisplayObjectContainer, state?:ExtendedState) {
+            super(Game.getInstance(),null, name);            
             this.name = name;
             this.value = value;
 
@@ -102,7 +122,7 @@
                
             }
             else {
-                state = Game.getInstance().state.getCurrentState();
+                state = <ExtendedState> Game.getInstance().state.getCurrentState();
                
             }
 
@@ -110,13 +130,19 @@
             this.inputEnableChildren = true;
             this.onChildInputDown.add(this.onMouseDown, this);    
 
-            this.cardFront = state.add.sprite(0, 0, "cards", this.name, this);            
-            this.cardBack = state.add.sprite(0, 0, "cards", "cardBackground", this);            
-            this.cardSelected = state.add.sprite(0, 0, "cards", "cardSelected", this);            
+            this.cardFront = new ExtendedCardSprite(this.game, 0, 0, "cards", this.name, this);            
+            this.cardBack = new ExtendedCardSprite(this.game, 0, 0, "cards", "cardBackground", this);            
+            this.cardSelected = new ExtendedCardSprite(this.game, 0, 0, "cards", "cardSelected", this);            
+
+            state.spriteGroup.add(this.cardFront);
+            state.spriteGroup.add(this.cardBack);
+            state.spriteGroup.add(this.cardSelected);
+
             this.isFaceUp = isFaceUp;
             this.isSelected = false;
             this.isSelectable = false;
             
+
 
         }
 

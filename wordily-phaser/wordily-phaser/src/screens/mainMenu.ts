@@ -1,6 +1,6 @@
 ﻿module Wordily {
 
-    export class MainMenu extends Phaser.State {
+    export class MainMenu extends ExtendedState {
 
         background: Phaser.TileSprite;
         cardW: Card;

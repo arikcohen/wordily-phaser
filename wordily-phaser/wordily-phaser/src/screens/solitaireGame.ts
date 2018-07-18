@@ -1,6 +1,6 @@
 ﻿module Wordily {
 
-    export class SolitaireGame extends Phaser.State {
+    export class SolitaireGame extends ExtendedState {
 
         background: Phaser.TileSprite;
         playingArea: Phaser.Sprite;

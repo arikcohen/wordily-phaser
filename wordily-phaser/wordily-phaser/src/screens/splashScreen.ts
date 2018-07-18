@@ -1,6 +1,6 @@
 ﻿module Wordily {
  
-    export class SplashScreen extends Phaser.State {
+    export class SplashScreen extends ExtendedState {
 
         
         background: Phaser.TileSprite;
@@ -17,8 +17,9 @@
         cardJoker: Card;
         cardJoker2: Card;
 
+        
         preload() {
-
+            console.log("Made it: " + this.spriteGroup);
 
             // load what's needed for the loading screen
             this.background = this.add.tileSprite(0, 0, 1280, 720, 'background');
@@ -44,7 +45,7 @@
 
         create() {                                   
 
-            var showSplash: boolean = false;
+            var showSplash: boolean = true;
 
             if (showSplash) {
                 var constSeperation: number = Game.DefaultCardWidth + 10;
@@ -61,12 +62,12 @@
 
                 var tweenCards = this.add.tween(this.cardTitleGroup).to({ x: "+80" }, 750, Phaser.Easing.Linear.None, true, 3250);
                 var tweenCardsTop = this.add.tween(this.cardTitleGroup).to({ y: -200 }, 750, Phaser.Easing.Linear.None, true, 4000);
-                tweenCardsTop.onComplete.add(this.startMainMenu, this);
+                //tweenCardsTop.onComplete.add(this.startMainMenu, this);
             }
             else {
                 this.startMainMenu();
             }
-                                               
+            
         }
 
         shutdown() {

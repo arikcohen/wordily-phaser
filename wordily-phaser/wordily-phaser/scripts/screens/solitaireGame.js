@@ -104,7 +104,7 @@ var Wordily;
         SolitaireGame.stackOffsetHorizontal = 10;
         SolitaireGame.stackOffsetVertical = 20;
         return SolitaireGame;
-    }(Phaser.State));
+    }(Wordily.ExtendedState));
     Wordily.SolitaireGame = SolitaireGame;
 })(Wordily || (Wordily = {}));
 //# sourceMappingURL=solitaireGame.js.map

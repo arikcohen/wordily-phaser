@@ -10,6 +10,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Wordily;
 (function (Wordily) {
+    var ExtendedState = /** @class */ (function (_super) {
+        __extends(ExtendedState, _super);
+        function ExtendedState() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        ExtendedState.prototype.init = function () {
+            this.spriteGroup = this.add.group();
+        };
+        return ExtendedState;
+    }(Phaser.State));
+    Wordily.ExtendedState = ExtendedState;
     var Game = /** @class */ (function (_super) {
         __extends(Game, _super);
         function Game() {
