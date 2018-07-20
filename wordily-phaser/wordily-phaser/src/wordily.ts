@@ -6,6 +6,7 @@
         static BaseCardWidth: number = 188;
         static BaseCardHeight: number = 225;
 
+        static isDebug = false;
 
 
         static get DefaultCardWidth() : number {

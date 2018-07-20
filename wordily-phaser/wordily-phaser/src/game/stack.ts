@@ -12,7 +12,7 @@
         
         private cards: Card[];
         private dropSlot: Phaser.Sprite;
-        orientation: StackOrientation;
+        private orientation: StackOrientation;
         state: Phaser.State
 
         static offsetHorizonatal: number = 10;
@@ -36,24 +36,34 @@
             //this.groupStack = state.add.group(null, name, true, false);                        
             this.dropSlot = this.state.add.sprite(0, 0, "cards", "cardSlot", this);
             this.dropSlot.scale.setTo(Game.ScaleFactor, Game.ScaleFactor);
-            this.state.add.text(0, 0, name, null, this);
-            this.state.add.text(0, 100, "(" + this.x.toFixed(0) + "," + this.y.toFixed(0) + ")", null, this);
-
+            
             this.cards = initialCards;
-            for (let c of this.cards) {
-                this.add(c);
+            for (let c of this.cards) {                
                 c.prevStack = c.curStack;
                 c.curStack = this;
             }
 
             this.updateCardLocations(0);
 
+            if (Game.isDebug) {
+                this.state.add.text(0, 0, name, null, this);
+                this.state.add.text(0, 100, "(" + this.x.toFixed(0) + "," + this.y.toFixed(0) + ")", null, this);
+            }
+
+            this.dropSlot.inputEnabled = true;
+            let stackInputPriority: number = -1000;
+            if (this.orientation == StackOrientation.Deck) {
+                stackInputPriority = 1000;
+            }
+            this.dropSlot.events.onInputDown.add(this.stackTapped, this,stackInputPriority);
+
         }
 
         update() {
             
-            this.dropSlot.renderable = (this.length == 0);            
-
+            
+            this.dropSlot.renderable = (this.length == 0);
+            
             super.update();
         }
 
@@ -92,22 +102,19 @@
             }
             if (index) {
                 this.cards.push(card);  
-                this.addAt(card, index);
+                //this.addAt(card, index);
                 this.updateCardLocations(index, fAnimateIn);
             }
             else {
                 this.cards.push(card);
                 this.updateCardLocations(this.cards.length - 1, fAnimateIn);
-                this.add(card);
+                //this.add(card);
             }
 
             if (fAnimateIn) {
-                if (card.curStack) {
-                    card.x = card.curStack.x + card.x - this.x;
-                    card.y = card.curStack.y + card.y - this.y;                    
-                }
-                console.debug("animating to stack " + this.name + " card " + card.name + " from  stack " + card.curStack);
-                this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, null, true, animateDelay);
+                
+                console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.curStack + "(" + card.x + ", " + card.y +")" );
+                this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None , true, animateDelay);
             }
 
             card.prevStack = card.curStack;
@@ -153,30 +160,30 @@
 
             switch (this.orientation) {
                 case StackOrientation.Deck: {
-                    x = 0;
-                    y = 0;
+                    x = this.x;
+                    y = this.y;
                     break;
                 }
                 case StackOrientation.HorizontalFull: {
-                    x = index * (this.dropSlot.width + Stack.offsetHorizonatal);
-                    y = 0;
+                    x = this.x + (index * (this.dropSlot.worldPosition.y + Stack.offsetHorizonatal));
+                    y = this.y;
                     break;
                 }
 
                 case StackOrientation.HorizontalDisplay: {
-                    x = index * (Stack.offsetHorizonatalDisplay);
-                    y = 0;
+                    x = this.x + (index * (Stack.offsetHorizonatalDisplay));
+                    y = this.y;
                     break;
                 }
 
                 case StackOrientation.HorizontalStack: {
-                    x = index * (Stack.offsetHorizonatal);
-                    y = 0;
+                    x = this.x + (index * (Stack.offsetHorizonatal));
+                    y = this.y;
                     break;
                 }
                 case StackOrientation.VerticalStack: {
 
-                    x = 0;
+                    x = this.worldPosition.x;
                     if (prevCard) {
                         if (prevCard.isFaceUp) {
                             if (prevCard.isAnimating) {
@@ -197,7 +204,7 @@
 
                     }
                     else {
-                        y = 0;
+                        y = this.y;
                     }
                     break;
                 }
@@ -218,7 +225,7 @@
                 let location = this.cardFinalLocation(index);
                 x = location.x;
                 y = location.y;
-
+                this.game.world.bringToTop(card);
 
                 if (card.isAnimating) {
                     if (card.animateFinalX != x || card.animateFinalY != y) {
@@ -256,5 +263,13 @@
             this.onCardTapped.dispatch(this, card, doubleTapped);
             
         }
+
+        onStackTapped: Phaser.Signal = new Phaser.Signal();
+
+        stackTapped() {
+            this.onStackTapped.dispatch(this);
+        }
+
+
     }
 }

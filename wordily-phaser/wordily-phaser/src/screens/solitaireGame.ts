@@ -46,8 +46,10 @@
 
             this.currentWord = new Stack(this, "currentWord", StackOrientation.HorizontalDisplay, this.playingArea.left + 20, this.playingArea.top + 10);
             this.currentWord.onCardTapped.add(this.currentWordCardTapped, this);
+            
 
-            this.stackDiscard = new Stack(this, "discard", StackOrientation.Deck, this.world.left, this.world.bottom);
+
+            this.stackDiscard = new Stack(this, "discard", StackOrientation.Deck, 0 - Game.DefaultCardWidth, this.currentWord.top);
             
             for (let iStack: number = 0; iStack < this.numStacks; iStack++) {
                 let s = new Stack(this, "stack " + iStack, StackOrientation.VerticalStack, (Game.DefaultCardWidth + SolitaireGame.stackOffsetHorizontal) * iStack + marginForStacks, this.currentWord.bottom + SolitaireGame.stackOffsetVertical);
@@ -56,7 +58,7 @@
             }
 
             this.deckRemaining = new Stack(this, "deck", StackOrientation.Deck, this.stacks[this.numStacks-1].left, this.currentWord.top, Deck.CreateDeck(true, false, 4));
-
+            this.deckRemaining.onStackTapped.add(this.dealMoreCardsClicked, this);
 
             for (let i: number = 0; i < 4; i++) {
                 for (let s: number = 0; s < this.numStacks; s++) {
@@ -88,6 +90,20 @@
             this.currentWord.addCard(c, null, true);
         }
 
+        dealMoreCardsClicked() {
+            if (this.deckRemaining.length >= this.numStacks) {
+                for (let s: number = 0; s < this.numStacks; s++) {
+                    let c: Card = this.deckRemaining.removeTopCard();
+                    if (this.stacks[s].topCard) {
+                        this.stacks[s].topCard.isSelectable = false;
+                    }
+                    this.stacks[s].addCard(c, null, true);
+                    this.stacks[s].enableTopCard();
+
+                }
+            }
+        }
+
         submitWordClicked() {            
             var checkWord = this.currentWord.getWord();
             if (checkWord.length < 5) {
@@ -116,6 +132,10 @@
             else {
                 this.submitWord.alpha = 1;
                 this.submitWord.inputEnabled = true;
+            }
+
+            if (this.deckRemaining.length < this.numStacks) {
+                
             }
 
             this.scoreText.text = this.score.toString();
