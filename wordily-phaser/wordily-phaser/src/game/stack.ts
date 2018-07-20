@@ -130,7 +130,7 @@
                     word += this.cards[i].name
                 }
                 else {
-                    word += "*";
+                    word += ".";
                 }
             }
             return word;
@@ -250,10 +250,12 @@
             
         }       
 
-        disableTopCard(): void {
+        disableTopCard(makeFaceDown): void {
             if (this.length > 0) {
                 let c: Card = this.cards[this.length - 1];
-                c.isFaceUp = true;
+                if (makeFaceDown) {
+                    c.isFaceUp = false;
+                }
                 c.isSelectable = false;
             }
         }

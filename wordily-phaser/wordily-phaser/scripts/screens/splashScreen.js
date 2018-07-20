@@ -30,6 +30,10 @@ var Wordily;
             // load assets for main menu
             this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
+            // start loading all the words
+            for (var c = 'A'.charCodeAt(0); c <= +'Z'.charCodeAt(0); c++) {
+                this.game.load.json('validWords-' + String.fromCharCode(c), 'assets/validwords/' + String.fromCharCode(c) + '-words.json');
+            }
         };
         SplashScreen.prototype.create = function () {
             var showSplash = !Wordily.Game.isDebug;

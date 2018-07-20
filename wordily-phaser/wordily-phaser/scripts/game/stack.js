@@ -126,7 +126,7 @@ var Wordily;
                     word += this.cards[i].name;
                 }
                 else {
-                    word += "*";
+                    word += ".";
                 }
             }
             return word;
@@ -224,10 +224,12 @@ var Wordily;
                 }
             }
         };
-        Stack.prototype.disableTopCard = function () {
+        Stack.prototype.disableTopCard = function (makeFaceDown) {
             if (this.length > 0) {
                 var c = this.cards[this.length - 1];
-                c.isFaceUp = true;
+                if (makeFaceDown) {
+                    c.isFaceUp = false;
+                }
                 c.isSelectable = false;
             }
         };

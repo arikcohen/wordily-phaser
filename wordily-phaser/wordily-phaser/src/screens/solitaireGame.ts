@@ -15,13 +15,15 @@
         stackDiscard: Stack;
         deckRemaining: Stack;
         score: number = 0;
+        gameId: string;
+        gameReported: boolean = false;
 
         private numStacks: number = 8
         public static stackOffsetHorizontal:number = 10;
         public static stackOffsetVertical:number = 20;
 
-        init(gameId?: number) {
-
+        init(gameId: string = Guid.newGuid()) {
+            this.gameId = gameId;
         }
 
         preload() {            
@@ -78,6 +80,8 @@
             this.scoreText.anchor.setTo(0.5, 0);
 
             this.game.world.bringToTop(this.currentWord);
+
+            Online.login();
         }
         currentWordCardTapped(stack: Stack, card: Card, doubleTapped: boolean) {
             let c: Card = stack.removeCard(card);
@@ -94,13 +98,16 @@
             if (this.deckRemaining.length >= this.numStacks) {
                 this.clearCurrentWord();
 
-                for (let s: number = 0; s < this.numStacks; s++) {
-                    this.stacks[s].disableTopCard();
-                    let c: Card = this.deckRemaining.removeTopCard();                                        
+                for (let s: number = 0; s < this.numStacks; s++) {                    
+                    this.stacks[s].disableTopCard(true);                    
+                    let c: Card = this.deckRemaining.removeTopCard();
                     this.stacks[s].addCard(c, null, true, null, 300);
                     this.stacks[s].enableTopCard();
 
                 }
+            }
+            else {
+                this.endGame();
             }
         }
 
@@ -113,7 +120,7 @@
 
         submitWordClicked() {            
             var checkWord = this.currentWord.getWord();
-            if (checkWord.length < 5) {
+            if (Game.checkWord(checkWord)) {
                 this.score += this.currentWord.getScore();
                 while (this.currentWord.length > 0) {
                     let c: Card = this.currentWord.removeTopCard();
@@ -145,8 +152,11 @@
             this.scoreText.text = this.score.toString();
         }
 
-        startGame() {         
-
+        endGame() {
+            if (!this.gameReported) {
+                Online.submitSolitaireGameResult(this.gameId, this.score, null, 0);
+                this.gameReported = true;
+            }
         }
 
     }

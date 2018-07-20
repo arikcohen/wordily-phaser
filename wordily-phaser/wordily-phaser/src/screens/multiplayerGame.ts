@@ -42,7 +42,7 @@
             this.multiplayer.anchor.setTo(0.5, 0.5);
             this.multiplayer.inputEnabled = true;
             this.multiplayer.events.onInputDown.addOnce(this.startMultiplayerGame, this);
-
+            
             
         }
         

@@ -16,10 +16,13 @@ var Wordily;
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.stacks = [];
             _this.score = 0;
+            _this.gameReported = false;
             _this.numStacks = 8;
             return _this;
         }
         SolitaireGame.prototype.init = function (gameId) {
+            if (gameId === void 0) { gameId = Wordily.Guid.newGuid(); }
+            this.gameId = gameId;
         };
         SolitaireGame.prototype.preload = function () {
             this.game.load.image('howToPlay', 'assets/gameplay/howToPlay.png');
@@ -61,6 +64,7 @@ var Wordily;
             this.scoreText = this.add.text(this.stacks[0].left + Wordily.Game.DefaultCardWidth / 2, this.scoreTitleText.bottom + 20, "0", { font: "32px cutive", fill: "white", align: "center" });
             this.scoreText.anchor.setTo(0.5, 0);
             this.game.world.bringToTop(this.currentWord);
+            Wordily.Online.login();
         };
         SolitaireGame.prototype.currentWordCardTapped = function (stack, card, doubleTapped) {
             var c = stack.removeCard(card);
@@ -75,11 +79,14 @@ var Wordily;
             if (this.deckRemaining.length >= this.numStacks) {
                 this.clearCurrentWord();
                 for (var s = 0; s < this.numStacks; s++) {
-                    this.stacks[s].disableTopCard();
+                    this.stacks[s].disableTopCard(true);
                     var c = this.deckRemaining.removeTopCard();
                     this.stacks[s].addCard(c, null, true, null, 300);
                     this.stacks[s].enableTopCard();
                 }
+            }
+            else {
+                this.endGame();
             }
         };
         SolitaireGame.prototype.clearCurrentWord = function () {
@@ -90,7 +97,7 @@ var Wordily;
         };
         SolitaireGame.prototype.submitWordClicked = function () {
             var checkWord = this.currentWord.getWord();
-            if (checkWord.length < 5) {
+            if (Wordily.Game.checkWord(checkWord)) {
                 this.score += this.currentWord.getScore();
                 while (this.currentWord.length > 0) {
                     var c = this.currentWord.removeTopCard();
@@ -116,7 +123,11 @@ var Wordily;
             }
             this.scoreText.text = this.score.toString();
         };
-        SolitaireGame.prototype.startGame = function () {
+        SolitaireGame.prototype.endGame = function () {
+            if (!this.gameReported) {
+                Wordily.Online.submitSolitaireGameResult(this.gameId, this.score, null, 0);
+                this.gameReported = true;
+            }
         };
         SolitaireGame.stackOffsetHorizontal = 10;
         SolitaireGame.stackOffsetVertical = 20;
