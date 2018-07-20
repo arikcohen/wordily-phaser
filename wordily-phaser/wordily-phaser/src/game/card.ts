@@ -50,9 +50,13 @@
             this._isSelectable = value;
             if (this.isSelectable) {
                 this.ignoreChildInput = false;
+                this.cardFront.input.draggable = true;
+                this.cardSelected.input.draggable = true;
             }
             else {
-                this.inputEnableChildren = false;                
+                this.ignoreChildInput = true;                                
+                this.cardFront.input.draggable = false;
+                this.cardSelected.input.draggable = false;
             }
         }
 
@@ -112,7 +116,7 @@
 
             this.cardFront = state.add.sprite(0, 0, "cards", this.name, this);            
             this.cardBack = state.add.sprite(0, 0, "cards", "cardBackground", this);            
-            this.cardSelected = state.add.sprite(0, 0, "cards", "cardSelected", this);            
+            this.cardSelected = state.add.sprite(0, 0, "cards", "cardSelected", this);                 
             this.isFaceUp = isFaceUp;
             this.isSelected = false;
             this.isSelectable = false;

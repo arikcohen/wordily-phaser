@@ -21,7 +21,7 @@
         static offsetVerticalFaceUp: number = 32;
 
 
-        constructor(state: Phaser.State, name: string, orientation: StackOrientation, x?: number, y?: number, initialCards: Card[] = []) {
+        constructor(state: Phaser.State, name: string, orientation: StackOrientation, x?: number, y?: number, initialCards: Card[] = [], enableStackClick:boolean =false) {
             super(state.game, null, name, true, false, null);
             this.state = state;
             this.orientation = orientation;
@@ -50,12 +50,14 @@
                 this.state.add.text(0, 100, "(" + this.x.toFixed(0) + "," + this.y.toFixed(0) + ")", null, this);
             }
 
-            this.dropSlot.inputEnabled = true;
-            let stackInputPriority: number = -1000;
-            if (this.orientation == StackOrientation.Deck) {
-                stackInputPriority = 1000;
+            if (enableStackClick) {
+                this.dropSlot.inputEnabled = true;
+                let stackInputPriority: number = -1000;
+                if (this.orientation == StackOrientation.Deck) {
+                    stackInputPriority = 1000;
+                }
+                this.dropSlot.events.onInputDown.add(this.stackTapped, this, stackInputPriority);
             }
-            this.dropSlot.events.onInputDown.add(this.stackTapped, this,stackInputPriority);
 
         }
 
@@ -247,6 +249,14 @@
 
             
         }       
+
+        disableTopCard(): void {
+            if (this.length > 0) {
+                let c: Card = this.cards[this.length - 1];
+                c.isFaceUp = true;
+                c.isSelectable = false;
+            }
+        }
 
         enableTopCard(): void {
             if (this.length > 0) {

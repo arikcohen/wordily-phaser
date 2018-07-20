@@ -20,8 +20,9 @@ var Wordily;
     })(StackOrientation = Wordily.StackOrientation || (Wordily.StackOrientation = {}));
     var Stack = /** @class */ (function (_super) {
         __extends(Stack, _super);
-        function Stack(state, name, orientation, x, y, initialCards) {
+        function Stack(state, name, orientation, x, y, initialCards, enableStackClick) {
             if (initialCards === void 0) { initialCards = []; }
+            if (enableStackClick === void 0) { enableStackClick = false; }
             var _this = _super.call(this, state.game, null, name, true, false, null) || this;
             _this.onCardTapped = new Phaser.Signal();
             _this.onStackTapped = new Phaser.Signal();
@@ -47,12 +48,14 @@ var Wordily;
                 _this.state.add.text(0, 0, name, null, _this);
                 _this.state.add.text(0, 100, "(" + _this.x.toFixed(0) + "," + _this.y.toFixed(0) + ")", null, _this);
             }
-            _this.dropSlot.inputEnabled = true;
-            var stackInputPriority = -1000;
-            if (_this.orientation == StackOrientation.Deck) {
-                stackInputPriority = 1000;
+            if (enableStackClick) {
+                _this.dropSlot.inputEnabled = true;
+                var stackInputPriority = -1000;
+                if (_this.orientation == StackOrientation.Deck) {
+                    stackInputPriority = 1000;
+                }
+                _this.dropSlot.events.onInputDown.add(_this.stackTapped, _this, stackInputPriority);
             }
-            _this.dropSlot.events.onInputDown.add(_this.stackTapped, _this, stackInputPriority);
             return _this;
         }
         Stack.prototype.update = function () {
@@ -219,6 +222,13 @@ var Wordily;
                         console.debug("Stack: " + this.name + " updated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
                     }
                 }
+            }
+        };
+        Stack.prototype.disableTopCard = function () {
+            if (this.length > 0) {
+                var c = this.cards[this.length - 1];
+                c.isFaceUp = true;
+                c.isSelectable = false;
             }
         };
         Stack.prototype.enableTopCard = function () {

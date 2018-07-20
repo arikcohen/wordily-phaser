@@ -89,9 +89,13 @@ var Wordily;
                 this._isSelectable = value;
                 if (this.isSelectable) {
                     this.ignoreChildInput = false;
+                    this.cardFront.input.draggable = true;
+                    this.cardSelected.input.draggable = true;
                 }
                 else {
-                    this.inputEnableChildren = false;
+                    this.ignoreChildInput = true;
+                    this.cardFront.input.draggable = false;
+                    this.cardSelected.input.draggable = false;
                 }
             },
             enumerable: true,

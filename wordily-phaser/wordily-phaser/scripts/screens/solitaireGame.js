@@ -43,7 +43,7 @@ var Wordily;
                 s.onCardTapped.add(this.stackCardTapped, this);
                 this.stacks.push(s);
             }
-            this.deckRemaining = new Wordily.Stack(this, "deck", Wordily.StackOrientation.Deck, this.stacks[this.numStacks - 1].left, this.currentWord.top, Wordily.Deck.CreateDeck(true, false, 4));
+            this.deckRemaining = new Wordily.Stack(this, "deck", Wordily.StackOrientation.Deck, this.stacks[this.numStacks - 1].left, this.currentWord.top, Wordily.Deck.CreateDeck(true, false, 4), true);
             this.deckRemaining.onStackTapped.add(this.dealMoreCardsClicked, this);
             for (var i = 0; i < 4; i++) {
                 for (var s = 0; s < this.numStacks; s++) {
@@ -73,14 +73,19 @@ var Wordily;
         };
         SolitaireGame.prototype.dealMoreCardsClicked = function () {
             if (this.deckRemaining.length >= this.numStacks) {
+                this.clearCurrentWord();
                 for (var s = 0; s < this.numStacks; s++) {
+                    this.stacks[s].disableTopCard();
                     var c = this.deckRemaining.removeTopCard();
-                    if (this.stacks[s].topCard) {
-                        this.stacks[s].topCard.isSelectable = false;
-                    }
-                    this.stacks[s].addCard(c, null, true);
+                    this.stacks[s].addCard(c, null, true, null, 300);
                     this.stacks[s].enableTopCard();
                 }
+            }
+        };
+        SolitaireGame.prototype.clearCurrentWord = function () {
+            while (this.currentWord.length > 0) {
+                var c = this.currentWord.removeTopCard();
+                c.prevStack.addCard(c, null, true);
             }
         };
         SolitaireGame.prototype.submitWordClicked = function () {
@@ -95,10 +100,7 @@ var Wordily;
             }
             else {
                 this.score -= this.currentWord.getScore();
-                while (this.currentWord.length > 0) {
-                    var c = this.currentWord.removeTopCard();
-                    c.prevStack.addCard(c, null, true);
-                }
+                this.clearCurrentWord();
             }
         };
         SolitaireGame.prototype.update = function () {

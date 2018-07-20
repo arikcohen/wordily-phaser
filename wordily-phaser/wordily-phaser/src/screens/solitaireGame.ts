@@ -57,7 +57,7 @@
                 this.stacks.push(s);
             }
 
-            this.deckRemaining = new Stack(this, "deck", StackOrientation.Deck, this.stacks[this.numStacks-1].left, this.currentWord.top, Deck.CreateDeck(true, false, 4));
+            this.deckRemaining = new Stack(this, "deck", StackOrientation.Deck, this.stacks[this.numStacks-1].left, this.currentWord.top, Deck.CreateDeck(true, false, 4), true);
             this.deckRemaining.onStackTapped.add(this.dealMoreCardsClicked, this);
 
             for (let i: number = 0; i < 4; i++) {
@@ -92,15 +92,22 @@
 
         dealMoreCardsClicked() {
             if (this.deckRemaining.length >= this.numStacks) {
+                this.clearCurrentWord();
+
                 for (let s: number = 0; s < this.numStacks; s++) {
-                    let c: Card = this.deckRemaining.removeTopCard();
-                    if (this.stacks[s].topCard) {
-                        this.stacks[s].topCard.isSelectable = false;
-                    }
-                    this.stacks[s].addCard(c, null, true);
+                    this.stacks[s].disableTopCard();
+                    let c: Card = this.deckRemaining.removeTopCard();                                        
+                    this.stacks[s].addCard(c, null, true, null, 300);
                     this.stacks[s].enableTopCard();
 
                 }
+            }
+        }
+
+        clearCurrentWord() {
+            while (this.currentWord.length > 0) {
+                let c: Card = this.currentWord.removeTopCard();
+                c.prevStack.addCard(c, null, true);
             }
         }
 
@@ -115,11 +122,8 @@
                 }
             }
             else {
-                this.score -= this.currentWord.getScore();
-                while (this.currentWord.length > 0) {
-                    let c: Card = this.currentWord.removeTopCard();
-                    c.prevStack.addCard(c, null, true);
-                }
+                this.score -= this.currentWord.getScore();                
+                this.clearCurrentWord();
             }
 
         }
