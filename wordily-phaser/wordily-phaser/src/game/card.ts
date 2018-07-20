@@ -100,28 +100,21 @@
             if (y) {
                 this.y = y;
             }
-
             
-            if (state) {                            
-               
-            }
-            else {
-                state = Game.getInstance().state.getCurrentState();
-               
+            if (!state) {                            
+                state = Game.getInstance().state.getCurrentState();               
             }
 
             //this.isSelected = false;
             this.inputEnableChildren = true;
-            this.onChildInputDown.add(this.onMouseDown, this);    
+            this.onChildInputUp.add(this.onMouseDown, this);    
 
             this.cardFront = state.add.sprite(0, 0, "cards", this.name, this);            
             this.cardBack = state.add.sprite(0, 0, "cards", "cardBackground", this);            
             this.cardSelected = state.add.sprite(0, 0, "cards", "cardSelected", this);                 
             this.isFaceUp = isFaceUp;
             this.isSelected = false;
-            this.isSelectable = false;
-            
-
+            this.isSelectable = false;           
         }
 
         

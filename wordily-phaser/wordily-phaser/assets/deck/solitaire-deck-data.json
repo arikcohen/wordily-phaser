@@ -1,0 +1,167 @@
+﻿[
+  {
+    "name": "A",
+    "count": 5,
+    "value": 2
+  },
+  {
+    "name": "B",
+    "count": 1,
+    "value": 8
+  },
+  {
+    "name": "C",
+    "count": 1,
+    "value": 8
+  },
+  {
+    "name": "D",
+    "count": 2,
+    "value": 5
+  },
+  {
+    "name": "E",
+    "count": 6,
+    "value": 2
+  },
+  {
+    "name": "F",
+    "count": 1,
+    "value": 6
+  },
+  {
+    "name": "G",
+    "count": 2,
+    "value": 6
+  },
+  {
+    "name": "H",
+    "count": 1,
+    "value": 7
+  },
+  {
+    "name": "I",
+    "count": 4,
+    "value": 2
+  },
+  {
+    "name": "J",
+    "count": 1,
+    "value": 13
+  },
+  {
+    "name": "K",
+    "count": 1,
+    "value": 8
+  },
+  {
+    "name": "L",
+    "count": 2,
+    "value": 3
+  },
+  {
+    "name": "M",
+    "count": 2,
+    "value": 5
+  },
+  {
+    "name": "N",
+    "count": 4,
+    "value": 5
+  },
+  {
+    "name": "O",
+    "count": 4,
+    "value": 2
+  },
+  {
+    "name": "P",
+    "count": 1,
+    "value": 6
+  },
+  {
+    "name": "Q",
+    "count": 1,
+    "value": 15
+  },
+  {
+    "name": "R",
+    "count": 3,
+    "value": 5
+  },
+  {
+    "name": "S",
+    "count": 4,
+    "value": 3
+  },
+  {
+    "name": "T",
+    "count": 5,
+    "value": 3
+  },
+  {
+    "name": "U",
+    "count": 2,
+    "value": 4
+  },
+  {
+    "name": "V",
+    "count": 1,
+    "value": 11
+  },
+  {
+    "name": "W",
+    "count": 1,
+    "value": 10
+  },
+  {
+    "name": "X",
+    "count": 1,
+    "value": 12
+  },
+  {
+    "name": "Y",
+    "count": 2,
+    "value": 4
+  },
+  {
+    "name": "Z",
+    "count": 1,
+    "value": 14
+  },
+  {
+    "name": "CL",
+    "count": 1,
+    "value": 10
+  },
+  {
+    "name": "ER",
+    "count": 2,
+    "value": 7
+  },
+  {
+    "name": "IN",
+    "count": 1,
+    "value": 7
+  },
+  {
+    "name": "QU",
+    "count": 1,
+    "value": 9
+  },
+  {
+    "name": "TH",
+    "count": 1,
+    "value": 9
+  },
+  {
+    "name": "ED",
+    "count": 2,
+    "value": 7
+  },
+  {
+    "name": "LY",
+    "count": 1,
+    "value": 7
+  }
+]

@@ -59,7 +59,7 @@
                 this.stacks.push(s);
             }
 
-            this.deckRemaining = new Stack(this, "deck", StackOrientation.Deck, this.stacks[this.numStacks-1].left, this.currentWord.top, Deck.CreateDeck(true, false, 4), true);
+            this.deckRemaining = new Stack(this, "deck", StackOrientation.Deck, this.stacks[this.numStacks-1].left, this.currentWord.top, Deck.CreateDeck(true, false, 4, 'deck-solitaire'), true);
             this.deckRemaining.onStackTapped.add(this.dealMoreCardsClicked, this);
 
             for (let i: number = 0; i < 4; i++) {

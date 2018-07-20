@@ -3,12 +3,12 @@ var Wordily;
     var Deck = /** @class */ (function () {
         function Deck() {
         }
-        Deck.CreateDeck = function (fShuffled, isFaceUp, numJokers, gameDeckData) {
+        Deck.CreateDeck = function (fShuffled, isFaceUp, numJokers, deckName) {
             if (fShuffled === void 0) { fShuffled = true; }
             if (isFaceUp === void 0) { isFaceUp = false; }
             if (numJokers === void 0) { numJokers = 0; }
             var cards = [];
-            var basicDeck = JSON.stringify(Wordily.Game.getInstance().cache.getJSON('baseDeckData'));
+            var basicDeck = JSON.stringify(Wordily.Game.getInstance().cache.getJSON(deckName));
             console.log("deck data: " + basicDeck);
             var deckData = JSON.parse(basicDeck);
             for (var num = 0; num < deckData.length; num++) {

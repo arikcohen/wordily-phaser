@@ -2,9 +2,9 @@
 
 namespace Wordily {
     export class Deck {
-        static CreateDeck(fShuffled: boolean = true, isFaceUp:boolean =false, numJokers : number = 0, gameDeckData?:string) {
+        static CreateDeck(fShuffled: boolean = true, isFaceUp:boolean =false, numJokers : number = 0, deckName:string) {
             let cards: Card[] = [];
-            var basicDeck:string = JSON.stringify(Game.getInstance().cache.getJSON('baseDeckData'));
+            var basicDeck:string = JSON.stringify(Game.getInstance().cache.getJSON(deckName));
             console.log("deck data: " + basicDeck);
             let deckData: object[] = JSON.parse(basicDeck);
 

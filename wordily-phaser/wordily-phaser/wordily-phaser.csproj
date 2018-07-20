@@ -86,8 +86,9 @@
     <Content Include="src\phaser\typescript\tslint.json" />
     <Content Include="src\phaser\typescript\typings.json" />
     <Content Include="assets\deck\deck.json" />
-    <Content Include="assets\deck\deck-data.json" />
+    <Content Include="assets\deck\full-deck-data.json" />
     <Content Include="assets\Cutive.ttf" />
+    <Content Include="assets\deck\solitaire-deck-data.json" />
     <None Include="assets\validwords\A-words.json" />
     <None Include="assets\validwords\B-words.json" />
     <None Include="assets\validwords\C-words.json" />

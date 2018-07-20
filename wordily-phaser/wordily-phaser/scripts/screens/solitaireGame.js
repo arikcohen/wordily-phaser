@@ -46,7 +46,7 @@ var Wordily;
                 s.onCardTapped.add(this.stackCardTapped, this);
                 this.stacks.push(s);
             }
-            this.deckRemaining = new Wordily.Stack(this, "deck", Wordily.StackOrientation.Deck, this.stacks[this.numStacks - 1].left, this.currentWord.top, Wordily.Deck.CreateDeck(true, false, 4), true);
+            this.deckRemaining = new Wordily.Stack(this, "deck", Wordily.StackOrientation.Deck, this.stacks[this.numStacks - 1].left, this.currentWord.top, Wordily.Deck.CreateDeck(true, false, 4, 'deck-solitaire'), true);
             this.deckRemaining.onStackTapped.add(this.dealMoreCardsClicked, this);
             for (var i = 0; i < 4; i++) {
                 for (var s = 0; s < this.numStacks; s++) {

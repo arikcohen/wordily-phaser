@@ -38,14 +38,12 @@ var Wordily;
             if (y) {
                 _this.y = y;
             }
-            if (state) {
-            }
-            else {
+            if (!state) {
                 state = Wordily.Game.getInstance().state.getCurrentState();
             }
             //this.isSelected = false;
             _this.inputEnableChildren = true;
-            _this.onChildInputDown.add(_this.onMouseDown, _this);
+            _this.onChildInputUp.add(_this.onMouseDown, _this);
             _this.cardFront = state.add.sprite(0, 0, "cards", _this.name, _this);
             _this.cardBack = state.add.sprite(0, 0, "cards", "cardBackground", _this);
             _this.cardSelected = state.add.sprite(0, 0, "cards", "cardSelected", _this);
