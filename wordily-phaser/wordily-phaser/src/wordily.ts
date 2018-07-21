@@ -76,7 +76,7 @@
         static checkWord(wordToCheck: string): boolean {
             Game.LoadWords();
 
-            if (wordToCheck.length < 3) {
+            if (wordToCheck.length < 2) {
                 return false;
             }
 
@@ -84,7 +84,7 @@
 
             let firstLetter: string = wordToCheck.charAt(0)
             //does the word start with a joker?
-            if (firstLetter == ".") {
+            if (wordToCheck.indexOf(".") != -1) {
                 return true;
             }
             else {

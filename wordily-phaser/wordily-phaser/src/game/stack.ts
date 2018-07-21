@@ -216,8 +216,9 @@
         }
 
         private updateCardLocations(startIndex:number =0, fAnimate:boolean = false) {
-            console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
-            
+            if (Game.isDebug) {
+                console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
+            }
             
             for (let index: number = startIndex; index < this.length; index++)
             {

@@ -12,6 +12,8 @@
         private cardSelected: Phaser.Sprite;        
 
         
+
+        
         
         private _isFaceUp: boolean = true;
 
@@ -117,10 +119,25 @@
             this.isSelectable = false;           
         }
 
-        
+        _secondClick: boolean = false;
+        _cancelFirstClick: boolean = false;
         onMouseDown(sprite: Phaser.Sprite) {
             if (this.isSelectable) {
-                this.curStack.cardTapped(this, false);
+                if (!this._secondClick) {
+                    this._secondClick = true;
+                    this._cancelFirstClick = false;
+                    this.game.time.events.add(200, function () {
+                        this._secondClick = false;
+                        if (!this._cancelFirstClick) {
+                            this.curStack.cardTapped(this, false);
+                        }
+                        this._cancelFirstClick = false;
+                    }, this);
+                    return;
+                }
+                this.curStack.cardTapped(this, true);
+                this._secondClick = false;
+                this._cancelFirstClick = true;
             }
         } 
 

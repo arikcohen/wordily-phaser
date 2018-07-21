@@ -15,11 +15,20 @@ var Wordily;
         function SolitaireGame() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.stacks = [];
-            _this.score = 0;
             _this.gameReported = false;
+            _this.wordsPlayed = [];
             _this.numStacks = 8;
             return _this;
         }
+        Object.defineProperty(SolitaireGame.prototype, "score", {
+            get: function () {
+                var s = 0;
+                this.wordsPlayed.forEach(function (wp) { return s += wp.totalScore; });
+                return s;
+            },
+            enumerable: true,
+            configurable: true
+        });
         SolitaireGame.prototype.init = function (gameId) {
             if (gameId === void 0) { gameId = Wordily.Guid.newGuid(); }
             this.gameId = gameId;
@@ -71,9 +80,22 @@ var Wordily;
             c.prevStack.addCard(c, null, true);
         };
         SolitaireGame.prototype.stackCardTapped = function (stack, card, doubleTapped) {
-            console.debug(stack.name + " got a card click " + card.name);
-            var c = stack.removeCard(card);
-            this.currentWord.addCard(c, null, true);
+            console.debug(stack.name + " got a card click " + card.name + " double: " + doubleTapped);
+            if (doubleTapped) {
+                for (var s = 0; s < this.numStacks; s++) {
+                    if (this.stacks[s].length == 0) {
+                        var c = stack.removeCard(card);
+                        this.stacks[s].addCard(c, null, true);
+                        stack.enableTopCard();
+                        return;
+                    }
+                }
+                // only do something if we have an empty stack to move to
+            }
+            else {
+                var c = stack.removeCard(card);
+                this.currentWord.addCard(c, null, true);
+            }
         };
         SolitaireGame.prototype.dealMoreCardsClicked = function () {
             if (this.deckRemaining.length >= this.numStacks) {
@@ -95,10 +117,35 @@ var Wordily;
                 c.prevStack.addCard(c, null, true);
             }
         };
+        SolitaireGame.prototype.wordPlayed = function (wp) {
+            var scoreString = wp.word;
+            if (wp.validWord) {
+                scoreString += "\n+" + wp.baseScore;
+                if (wp.bonus > 0) {
+                    scoreString += "\n+" + wp.bonus;
+                }
+            }
+            else {
+                scoreString += "\n" + wp.baseScore;
+            }
+            var wordScoreText = this.add.text(this.submitWord.centerX, this.submitWord.centerY, scoreString, { font: "32px cutive", fill: wp.validWord ? "limegreen" : "red", align: "center" });
+            wordScoreText.bringToTop();
+            wordScoreText.anchor.setTo(0.5, 0.5);
+            var tweenScoreAnimation = this.add.tween(wordScoreText).to({ x: this.scoreText.centerX }, 1000, Phaser.Easing.Linear.None, false);
+            tweenScoreAnimation.chain(this.add.tween(wordScoreText).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None));
+            tweenScoreAnimation.onComplete.add(this.finishWordScoreAnimation, this, 0, wp);
+            tweenScoreAnimation.start();
+        };
+        SolitaireGame.prototype.finishWordScoreAnimation = function (text, tween, wp) {
+            this.wordsPlayed.push(wp);
+            text.destroy();
+        };
         SolitaireGame.prototype.submitWordClicked = function () {
             var checkWord = this.currentWord.getWord();
+            console.debug("checking word " + checkWord + " : " + Wordily.Game.checkWord(checkWord));
             if (Wordily.Game.checkWord(checkWord)) {
-                this.score += this.currentWord.getScore();
+                var wordScore = new Wordily.WordScore(checkWord, this.currentWord.getScore());
+                this.wordPlayed(wordScore);
                 while (this.currentWord.length > 0) {
                     var c = this.currentWord.removeTopCard();
                     c.prevStack.enableTopCard();
@@ -106,7 +153,8 @@ var Wordily;
                 }
             }
             else {
-                this.score -= this.currentWord.getScore();
+                var wordScore = new Wordily.WordScore(checkWord, this.currentWord.getScore() * -1);
+                this.wordPlayed(wordScore);
                 this.clearCurrentWord();
             }
         };

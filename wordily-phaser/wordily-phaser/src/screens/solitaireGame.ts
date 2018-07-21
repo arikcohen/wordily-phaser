@@ -1,5 +1,6 @@
-﻿module Wordily {
-
+﻿
+module Wordily {
+    
     export class SolitaireGame extends Phaser.State {
 
         background: Phaser.TileSprite;
@@ -8,19 +9,27 @@
         submitWord: Phaser.Sprite;
         clear: Phaser.Sprite;
         scoreTitleText: Phaser.Text;
-        scoreText: Phaser.Text;
+        scoreText: Phaser.Text;        
 
         currentWord: Stack;        
         stacks: Stack[] = [];
         stackDiscard: Stack;
-        deckRemaining: Stack;
-        score: number = 0;
+        deckRemaining: Stack;        
+        numErrors: number;
         gameId: string;
         gameReported: boolean = false;
+
+        wordsPlayed: WordScore[] = [];
 
         private numStacks: number = 8
         public static stackOffsetHorizontal:number = 10;
         public static stackOffsetVertical:number = 20;
+
+        get score(): number {
+            let s: number = 0;
+            this.wordsPlayed.forEach(wp => s += wp.totalScore);
+            return s;
+        }
 
         init(gameId: string = Guid.newGuid()) {
             this.gameId = gameId;
@@ -89,9 +98,23 @@
         }
 
         stackCardTapped(stack: Stack, card: Card, doubleTapped: boolean) {
-            console.debug(stack.name + " got a card click " + card.name);
-            let c: Card = stack.removeCard(card);
-            this.currentWord.addCard(c, null, true);
+            console.debug(stack.name + " got a card click " + card.name + " double: " + doubleTapped);
+            if (doubleTapped) {
+                for (let s: number = 0; s < this.numStacks; s++) {
+                    if (this.stacks[s].length == 0) {
+                        let c: Card = stack.removeCard(card);
+                        this.stacks[s].addCard(c, null, true);
+                        stack.enableTopCard();
+                        return;
+                    }
+                }
+
+                // only do something if we have an empty stack to move to
+            }
+            else {
+                let c: Card = stack.removeCard(card);
+                this.currentWord.addCard(c, null, true);
+            }
         }
 
         dealMoreCardsClicked() {
@@ -118,10 +141,41 @@
             }
         }
 
+        wordPlayed(wp: WordScore) {
+            let scoreString: string = wp.word;
+            if (wp.validWord) {
+                scoreString += "\n+" + wp.baseScore;
+                if (wp.bonus > 0) {
+                    scoreString += "\n+" + wp.bonus;
+                }
+            }
+            else {
+                scoreString += "\n" + wp.baseScore;
+            }
+
+            let wordScoreText = this.add.text(this.submitWord.centerX, this.submitWord.centerY, scoreString, { font: "32px cutive", fill: wp.validWord ? "limegreen" : "red", align: "center" });            
+            wordScoreText.bringToTop();
+            wordScoreText.anchor.setTo(0.5, 0.5);
+            let tweenScoreAnimation = this.add.tween(wordScoreText).to({ x: this.scoreText.centerX }, 1000, Phaser.Easing.Linear.None, false);
+            tweenScoreAnimation.chain(this.add.tween(wordScoreText).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None));
+
+            tweenScoreAnimation.onComplete.add(this.finishWordScoreAnimation, this, 0, wp);
+            tweenScoreAnimation.start();
+            
+        }
+
+        finishWordScoreAnimation(text:Phaser.Text, tween:Phaser.Tween, wp:WordScore) {
+            this.wordsPlayed.push(wp);
+            text.destroy();
+        }
+
         submitWordClicked() {            
             var checkWord = this.currentWord.getWord();
+            console.debug("checking word " + checkWord + " : " + Game.checkWord(checkWord));
+
             if (Game.checkWord(checkWord)) {
-                this.score += this.currentWord.getScore();
+                let wordScore: WordScore = new WordScore(checkWord, this.currentWord.getScore());
+                this.wordPlayed(wordScore);
                 while (this.currentWord.length > 0) {
                     let c: Card = this.currentWord.removeTopCard();
                     c.prevStack.enableTopCard();
@@ -129,7 +183,8 @@
                 }
             }
             else {
-                this.score -= this.currentWord.getScore();                
+                let wordScore: WordScore = new WordScore(checkWord, this.currentWord.getScore() * -1);
+                this.wordPlayed(wordScore);                
                 this.clearCurrentWord();
             }
 

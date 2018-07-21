@@ -72,17 +72,28 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\audio\card-restack.wav" />
     <Content Include="assets\deck\deck.png" />
     <Content Include="assets\gameplay\submitWord.png" />
     <Content Include="assets\gameplay\playingArea.png" />
     <Content Include="assets\gameplay\wordDropSpace.png" />
     <Content Include="assets\mainmenu\multiplayer.png" />
     <Content Include="assets\mainmenu\solitaire.png" />
+    <Content Include="assets\preload\Alef.png" />
+    <Content Include="assets\preload\Bet.png" />
     <Content Include="assets\preload\loader.png" />
+    <Content Include="assets\gameplay\clear.png" />
+    <Content Include="assets\gameplay\exit.png" />
+    <Content Include="assets\gameplay\settings.png" />
+    <Content Include="assets\preload\Software.png" />
+    <Content Include="assets\settings\speaker-off.png" />
+    <Content Include="assets\settings\speaker.png" />
+    <Content Include="assets\settings\wrongWord.png" />
     <Content Include="assets\tiledBackground.png" />
     <Content Include="include\phaser.js" />
     <Content Include="include\PlayFab\PlayFab\PlayFabClientApi.js" />
     <Content Include="include\PlayFab\PlayFab\PlayFabEntityApi.js" />
+    <TypeScriptCompile Include="src\game\wordScore.ts" />
     <Content Include="src\phaser\typescript\tslint.json" />
     <Content Include="src\phaser\typescript\typings.json" />
     <Content Include="assets\deck\deck.json" />

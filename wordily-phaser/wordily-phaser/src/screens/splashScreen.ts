@@ -67,7 +67,7 @@
                 var tweenJoker2Away = this.add.tween(this.cardJoker2).to({ y: this.world.height * 2 }, duration * 2, Phaser.Easing.Linear.None, true, delay * 9);
                 var tweenLY = this.add.tween(this.cardLY).to({ x: this.world.centerX + (constSeperation * 1.5), y: this.world.centerY - 90 }, duration, Phaser.Easing.Linear.None, true, delay*10);
                 
-                var tweenCardsTop = this.add.tween(this.cardTitleGroup).to({ x: "+80", y: -200 }, duration, Phaser.Easing.Linear.None, true, delay*12);
+                var tweenCardsTop = this.add.tween(this.cardTitleGroup).to({ x: "+80", y: -200 }, duration*2, Phaser.Easing.Linear.None, true, delay*10);
                 tweenCardsTop.onComplete.add(this.startMainMenu, this);
             }
             else {

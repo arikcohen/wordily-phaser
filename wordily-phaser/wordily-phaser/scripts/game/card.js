@@ -23,6 +23,8 @@ var Wordily;
             _this._scaleFactor = Wordily.Game.ScaleFactor;
             _this.curStack = null;
             _this.prevStack = null;
+            _this._secondClick = false;
+            _this._cancelFirstClick = false;
             _this.name = name;
             _this.value = value;
             _this.scale.setTo(_this.scaleFactor, _this.scaleFactor);
@@ -112,7 +114,21 @@ var Wordily;
         });
         Card.prototype.onMouseDown = function (sprite) {
             if (this.isSelectable) {
-                this.curStack.cardTapped(this, false);
+                if (!this._secondClick) {
+                    this._secondClick = true;
+                    this._cancelFirstClick = false;
+                    this.game.time.events.add(200, function () {
+                        this._secondClick = false;
+                        if (!this._cancelFirstClick) {
+                            this.curStack.cardTapped(this, false);
+                        }
+                        this._cancelFirstClick = false;
+                    }, this);
+                    return;
+                }
+                this.curStack.cardTapped(this, true);
+                this._secondClick = false;
+                this._cancelFirstClick = true;
             }
         };
         Card.prototype.toString = function () {

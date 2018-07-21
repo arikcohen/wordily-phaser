@@ -199,7 +199,9 @@ var Wordily;
         Stack.prototype.updateCardLocations = function (startIndex, fAnimate) {
             if (startIndex === void 0) { startIndex = 0; }
             if (fAnimate === void 0) { fAnimate = false; }
-            console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
+            if (Wordily.Game.isDebug) {
+                console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
+            }
             for (var index = startIndex; index < this.length; index++) {
                 var x = void 0;
                 var y = void 0;
