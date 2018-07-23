@@ -33,12 +33,7 @@
             this.cardJoker = new Card(-1, "JOKER", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
             this.cardJoker2 = new Card(-1, "JOKER", true, 0, this.world.width, this.world.centerY - 90, this.cardTitleGroup);            
             
-            this.cardLY = new Card(-1, "LY", true, 0, this.world.width, this.world.height, this.cardTitleGroup);            
-
-
-            // load assets for main menu
-            this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
-            this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
+            this.cardLY = new Card(-1, "LY", true, 0, this.world.width, this.world.height, this.cardTitleGroup);                        
 
             // start loading all the words
             for (let c: number = 'A'.charCodeAt(0); c <= + 'Z'.charCodeAt(0); c++) {
@@ -49,7 +44,7 @@
 
         create() {                                   
 
-            var showSplash: boolean = !Game.isDebug;
+            var showSplash: boolean = false;
 
             let delay: number = 250;
             let duration: number = 500;
@@ -84,8 +79,7 @@
         startMainMenu() {
             
             this.cardTitleGroup.destroy(true, true);
-            //this.game.state.start('MainMenu', true, false);
-            this.game.state.start('Solitaire', true, false);
+            this.game.state.start('MainMenu', true, false);
         }
 
     }

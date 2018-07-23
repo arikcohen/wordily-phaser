@@ -72,11 +72,16 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\1pixel.png" />
     <Content Include="assets\audio\card-restack.wav" />
     <Content Include="assets\deck\deck.png" />
+    <Content Include="assets\gameplay\mainMenu.png" />
+    <Content Include="assets\gameplay\playAgain.png" />
     <Content Include="assets\gameplay\submitWord.png" />
     <Content Include="assets\gameplay\playingArea.png" />
     <Content Include="assets\gameplay\wordDropSpace.png" />
+    <Content Include="assets\gameplay\wordError.png" />
+    <Content Include="assets\mainmenu\daily.png" />
     <Content Include="assets\mainmenu\multiplayer.png" />
     <Content Include="assets\mainmenu\solitaire.png" />
     <Content Include="assets\preload\Alef.png" />
@@ -84,7 +89,7 @@
     <Content Include="assets\preload\loader.png" />
     <Content Include="assets\gameplay\clear.png" />
     <Content Include="assets\gameplay\exit.png" />
-    <Content Include="assets\gameplay\settings.png" />
+    <Content Include="assets\mainmenu\settings.png" />
     <Content Include="assets\preload\Software.png" />
     <Content Include="assets\settings\speaker-off.png" />
     <Content Include="assets\settings\speaker.png" />

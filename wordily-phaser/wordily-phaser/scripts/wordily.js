@@ -85,7 +85,7 @@ var Wordily;
             wordToCheck = wordToCheck.toLowerCase();
             var firstLetter = wordToCheck.charAt(0);
             //does the word start with a joker?
-            if (wordToCheck.indexOf(".") != -1) {
+            if (wordToCheck.indexOf("?") != -1) {
                 return true;
             }
             else {
@@ -93,8 +93,8 @@ var Wordily;
                 return (Game._validWords[index].indexOf(wordToCheck) != -1);
             }
         };
-        Game.ScaleFactor = 0.75;
-        Game.BaseCardWidth = 188;
+        Game.ScaleFactor = 0.72;
+        Game.BaseCardWidth = 187;
         Game.BaseCardHeight = 225;
         Game.isDebug = false;
         Game._validWords = [];

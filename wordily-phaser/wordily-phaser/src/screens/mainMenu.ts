@@ -12,54 +12,95 @@
         cardTitleGroup: Phaser.Group;
 
         solitaire: Phaser.Sprite;
+        dailySolitaire: Phaser.Sprite;
         multiplayer: Phaser.Sprite;
 
+        topSolitaireScore: Phaser.Text;
+
+        preload() {
+            // load assets for main menu
+            this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
+            this.load.image('start_daily', 'assets/mainmenu/daily.png');
+            this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
+        }
+
         create() {
-            
+            Online.login();
 
             this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'background');
             this.cardTitleGroup = this.add.group();
-            
-            
-            var wordilyStartX: number = 97.5+80;
-            var wordilyStarty: number = 70;
-            var constSeperation: number = 155;
+                                    
+            var constSeperation: number = Game.DefaultCardWidth + 20;
 
-            this.cardW = new Card(-1,"W", true, 0, wordilyStartX, wordilyStarty, this.cardTitleGroup, this);
-            this.cardO = new Card(-1,"O", true, 0, wordilyStartX+ constSeperation * 1, wordilyStarty, this.cardTitleGroup, this);
-            this.cardR = new Card(-1,"R", true, 0, wordilyStartX+ constSeperation * 2, wordilyStarty, this.cardTitleGroup, this);
-            this.cardD = new Card(-1,"D", true, 0, wordilyStartX+ constSeperation * 3, wordilyStarty, this.cardTitleGroup, this);
-            this.cardI = new Card(-1,"I", true, 0, wordilyStartX+ constSeperation * 4, wordilyStarty, this.cardTitleGroup, this);
-            this.cardLY = new Card(-1,"LY", true, 0, wordilyStartX + constSeperation * 5, wordilyStarty, this.cardTitleGroup, this);            
-            
-            
-            this.solitaire = this.add.sprite(this.world.width/3, this.world.centerY, "start_solitaire");
-            this.solitaire.anchor.setTo(0.5, 0.5);
+            this.cardW = new Card(-1,"W", true, 0, 0, 0, this.cardTitleGroup, this);
+            this.cardO = new Card(-1,"O", true, 0, constSeperation * 1, 0, this.cardTitleGroup, this);
+            this.cardR = new Card(-1,"R", true, 0, constSeperation * 2, 0, this.cardTitleGroup, this);
+            this.cardD = new Card(-1,"D", true, 0, constSeperation * 3, 0, this.cardTitleGroup, this);
+            this.cardI = new Card(-1,"I", true, 0, constSeperation * 4, 0, this.cardTitleGroup, this);
+            this.cardLY = new Card(-1,"LY", true, 0, constSeperation * 5, 0, this.cardTitleGroup, this);            
+            this.cardTitleGroup.x = this.world.centerX - this.cardTitleGroup.width / 2;
+            this.cardTitleGroup.y = 80;
+
+            let buttonGroup = this.add.group();
+
+            this.solitaire = this.add.sprite(0,0, "start_solitaire", null, buttonGroup);            
             this.solitaire.inputEnabled = true;
-            this.solitaire.events.onInputDown.addOnce(this.startSolitaireGame, this);
+            this.solitaire.events.onInputDown.add(this.startSolitaireGame, this);
 
-            this.multiplayer = this.add.sprite(this.world.width / 3 * 2, this.world.centerY, "start_multiplayer");
-            this.multiplayer.anchor.setTo(0.5, 0.5);
-            this.multiplayer.inputEnabled = true;
-            this.multiplayer.events.onInputDown.addOnce(this.startMultiplayerGame, this);
 
             
+
+            this.dailySolitaire = this.add.sprite(this.solitaire.right + 35, 0, "start_daily", null, buttonGroup);            
+            this.dailySolitaire.alpha = 0.25;
+            this.dailySolitaire.inputEnabled = false;
+            this.dailySolitaire.events.onInputDown.add(this.startDailySolitaire, this);        
+
+            this.multiplayer = this.add.sprite(this.dailySolitaire.right + 35, 0, "start_multiplayer", null, buttonGroup);            
+            this.multiplayer.alpha = 0.25;
+            this.multiplayer.inputEnabled = false;
+            this.multiplayer.events.onInputDown.add(this.startMultiplayerGame, this);
+
+
+            this.topSolitaireScore = this.add.text(this.solitaire.centerX, this.solitaire.bottom - 20, "", { font: "18px cutive", align: "center", fill: "white" });
+            this.topSolitaireScore.setShadow(2, 2, "black");
+            this.topSolitaireScore.smoothed = false;
+            this.topSolitaireScore.anchor.setTo(0.5, 1);
+            buttonGroup.add(this.topSolitaireScore);
+
+            buttonGroup.x = this.world.centerX - buttonGroup.width / 2;
+            buttonGroup.y = this.world.centerY;
+
+
         }
         
+        flipCard(c: Card, delay:number=0) {
+            c.cardFlip(delay);
+        }
 
         startSolitaireGame() {            
-            this.game.state.start('Solitaire', true, false);
-            
+            this.game.state.start('Solitaire', true, false);            
+        }
 
+        startDailySolitaire() {
+            this.game.state.start('Solitaire', true, false, 1);
         }
 
         startMultiplayerGame() {
-
-            alert('no muliplayer yet');
-
         }
 
+        update() {
 
+            let strSolitaireUpdate = "";
+            if (Online.bestSolitaireScore > 0)
+                strSolitaireUpdate = "Top Game Score: " + Online.bestSolitaireScore;
+
+            if (Online.bestSolitaireWordScore > 0)
+                strSolitaireUpdate += "\n Top Word Score: " + Online.bestSolitaireWordScore;
+
+            if (this.topSolitaireScore.text != strSolitaireUpdate) {
+                this.topSolitaireScore.text = strSolitaireUpdate;
+            }
+        }
     }
 
 }

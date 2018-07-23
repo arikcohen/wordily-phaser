@@ -12,7 +12,10 @@
         private cardSelected: Phaser.Sprite;        
 
         
-
+        private flipTween: Phaser.Tween;
+        private flipTweenPos: Phaser.Tween;
+        private flipBackTween: Phaser.Tween;
+        private flipBackTweenPos: Phaser.Tween;
         
         
         private _isFaceUp: boolean = true;
@@ -88,6 +91,7 @@
             this.value = value;
 
             this.scale.setTo(this.scaleFactor, this.scaleFactor);
+
             if (id != -1) {
                 this.id= id;
             }
@@ -112,11 +116,16 @@
             this.onChildInputUp.add(this.onMouseDown, this);    
 
             this.cardFront = state.add.sprite(0, 0, "cards", this.name, this);            
+            
             this.cardBack = state.add.sprite(0, 0, "cards", "cardBackground", this);            
+            
             this.cardSelected = state.add.sprite(0, 0, "cards", "cardSelected", this);                 
+            
             this.isFaceUp = isFaceUp;
             this.isSelected = false;
-            this.isSelectable = false;           
+            this.isSelectable = false;              
+
+            
         }
 
         _secondClick: boolean = false;
@@ -141,7 +150,74 @@
             }
         } 
 
-                    
+        
+
+        private _isFlipping: boolean = false;
+
+        cardFlip(delay:number=0) {
+            if (!this._isFlipping) {
+
+                let w = this.width;
+                let h = this.height;
+                let x = this.x;
+                let y = this.y;
+
+                this.flipTween = this.game.add.tween(this.scale).to({
+                    x: 0,
+                    y: this.scaleFactor * 1.2,
+                }, 300 / 2, Phaser.Easing.Linear.None);
+
+
+
+                this.flipTweenPos = this.game.add.tween(this).to({
+                    x: "+" + w / 2,
+                    y: "-" + h * 0.1
+
+                }, 300 / 2, Phaser.Easing.Linear.None);
+
+
+
+                this.flipBackTween = this.game.add.tween(this.scale).to({
+                    x: this.scaleFactor,
+                    y: this.scaleFactor,
+                }, 300 / 2, Phaser.Easing.Linear.None);
+
+                this.flipBackTweenPos = this.game.add.tween(this).to({
+                    x: x,
+                    y: y
+                }, 300 / 2, Phaser.Easing.Linear.None);
+
+                this.flipTween.onComplete.addOnce(this.onFlipHalfComplete, this);
+
+                this.flipBackTween.onComplete.addOnce(this.onFlipComplete, this);
+
+
+
+
+                this._isFlipping = true;
+                this.flipTween.delay(delay/2);
+                this.flipTweenPos.delay(delay / 2);
+                this.flipBackTween.delay(0);
+                this.flipBackTweenPos.delay(0);
+                this.flipTween.start();
+                this.flipTweenPos.start();
+            }
+            
+        }
+
+        onFlipComplete() {
+            this._isFlipping = false;            
+
+        }
+
+        onFlipHalfComplete() {
+            
+            this.isFaceUp = !this.isFaceUp;
+            this.flipBackTween.start();
+            this.flipBackTweenPos.start();                            
+        }
+
+        
 
 
         toString() {

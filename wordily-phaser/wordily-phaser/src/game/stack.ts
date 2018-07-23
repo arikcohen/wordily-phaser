@@ -17,8 +17,8 @@
 
         static offsetHorizonatal: number = 10;
         static offsetHorizonatalDisplay: number = Game.DefaultCardWidth * 0.4;
-        static offsetVertical: number = 15;
-        static offsetVerticalFaceUp: number = 32;
+        static offsetVertical: number = 30;
+        static offsetVerticalFaceUp: number = 30;
 
 
         constructor(state: Phaser.State, name: string, orientation: StackOrientation, x?: number, y?: number, initialCards: Card[] = [], enableStackClick:boolean =false) {
@@ -35,7 +35,7 @@
 
             //this.groupStack = state.add.group(null, name, true, false);                        
             this.dropSlot = this.state.add.sprite(0, 0, "cards", "cardSlot", this);
-            this.dropSlot.scale.setTo(Game.ScaleFactor, Game.ScaleFactor);
+            this.dropSlot.scale.setTo(Game.ScaleFactor, Game.ScaleFactor);            
             
             this.cards = initialCards;
             for (let c of this.cards) {                
@@ -61,13 +61,7 @@
 
         }
 
-        update() {
-            
-            
-            this.dropSlot.renderable = (this.length == 0);
-            
-            super.update();
-        }
+        
 
         get length(): number {
             return this.cards.length;
@@ -77,7 +71,7 @@
             if (this.cards.length == 0)
                 return null;
             else
-                return this.cards[length - 1];
+                return this.cards[this.cards.length - 1];
         }
 
         removeTopCard(): Card {
@@ -98,7 +92,7 @@
             }
         }
 
-        addCard(card: Card, index?: number, fAnimateIn = false, animateDuration: number = 300, animateDelay: number = 0) {         
+        addCard(card: Card, index?: number, fAnimateIn = false, animateDuration: number = 300, animateDelay: number = 0, flipOnAnimationComplete=false) {         
             if (fAnimateIn) {
                 card.isAnimating = true;
             }
@@ -114,32 +108,39 @@
             }
 
             if (fAnimateIn) {
-                
-                console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.curStack + "(" + card.x + ", " + card.y +")" );
-                this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None , true, animateDelay);
+                if (Game.isDebug) {
+                    console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.curStack + "(" + card.x + ", " + card.y + ")");
+                }
+                let animate :Phaser.Tween = this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None, true, animateDelay);
+                if (flipOnAnimationComplete)
+                    animate.onComplete.addOnce(card.cardFlip, card);
             }
 
             card.prevStack = card.curStack;
             card.curStack = this;
         }
 
-        getWord(): string {
+        get word(): string {
             let word: string = "";
             for (let i = 0; i < this.cards.length; i++) {
                 if (this.cards[i].name != "JOKER") {
                     word += this.cards[i].name
                 }
                 else {
-                    word += ".";
+                    word += "?";
                 }
             }
             return word;
         }
 
-        getScore(): number {
+        private _renderBaseSlot: boolean= true;
+        set renderBaseSlot(value: boolean) {
+            this._renderBaseSlot = value;
+        }
+
+        get score(): number {
             let score: number = 0;
-            for (let i = 0; i < this.cards.length; i++) {
-                console.debug(this.cards[i].value);
+            for (let i = 0; i < this.cards.length; i++) {                
                 score += this.cards[i].value;
             }
 
@@ -234,14 +235,18 @@
                     if (card.animateFinalX != x || card.animateFinalY != y) {
                         card.animateFinalX = x;
                         card.animateFinalY = y;
-                        console.debug("Stack: " + this.name + " updated animated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                        if (Game.isDebug) {
+                            console.debug("Stack: " + this.name + " updated animated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                        }
                     }
                 }
                 else {
                     if (card.x != x || card.y != y) {
                         card.x = x;
                         card.y = y;
-                        console.debug("Stack: " + this.name + " updated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                        if (Game.isDebug) {
+                            console.debug("Stack: " + this.name + " updated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                        }
                     }
                 }
                 
@@ -261,10 +266,11 @@
             }
         }
 
-        enableTopCard(): void {
+        enableTopCard(forceFaceUp:boolean =true): void {
             if (this.length > 0) {
                 let c: Card = this.cards[this.length - 1];
-                c.isFaceUp = true;
+                if (forceFaceUp)
+                    c.isFaceUp = true;
                 c.isSelectable = true;
             }
         }
@@ -272,7 +278,9 @@
         onCardTapped: Phaser.Signal = new Phaser.Signal();
 
         cardTapped(card: Card, doubleTapped: boolean) {
-            console.debug("Card Tapped on stack: " + this.name + " card: " + card.name + " doubleTap: " + doubleTapped);
+            if (Game.isDebug) {
+                console.debug("Card Tapped on stack: " + this.name + " card: " + card.name + " doubleTap: " + doubleTapped);
+            }
             this.onCardTapped.dispatch(this, card, doubleTapped);
             
         }
@@ -283,6 +291,10 @@
             this.onStackTapped.dispatch(this);
         }
 
+        update() {            
+            this.dropSlot.renderable = (this.length == 0 && this._renderBaseSlot) ;
+            super.update();
+        }
 
     }
 }

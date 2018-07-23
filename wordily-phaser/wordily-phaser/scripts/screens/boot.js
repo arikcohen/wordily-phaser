@@ -17,6 +17,7 @@ var Wordily;
         }
         Boot.prototype.preload = function () {
             this.game.load.image('background', 'assets/tiledBackground.png');
+            this.game.load.image('1pixel', 'assets/1pixel.png');
             this.game.load.atlasJSONHash('cards', 'assets/deck/deck.png', 'assets/deck/deck.json');
             this.game.load.image('playingArea', 'assets/gameplay/playingArea.png');
             this.game.load.json('deck-full', 'assets/deck/full-deck-data.json');

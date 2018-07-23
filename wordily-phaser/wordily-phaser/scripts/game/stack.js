@@ -24,6 +24,7 @@ var Wordily;
             if (initialCards === void 0) { initialCards = []; }
             if (enableStackClick === void 0) { enableStackClick = false; }
             var _this = _super.call(this, state.game, null, name, true, false, null) || this;
+            _this._renderBaseSlot = true;
             _this.onCardTapped = new Phaser.Signal();
             _this.onStackTapped = new Phaser.Signal();
             _this.state = state;
@@ -58,10 +59,6 @@ var Wordily;
             }
             return _this;
         }
-        Stack.prototype.update = function () {
-            this.dropSlot.renderable = (this.length == 0);
-            _super.prototype.update.call(this);
-        };
         Object.defineProperty(Stack.prototype, "length", {
             get: function () {
                 return this.cards.length;
@@ -74,7 +71,7 @@ var Wordily;
                 if (this.cards.length == 0)
                     return null;
                 else
-                    return this.cards[length - 1];
+                    return this.cards[this.cards.length - 1];
             },
             enumerable: true,
             configurable: true
@@ -95,10 +92,11 @@ var Wordily;
                 return null;
             }
         };
-        Stack.prototype.addCard = function (card, index, fAnimateIn, animateDuration, animateDelay) {
+        Stack.prototype.addCard = function (card, index, fAnimateIn, animateDuration, animateDelay, flipOnAnimationComplete) {
             if (fAnimateIn === void 0) { fAnimateIn = false; }
             if (animateDuration === void 0) { animateDuration = 300; }
             if (animateDelay === void 0) { animateDelay = 0; }
+            if (flipOnAnimationComplete === void 0) { flipOnAnimationComplete = false; }
             if (fAnimateIn) {
                 card.isAnimating = true;
             }
@@ -113,32 +111,50 @@ var Wordily;
                 //this.add(card);
             }
             if (fAnimateIn) {
-                console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.curStack + "(" + card.x + ", " + card.y + ")");
-                this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None, true, animateDelay);
+                if (Wordily.Game.isDebug) {
+                    console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.curStack + "(" + card.x + ", " + card.y + ")");
+                }
+                var animate = this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None, true, animateDelay);
+                if (flipOnAnimationComplete)
+                    animate.onComplete.addOnce(card.cardFlip, card);
             }
             card.prevStack = card.curStack;
             card.curStack = this;
         };
-        Stack.prototype.getWord = function () {
-            var word = "";
-            for (var i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].name != "JOKER") {
-                    word += this.cards[i].name;
+        Object.defineProperty(Stack.prototype, "word", {
+            get: function () {
+                var word = "";
+                for (var i = 0; i < this.cards.length; i++) {
+                    if (this.cards[i].name != "JOKER") {
+                        word += this.cards[i].name;
+                    }
+                    else {
+                        word += "?";
+                    }
                 }
-                else {
-                    word += ".";
+                return word;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Stack.prototype, "renderBaseSlot", {
+            set: function (value) {
+                this._renderBaseSlot = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Stack.prototype, "score", {
+            get: function () {
+                var score = 0;
+                for (var i = 0; i < this.cards.length; i++) {
+                    score += this.cards[i].value;
                 }
-            }
-            return word;
-        };
-        Stack.prototype.getScore = function () {
-            var score = 0;
-            for (var i = 0; i < this.cards.length; i++) {
-                console.debug(this.cards[i].value);
-                score += this.cards[i].value;
-            }
-            return score;
-        };
+                return score;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Stack.prototype.cardFinalLocation = function (index) {
             var x;
             var y;
@@ -214,14 +230,18 @@ var Wordily;
                     if (card.animateFinalX != x || card.animateFinalY != y) {
                         card.animateFinalX = x;
                         card.animateFinalY = y;
-                        console.debug("Stack: " + this.name + " updated animated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                        if (Wordily.Game.isDebug) {
+                            console.debug("Stack: " + this.name + " updated animated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                        }
                     }
                 }
                 else {
                     if (card.x != x || card.y != y) {
                         card.x = x;
                         card.y = y;
-                        console.debug("Stack: " + this.name + " updated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                        if (Wordily.Game.isDebug) {
+                            console.debug("Stack: " + this.name + " updated card location " + index + " " + card.name + " (" + x + ", " + y + ")");
+                        }
                     }
                 }
             }
@@ -235,24 +255,32 @@ var Wordily;
                 c.isSelectable = false;
             }
         };
-        Stack.prototype.enableTopCard = function () {
+        Stack.prototype.enableTopCard = function (forceFaceUp) {
+            if (forceFaceUp === void 0) { forceFaceUp = true; }
             if (this.length > 0) {
                 var c = this.cards[this.length - 1];
-                c.isFaceUp = true;
+                if (forceFaceUp)
+                    c.isFaceUp = true;
                 c.isSelectable = true;
             }
         };
         Stack.prototype.cardTapped = function (card, doubleTapped) {
-            console.debug("Card Tapped on stack: " + this.name + " card: " + card.name + " doubleTap: " + doubleTapped);
+            if (Wordily.Game.isDebug) {
+                console.debug("Card Tapped on stack: " + this.name + " card: " + card.name + " doubleTap: " + doubleTapped);
+            }
             this.onCardTapped.dispatch(this, card, doubleTapped);
         };
         Stack.prototype.stackTapped = function () {
             this.onStackTapped.dispatch(this);
         };
+        Stack.prototype.update = function () {
+            this.dropSlot.renderable = (this.length == 0 && this._renderBaseSlot);
+            _super.prototype.update.call(this);
+        };
         Stack.offsetHorizonatal = 10;
         Stack.offsetHorizonatalDisplay = Wordily.Game.DefaultCardWidth * 0.4;
-        Stack.offsetVertical = 15;
-        Stack.offsetVerticalFaceUp = 32;
+        Stack.offsetVertical = 30;
+        Stack.offsetVerticalFaceUp = 30;
         return Stack;
     }(Phaser.Group));
     Wordily.Stack = Stack;

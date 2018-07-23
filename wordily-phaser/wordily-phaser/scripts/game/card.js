@@ -25,6 +25,7 @@ var Wordily;
             _this.prevStack = null;
             _this._secondClick = false;
             _this._cancelFirstClick = false;
+            _this._isFlipping = false;
             _this.name = name;
             _this.value = value;
             _this.scale.setTo(_this.scaleFactor, _this.scaleFactor);
@@ -130,6 +131,48 @@ var Wordily;
                 this._secondClick = false;
                 this._cancelFirstClick = true;
             }
+        };
+        Card.prototype.cardFlip = function (delay) {
+            if (delay === void 0) { delay = 0; }
+            if (!this._isFlipping) {
+                var w = this.width;
+                var h = this.height;
+                var x = this.x;
+                var y = this.y;
+                this.flipTween = this.game.add.tween(this.scale).to({
+                    x: 0,
+                    y: this.scaleFactor * 1.2,
+                }, 300 / 2, Phaser.Easing.Linear.None);
+                this.flipTweenPos = this.game.add.tween(this).to({
+                    x: "+" + w / 2,
+                    y: "-" + h * 0.1
+                }, 300 / 2, Phaser.Easing.Linear.None);
+                this.flipBackTween = this.game.add.tween(this.scale).to({
+                    x: this.scaleFactor,
+                    y: this.scaleFactor,
+                }, 300 / 2, Phaser.Easing.Linear.None);
+                this.flipBackTweenPos = this.game.add.tween(this).to({
+                    x: x,
+                    y: y
+                }, 300 / 2, Phaser.Easing.Linear.None);
+                this.flipTween.onComplete.addOnce(this.onFlipHalfComplete, this);
+                this.flipBackTween.onComplete.addOnce(this.onFlipComplete, this);
+                this._isFlipping = true;
+                this.flipTween.delay(delay / 2);
+                this.flipTweenPos.delay(delay / 2);
+                this.flipBackTween.delay(0);
+                this.flipBackTweenPos.delay(0);
+                this.flipTween.start();
+                this.flipTweenPos.start();
+            }
+        };
+        Card.prototype.onFlipComplete = function () {
+            this._isFlipping = false;
+        };
+        Card.prototype.onFlipHalfComplete = function () {
+            this.isFaceUp = !this.isFaceUp;
+            this.flipBackTween.start();
+            this.flipBackTweenPos.start();
         };
         Card.prototype.toString = function () {
             return this.name + "[" + this.value + "] " + this.id;
