@@ -44,9 +44,11 @@ var Wordily;
             enumerable: true,
             configurable: true
         });
-        SolitaireGame.prototype.init = function (gameId) {
+        SolitaireGame.prototype.init = function (gameId, gameType) {
             if (gameId === void 0) { gameId = Wordily.Guid.newGuid(); }
+            if (gameType === void 0) { gameType = "Random"; }
             this.gameId = gameId;
+            this.gameType = gameType;
             this.stacks = [];
             this.wordsPlayed = [];
             this.gameReported = false;
@@ -95,7 +97,7 @@ var Wordily;
                 s.onCardTapped.add(this.stackCardTapped, this);
                 this.stacks.push(s);
             }
-            this.deckRemaining = new Wordily.Stack(this, "deck", Wordily.StackOrientation.Deck, this.stacks[0].left, this.currentWord.top, Wordily.Deck.CreateDeck(true, false, 2, 'deck-solitaire'), true);
+            this.deckRemaining = new Wordily.Stack(this, "deck", Wordily.StackOrientation.Deck, this.stacks[0].left, this.currentWord.top, Wordily.Deck.CreateDeck(true, this.gameId, false, 2, 'deck-solitaire'), true);
             this.deckRemaining.onStackTapped.add(this.dealMoreCardsClicked, this);
             this.deckRemaining.renderBaseSlot = false;
             for (var i = 0; i < 4; i++) {

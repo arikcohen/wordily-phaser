@@ -166,6 +166,7 @@
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="scripts\" />
+    <Folder Include="src\util\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\screens\multiplayerLobby.ts" />
@@ -174,6 +175,7 @@
     <TypeScriptCompile Include="src\screens\mainMenu.ts" />
     <TypeScriptCompile Include="src\screens\splashScreen.ts" />
     <TypeScriptCompile Include="src\screens\boot.ts" />
+    <TypeScriptCompile Include="src\game\prando.ts" />
     <TypeScriptCompile Include="src\wordily.ts" />
   </ItemGroup>
   <PropertyGroup>

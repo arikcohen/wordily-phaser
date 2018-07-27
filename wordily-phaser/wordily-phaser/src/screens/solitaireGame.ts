@@ -20,6 +20,7 @@ module Wordily {
         deckRemaining: Stack;        
         
         gameId: string;
+        gameType: string;
         gameReported: boolean = false;
 
         wordsPlayed: WordScore[] = [];
@@ -46,8 +47,9 @@ module Wordily {
             return e;
         }
 
-        init(gameId: string = Guid.newGuid()) {
+        init(gameId: string = Guid.newGuid(), gameType: string = "Random") {
             this.gameId = gameId;
+            this.gameType = gameType;
 
             this.stacks = [];
             this.wordsPlayed = [];
@@ -111,7 +113,7 @@ module Wordily {
                 this.stacks.push(s);
             }
 
-            this.deckRemaining = new Stack(this, "deck", StackOrientation.Deck, this.stacks[0].left , this.currentWord.top, Deck.CreateDeck(true, false, 2, 'deck-solitaire'), true);
+            this.deckRemaining = new Stack(this, "deck", StackOrientation.Deck, this.stacks[0].left , this.currentWord.top, Deck.CreateDeck(true, this.gameId, false, 2, 'deck-solitaire'), true);
             this.deckRemaining.onStackTapped.add(this.dealMoreCardsClicked, this);
             this.deckRemaining.renderBaseSlot = false;
             
