@@ -3,8 +3,9 @@ var Wordily;
     var Deck = /** @class */ (function () {
         function Deck() {
         }
-        Deck.CreateDeck = function (fShuffled, isFaceUp, numJokers, deckName) {
+        Deck.CreateDeck = function (fShuffled, fShuffleSeed, isFaceUp, numJokers, deckName) {
             if (fShuffled === void 0) { fShuffled = true; }
+            if (fShuffleSeed === void 0) { fShuffleSeed = -1; }
             if (isFaceUp === void 0) { isFaceUp = false; }
             if (numJokers === void 0) { numJokers = 0; }
             var cards = [];
@@ -23,10 +24,11 @@ var Wordily;
                 cards.push(newJoker);
             }
             if (fShuffled) {
+                var rng = new Wordily.Prando(fShuffleSeed);
                 // shuffle the deck;
                 var c = void 0;
                 for (var i = 0; i < cards.length; i++) {
-                    var rnd = Math.floor(Math.random() * cards.length);
+                    var rnd = rng.nextInt(0, cards.length - 1);
                     c = cards[i];
                     cards[i] = cards[rnd];
                     cards[rnd] = c;

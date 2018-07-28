@@ -80,9 +80,22 @@
             wordToCheck = wordToCheck.toLowerCase();
 
             let firstLetter: string = wordToCheck.charAt(0)
-            //does the word start with a joker?
+            
             if (wordToCheck.indexOf("?") != -1) {
-                return true;
+                let l: number = wordToCheck.indexOf("?") ;                
+                wordToCheck = wordToCheck.replace("?", ".");
+                let regEx: RegExp = new RegExp("^" + wordToCheck + "$");
+                for (; l < this._validWords.length; l++) {
+                    for (let i: number = 0; i < this._validWords[l].length; i++) {
+                        
+                        if (regEx.test(this._validWords[l][i])) {
+                            console.log('found ' + this._validWords[l][i] + ' to match ' + wordToCheck);
+                            return true;
+                        }
+                    }
+                }
+                return false;
+
             }
             else {
                 let index:number  = firstLetter.charCodeAt(0) - 'a'.charCodeAt(0);

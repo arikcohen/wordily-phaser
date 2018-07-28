@@ -50,9 +50,8 @@
 
             
 
-            this.dailySolitaire = this.add.sprite(this.solitaire.right + 35, 0, "start_daily", null, buttonGroup);            
-            this.dailySolitaire.alpha = 0.25;
-            this.dailySolitaire.inputEnabled = false;
+            this.dailySolitaire = this.add.sprite(this.solitaire.right + 35, 0, "start_daily", null, buttonGroup);                        
+            this.dailySolitaire.inputEnabled = true;
             this.dailySolitaire.events.onInputDown.add(this.startDailySolitaire, this);        
 
             this.multiplayer = this.add.sprite(this.dailySolitaire.right + 35, 0, "start_multiplayer", null, buttonGroup);            
@@ -82,7 +81,9 @@
         }
 
         startDailySolitaire() {
-            this.game.state.start('Solitaire', true, false, 1);
+            let d = new Date();            
+
+            this.game.state.start('Solitaire', true, false,d.getUTCFullYear + "-" + d.getUTCDay , "Daily");
         }
 
         startMultiplayerGame() {

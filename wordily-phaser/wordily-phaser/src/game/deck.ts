@@ -1,8 +1,6 @@
-﻿
-
-namespace Wordily {
+﻿namespace Wordily {
     export class Deck {
-        static CreateDeck(fShuffled: boolean = true, isFaceUp:boolean =false, numJokers : number = 0, deckName:string) {
+        static CreateDeck(fShuffled: boolean = true, fShuffleSeed: number | string = -1, isFaceUp:boolean =false, numJokers : number = 0, deckName:string) {
             let cards: Card[] = [];
             var basicDeck:string = JSON.stringify(Game.getInstance().cache.getJSON(deckName));
             console.log("deck data: " + basicDeck);
@@ -22,10 +20,12 @@ namespace Wordily {
             }
 
             if (fShuffled) {
+                let rng = new Prando(fShuffleSeed);
+
                 // shuffle the deck;
                 let c: Card;
                 for (let i: number = 0; i < cards.length; i++) {
-                    let rnd = Math.floor(Math.random() * cards.length);
+                    let rnd = rng.nextInt(0,cards.length-1);
                     c = cards[i];
                     cards[i] = cards[rnd];
                     cards[rnd] = c;

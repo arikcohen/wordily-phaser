@@ -39,8 +39,7 @@ var Wordily;
             this.solitaire.inputEnabled = true;
             this.solitaire.events.onInputDown.add(this.startSolitaireGame, this);
             this.dailySolitaire = this.add.sprite(this.solitaire.right + 35, 0, "start_daily", null, buttonGroup);
-            this.dailySolitaire.alpha = 0.25;
-            this.dailySolitaire.inputEnabled = false;
+            this.dailySolitaire.inputEnabled = true;
             this.dailySolitaire.events.onInputDown.add(this.startDailySolitaire, this);
             this.multiplayer = this.add.sprite(this.dailySolitaire.right + 35, 0, "start_multiplayer", null, buttonGroup);
             this.multiplayer.alpha = 0.25;
@@ -62,7 +61,8 @@ var Wordily;
             this.game.state.start('Solitaire', true, false);
         };
         MainMenu.prototype.startDailySolitaire = function () {
-            this.game.state.start('Solitaire', true, false, 1);
+            var d = new Date();
+            this.game.state.start('Solitaire', true, false, d.getUTCFullYear + "-" + d.getUTCDay, "Daily");
         };
         MainMenu.prototype.startMultiplayerGame = function () {
         };
