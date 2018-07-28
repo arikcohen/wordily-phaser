@@ -174,9 +174,6 @@ var Wordily;
             this.flipBackTween.start();
             this.flipBackTweenPos.start();
         };
-        Card.prototype.moveAnimationComplete = function () {
-            this.isAnimating = false;
-        };
         Card.prototype.toString = function () {
             return this.name + "[" + this.value + "] " + this.id;
         };

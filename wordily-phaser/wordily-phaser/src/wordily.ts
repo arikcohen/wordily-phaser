@@ -1,5 +1,4 @@
-﻿
-module Wordily {        
+﻿module Wordily {        
 
     export class Guid {
         static newGuid() {
@@ -108,7 +107,9 @@ module Wordily {
 
     
 
-    window.onload = () => {       
-                var activeGame = new Game();       
+    window.onload = () => {
+
+       var activeGame  = new Game();
+
     };
 } 

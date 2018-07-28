@@ -86,7 +86,6 @@ var Wordily;
             var index = this.cards.indexOf(card);
             if (index != -1) {
                 this.cards.splice(index, 1);
-                this.updateCardLocations();
                 return card;
             }
             else {
@@ -116,7 +115,6 @@ var Wordily;
                     console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.curStack + "(" + card.x + ", " + card.y + ")");
                 }
                 var animate = this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None, true, animateDelay);
-                animate.onComplete.addOnce(card.moveAnimationComplete, card);
                 if (flipOnAnimationComplete)
                     animate.onComplete.addOnce(card.cardFlip, card);
             }

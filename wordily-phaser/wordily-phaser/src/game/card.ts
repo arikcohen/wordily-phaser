@@ -1,7 +1,6 @@
 ﻿namespace Wordily {
     export class Card extends Phaser.Group{
         
-        [x: string]: any;
         name: string;
         value: number;
 
@@ -218,9 +217,7 @@
             this.flipBackTweenPos.start();                            
         }
 
-        moveAnimationComplete() {
-            this.isAnimating = false;
-        }
+        
 
 
         toString() {
