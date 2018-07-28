@@ -85,6 +85,7 @@
             let index = this.cards.indexOf(card);
             if (index != -1) {
                 this.cards.splice(index, 1);
+                this.updateCardLocations();
                 return card;
             }
             else {
