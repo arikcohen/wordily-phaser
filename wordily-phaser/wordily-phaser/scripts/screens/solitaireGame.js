@@ -108,7 +108,7 @@ var Wordily;
             for (var s = 0; s < this.numStacks; s++) {
                 var c = this.deckRemaining.removeTopCard();
                 c.isSelectable = true;
-                this.stacks[s].addCard(c, null, true, 300, 300 * s, true);
+                this.stacks[s].addCard(c, null, true, 300, 300 * s + 200, true);
             }
             this.wordErrorGroup = this.add.group(null, "errors");
             this.game.world.bringToTop(this.currentWord);
@@ -145,19 +145,21 @@ var Wordily;
             if (!this.isGameRunning)
                 return;
             if (this.deckRemaining.length >= this.numStacks) {
-                this.clearCurrentWord();
+                var delay = 0;
+                if (this.currentWord.length > 0) {
+                    //delay = 600;
+                    console.debug("got here ");
+                    this.clearCurrentWord();
+                }
                 for (var s = 0; s < this.numStacks; s++) {
                     if (this.stacks[s].length > 0) {
                         this.stacks[s].disableTopCard(false);
                         this.stacks[s].topCard.cardFlip();
                     }
                     var c = this.deckRemaining.removeTopCard();
-                    this.stacks[s].addCard(c, null, true, 300, 400, true);
+                    this.stacks[s].addCard(c, null, true, 300, delay + 400, true);
                     this.stacks[s].enableTopCard(false);
                 }
-            }
-            else {
-                this.endGame();
             }
         };
         SolitaireGame.prototype.clearCurrentWord = function () {
@@ -297,6 +299,9 @@ var Wordily;
                 var mainMenu = this.add.sprite(this.world.centerX + 40, this.world.height - 120, 'mainMenu');
                 mainMenu.inputEnabled = true;
                 mainMenu.events.onInputDown.add(this.exitToMainMenu, this);
+            }
+            else {
+                this.exitToMainMenu();
             }
         };
         SolitaireGame.prototype.shutdown = function () {

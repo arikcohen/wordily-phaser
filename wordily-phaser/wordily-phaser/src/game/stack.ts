@@ -95,11 +95,18 @@
 
         addCard(card: Card, index?: number, fAnimateIn = false, animateDuration: number = 300, animateDelay: number = 0, flipOnAnimationComplete=false) {         
             if (fAnimateIn) {
+                if (card.isAnimating) {
+                    console.debug("double animation on " + this.name);
+                }
                 card.isAnimating = true;
             }
-            if (index) {
-                this.cards.push(card);  
-                //this.addAt(card, index);
+
+            card.prevStack = card.curStack;
+            card.curStack = this;
+
+
+            if (index) {                
+                this.addAt(card, index);
                 this.updateCardLocations(index, fAnimateIn);
             }
             else {
@@ -110,15 +117,15 @@
 
             if (fAnimateIn) {
                 if (Game.isDebug) {
-                    console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.curStack + "(" + card.x + ", " + card.y + ")");
+                    console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.prevStack.name + "(" + card.x + ", " + card.y + ")");
                 }
-                let animate :Phaser.Tween = this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None, true, animateDelay);
+                let animate: Phaser.Tween = this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None, true, animateDelay);
+                animate.onComplete.addOnce(card.moveAnimationComplete, card);
                 if (flipOnAnimationComplete)
                     animate.onComplete.addOnce(card.cardFlip, card);
             }
 
-            card.prevStack = card.curStack;
-            card.curStack = this;
+            
         }
 
         get word(): string {
@@ -153,6 +160,8 @@
             let x: number;
             let y: number;
             
+            
+
 
             let prevCard: Card;
 
@@ -217,9 +226,9 @@
             return { x: x, y: y };
         }
 
-        private updateCardLocations(startIndex:number =0, fAnimate:boolean = false) {
+        updateCardLocations(startIndex:number =0, fAnimate:boolean = false) {
             if (Game.isDebug) {
-                console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
+                //console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
             }
             
             for (let index: number = startIndex; index < this.length; index++)

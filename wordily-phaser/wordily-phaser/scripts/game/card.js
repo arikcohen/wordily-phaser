@@ -164,15 +164,28 @@ var Wordily;
                 this.flipBackTweenPos.delay(0);
                 this.flipTween.start();
                 this.flipTweenPos.start();
+                //console.log("card flip start " + this.id + " " + this.name);
+            }
+            else {
+                if (this.isAnimating)
+                    console.log("card flip in progress while animating " + this.name);
             }
         };
         Card.prototype.onFlipComplete = function () {
             this._isFlipping = false;
+            //console.log("card flip end   " + this.id + " " + this.name);
         };
         Card.prototype.onFlipHalfComplete = function () {
+            //console.log("card flip half " + this.id + " " + this.name);            
             this.isFaceUp = !this.isFaceUp;
             this.flipBackTween.start();
             this.flipBackTweenPos.start();
+        };
+        Card.prototype.moveAnimationComplete = function () {
+            this.isAnimating = false;
+            this.x = this.animateFinalX;
+            this.y = this.animateFinalY;
+            //console.log("animation end " + this.id + " " + this.name);
         };
         Card.prototype.toString = function () {
             return this.name + "[" + this.value + "] " + this.id;

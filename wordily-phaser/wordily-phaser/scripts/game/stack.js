@@ -86,6 +86,7 @@ var Wordily;
             var index = this.cards.indexOf(card);
             if (index != -1) {
                 this.cards.splice(index, 1);
+                this.updateCardLocations();
                 return card;
             }
             else {
@@ -98,11 +99,15 @@ var Wordily;
             if (animateDelay === void 0) { animateDelay = 0; }
             if (flipOnAnimationComplete === void 0) { flipOnAnimationComplete = false; }
             if (fAnimateIn) {
+                if (card.isAnimating) {
+                    console.debug("double animation on " + this.name);
+                }
                 card.isAnimating = true;
             }
+            card.prevStack = card.curStack;
+            card.curStack = this;
             if (index) {
-                this.cards.push(card);
-                //this.addAt(card, index);
+                this.addAt(card, index);
                 this.updateCardLocations(index, fAnimateIn);
             }
             else {
@@ -112,14 +117,13 @@ var Wordily;
             }
             if (fAnimateIn) {
                 if (Wordily.Game.isDebug) {
-                    console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.curStack + "(" + card.x + ", " + card.y + ")");
+                    console.debug("animating to stack " + this.name + " card " + card.name + "(" + card.animateFinalX + ", " + card.animateFinalY + ") from  stack " + card.prevStack.name + "(" + card.x + ", " + card.y + ")");
                 }
                 var animate = this.state.add.tween(card).to({ x: card.animateFinalX, y: card.animateFinalY }, animateDuration, Phaser.Easing.Linear.None, true, animateDelay);
+                animate.onComplete.addOnce(card.moveAnimationComplete, card);
                 if (flipOnAnimationComplete)
                     animate.onComplete.addOnce(card.cardFlip, card);
             }
-            card.prevStack = card.curStack;
-            card.curStack = this;
         };
         Object.defineProperty(Stack.prototype, "word", {
             get: function () {
@@ -216,7 +220,7 @@ var Wordily;
             if (startIndex === void 0) { startIndex = 0; }
             if (fAnimate === void 0) { fAnimate = false; }
             if (Wordily.Game.isDebug) {
-                console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
+                //console.debug("Updating Card locations for: " + this.name + " starting at location: " + startIndex + " total Cards: " + this.cards.length);
             }
             for (var index = startIndex; index < this.length; index++) {
                 var x = void 0;

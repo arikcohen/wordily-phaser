@@ -106,7 +106,7 @@ var Wordily;
         Game.ScaleFactor = 0.72;
         Game.BaseCardWidth = 187;
         Game.BaseCardHeight = 225;
-        Game.isDebug = false;
+        Game.isDebug = true;
         Game._validWords = [];
         return Game;
     }(Phaser.Game));

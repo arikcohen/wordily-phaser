@@ -15,7 +15,7 @@
         static BaseCardWidth: number = 187;
         static BaseCardHeight: number = 225;
 
-        static isDebug = false;
+        static isDebug = true;
 
         static get AnonymousUser(): string
         {

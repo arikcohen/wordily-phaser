@@ -124,8 +124,9 @@ module Wordily {
             }
             for (let s: number = 0; s < this.numStacks; s++) {
                 let c: Card = this.deckRemaining.removeTopCard();                
-                c.isSelectable = true;
-                this.stacks[s].addCard(c, null, true, 300, 300*s, true);
+                c.isSelectable = true;                
+                this.stacks[s].addCard(c, null, true, 300, 300 * s + 200, true);
+                
             }
 
             
@@ -172,22 +173,24 @@ module Wordily {
                 return;
 
             if (this.deckRemaining.length >= this.numStacks) {
-                this.clearCurrentWord();
+                let delay: number = 0;
+                if (this.currentWord.length > 0) {
+                    //delay = 600;
+                    console.debug("got here ");
+                    this.clearCurrentWord();
+                }
 
                 for (let s: number = 0; s < this.numStacks; s++) {      
-                    if (this.stacks[s].length > 0) {
-                        this.stacks[s].disableTopCard(false);
+                    if (this.stacks[s].length > 0) {                       
+                        this.stacks[s].disableTopCard(false);                        
                         this.stacks[s].topCard.cardFlip();
                     }
                     let c: Card = this.deckRemaining.removeTopCard();
-                    this.stacks[s].addCard(c, null, true, 300, 400, true);                    
+                    this.stacks[s].addCard(c, null, true, 300, delay + 400, true);                    
                     
                     this.stacks[s].enableTopCard(false);
                 }
-            }
-            else {
-                this.endGame();
-            }
+            }            
             
         }
 
@@ -302,12 +305,12 @@ module Wordily {
 
                 let wordsPlayed: string = "";
                 let wordsFailed: string = "";
-                this.wordsPlayed.forEach(w => { if (w.validWord) { wordsPlayed += w.word + "  " } else { wordsFailed += w.word + "  " } } );
+                this.wordsPlayed.forEach(w => { if (w.validWord) { wordsPlayed += w.word + "  " } else { wordsFailed += w.word + "  " } });
 
 
-                this.wordsPlayed.sort((a:WordScore, b:WordScore):number => {
+                this.wordsPlayed.sort((a: WordScore, b: WordScore): number => {
                     if (a.totalScore < b.totalScore) return 1;
-                    if (a.totalScore > b.totalScore) return -1;                  
+                    if (a.totalScore > b.totalScore) return -1;
                     return 0;
                 });
 
@@ -318,28 +321,28 @@ module Wordily {
 
                 let gameOverBackground: Phaser.TileSprite = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'background');
                 gameOverBackground.alpha = .9;
-                                
 
-                let text = this.add.text(this.world.centerX, this.playingArea.top, "Game Over", { font: "48px cutive", fill: "white", align: "center" })                
+
+                let text = this.add.text(this.world.centerX, this.playingArea.top, "Game Over", { font: "48px cutive", fill: "white", align: "center" })
                 text.anchor.setTo(0.5, 0.5);
 
-                let text1 = this.add.text(this.world.centerX-20, text.bottom + 25, "Score", { font: "40px cutive", fill: "yellow", align: "center" })                
+                let text1 = this.add.text(this.world.centerX - 20, text.bottom + 25, "Score", { font: "40px cutive", fill: "yellow", align: "center" })
                 text1.anchor.setTo(1, 0);
 
-                let text2 = this.add.text(this.world.centerX + 20, text1.top, this.score.toString() , { font: "40px cutive", fill: "white", align: "left" })
+                let text2 = this.add.text(this.world.centerX + 20, text1.top, this.score.toString(), { font: "40px cutive", fill: "white", align: "left" })
                 text2.anchor.setTo(0, 0);
 
                 let text3 = this.add.text(this.world.centerX - 20, text1.bottom + 5, "Best Word", { font: "32px cutive", fill: "yellow", align: "center" })
                 text3.anchor.setTo(1, 0);
-                        
-                let text4 = this.add.text(this.world.centerX + 20, text1.bottom + 5, this.wordsPlayed[0].word +  " (" + this.wordsPlayed[0].totalScore + ")" , { font: "32px cutive", fill: "white", align: "center" })
+
+                let text4 = this.add.text(this.world.centerX + 20, text1.bottom + 5, this.wordsPlayed[0].word + " (" + this.wordsPlayed[0].totalScore + ")", { font: "32px cutive", fill: "white", align: "center" })
                 text4.anchor.setTo(0, 0);
 
                 let text5 = this.add.text(this.world.centerX - 20, text3.bottom + 5, "Words Played", { font: "32px cutive", fill: "yellow", align: "center" })
                 text5.anchor.setTo(1, 0);
 
 
-                let text6 = this.add.text(this.world.centerX + 20, text3.bottom + 5, wordsPlayed, { font: "32px cutive", fill: "white", align: "left", wordWrap: true, maxLines:4 })                
+                let text6 = this.add.text(this.world.centerX + 20, text3.bottom + 5, wordsPlayed, { font: "32px cutive", fill: "white", align: "left", wordWrap: true, maxLines: 4 })
                 text6.wordWrapWidth = this.world.width / 2 - 40;
                 text6.anchor.setTo(0, 0);
 
@@ -349,12 +352,12 @@ module Wordily {
 
                     let text8 = this.add.text(this.world.centerX + 20, text6.bottom + 5, wordsFailed, { font: "32px cutive", fill: "red", align: "left" })
                     text8.wordWrap = true;
-                    
+
                     text8.wordWrapWidth = this.world.width / 2 - 40;
                     text8.anchor.setTo(0, 0);
                 }
 
-                let playAgain = this.add.sprite(this.world.centerX - 290, this.world.height - 120, 'playAgain');                
+                let playAgain = this.add.sprite(this.world.centerX - 290, this.world.height - 120, 'playAgain');
                 playAgain.inputEnabled = true;
                 playAgain.events.onInputDown.add(this.playAgainClicked, this);
 
@@ -362,7 +365,10 @@ module Wordily {
                 let mainMenu = this.add.sprite(this.world.centerX + 40, this.world.height - 120, 'mainMenu');
                 mainMenu.inputEnabled = true;
                 mainMenu.events.onInputDown.add(this.exitToMainMenu, this);
-            }            
+            }
+            else {
+                this.exitToMainMenu();
+            }
         }
 
 

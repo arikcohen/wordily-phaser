@@ -154,7 +154,8 @@
 
         private _isFlipping: boolean = false;
 
-        cardFlip(delay:number=0) {
+        cardFlip(delay: number = 0) {
+            
             if (!this._isFlipping) {
 
                 let w = this.width;
@@ -195,29 +196,43 @@
 
 
                 this._isFlipping = true;
-                this.flipTween.delay(delay/2);
+                this.flipTween.delay(delay / 2);
                 this.flipTweenPos.delay(delay / 2);
                 this.flipBackTween.delay(0);
                 this.flipBackTweenPos.delay(0);
                 this.flipTween.start();
                 this.flipTweenPos.start();
+
+                
+                //console.log("card flip start " + this.id + " " + this.name);
+                
+                
+            }
+            else {
+                if (this.isAnimating)
+                    console.log("card flip in progress while animating " + this.name);
             }
             
         }
 
         onFlipComplete() {
             this._isFlipping = false;            
-
+            //console.log("card flip end   " + this.id + " " + this.name);
         }
 
         onFlipHalfComplete() {
-            
+            //console.log("card flip half " + this.id + " " + this.name);            
             this.isFaceUp = !this.isFaceUp;
             this.flipBackTween.start();
             this.flipBackTweenPos.start();                            
         }
 
-        
+        moveAnimationComplete() {
+            this.isAnimating = false;           
+            this.x = this.animateFinalX;
+            this.y = this.animateFinalY;
+            //console.log("animation end " + this.id + " " + this.name);
+        }
 
 
         toString() {
