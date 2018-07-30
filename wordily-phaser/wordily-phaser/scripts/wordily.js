@@ -13,17 +13,25 @@ var Wordily;
     }());
     Wordily.Guid = Guid;
     window.onload = function () {
-        try {
+        if (typeof FBInstant != 'undefined') {
+            console.debug("starting fb instant game");
             FBInstant.initializeAsync().then(function () {
+                console.debug("starting fb instant game - setting loading progress");
                 FBInstant.setLoadingProgress(100);
+                console.debug("starting fb instant game - starting game");
                 FBInstant.startGameAsync().then(function () {
                     Wordily.Game.isFacebookInstantGame = true;
+                    var contextId = FBInstant.context.getID();
+                    var contextType = FBInstant.context.getType();
+                    var playerName = FBInstant.player.getName();
+                    var playerPic = FBInstant.player.getPhoto();
+                    var playerId = FBInstant.player.getID();
+                    console.log(playerName);
                     var activeGame = new Wordily.Game();
-                    console.debug(window.location.hostname);
                 });
             });
         }
-        catch (ex) {
+        else {
             console.debug("Not running as Facebook Instant Game");
             Wordily.Game.isFacebookInstantGame = false;
             var activeGame = new Wordily.Game();

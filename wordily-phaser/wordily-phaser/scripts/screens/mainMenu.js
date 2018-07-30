@@ -62,7 +62,8 @@ var Wordily;
         };
         MainMenu.prototype.startDailySolitaire = function () {
             var d = new Date();
-            this.game.state.start('Solitaire', true, false, d.getUTCFullYear + "-" + d.getUTCDay, "Daily");
+            var id = d.getUTCFullYear().toString() + "-" + (d.getUTCMonth() + 1).toString() + "-" + d.getUTCDate().toString();
+            this.game.state.start('Solitaire', true, false, id, "Daily");
         };
         MainMenu.prototype.startMultiplayerGame = function () {
         };

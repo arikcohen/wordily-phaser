@@ -82,8 +82,8 @@
 
         startDailySolitaire() {
             let d = new Date();            
-
-            this.game.state.start('Solitaire', true, false,d.getUTCFullYear + "-" + d.getUTCDay , "Daily");
+            let id: string = d.getUTCFullYear().toString() + "-" + (d.getUTCMonth() + 1).toString() + "-" + d.getUTCDate().toString();
+            this.game.state.start('Solitaire', true, false, id, "Daily");
         }
 
         startMultiplayerGame() {
