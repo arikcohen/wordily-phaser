@@ -18,8 +18,10 @@ var Wordily;
                 FBInstant.setLoadingProgress(100);
                 FBInstant.startGameAsync().then(function () {
                     Wordily.Game.isFacebookInstantGame = true;
+                    Wordily.Game.FacebookId = FBInstant.player.getID();
+                    Wordily.Game.FacebookDisplayName = FBInstant.player.getName();
+                    Wordily.Game.FacebookPhoto = FBInstant.player.getPhoto();
                     var activeGame = new Wordily.Game();
-                    console.debug(window.location.hostname);
                 });
             });
         }

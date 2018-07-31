@@ -17,7 +17,7 @@ var Wordily;
             if (Game._instance) {
                 throw new Error("Error: Instantiation failed: Use Game.getInstance() instead of new.");
             }
-            _this = _super.call(this, 1280, 720, Phaser.AUTO, 'content') || this;
+            _this = _super.call(this, 1280, 720, Phaser.CANVAS, 'content') || this;
             _this.state.add('Boot', Wordily.Boot, false);
             _this.state.add('SplashScreen', Wordily.SplashScreen, false);
             _this.state.add('MainMenu', Wordily.MainMenu, false);

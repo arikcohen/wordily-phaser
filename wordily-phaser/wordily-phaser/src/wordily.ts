@@ -25,8 +25,11 @@ module Wordily {
                 FBInstant.setLoadingProgress(100);
                 FBInstant.startGameAsync().then(function () {
                     Game.isFacebookInstantGame = true;
+                    Game.FacebookId = FBInstant.player.getID();
+                    Game.FacebookDisplayName = FBInstant.player.getName();
+                    Game.FacebookPhoto = FBInstant.player.getPhoto();
                     var activeGame = new Game();
-                    console.debug(window.location.hostname);
+                    
                 })
             });
         }

@@ -15,6 +15,10 @@
             }          
 
             let user = Game.AnonymousUser;
+            if (Game.isFacebookInstantGame) {
+                user = Game.FacebookId;
+            }
+
 
             let loginRequest: PlayFabClientModels.LoginWithCustomIDRequest = {
                 CustomId: user,

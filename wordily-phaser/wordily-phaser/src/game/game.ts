@@ -19,6 +19,12 @@ namespace Wordily {
             return localStorage.anonymousUser;
         }
 
+        static FacebookId: string ;
+        static FacebookSignature: string;
+        static FacebookDisplayName: string;
+        static FacebookPhoto: any;
+        
+
         static get DefaultCardWidth(): number {
             return Game.BaseCardWidth * Game.ScaleFactor;
         }
@@ -37,7 +43,7 @@ namespace Wordily {
             if (Game._instance) {
                 throw new Error("Error: Instantiation failed: Use Game.getInstance() instead of new.");
             }
-            super(1280, 720, Phaser.AUTO, 'content');
+            super(1280, 720, Phaser.CANVAS, 'content');
 
             this.state.add('Boot', Boot, false);
             this.state.add('SplashScreen', SplashScreen, false);

@@ -14,7 +14,7 @@
     <AssemblyName>wordily-phaser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44347</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -98,70 +98,8 @@
     <Content Include="include\phaser.js" />
     <Content Include="include\PlayFab\PlayFab\PlayFabClientApi.js" />
     <Content Include="include\PlayFab\PlayFab\PlayFabEntityApi.js" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ContextFilter.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ErrorCodeType.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\FBContextType.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IAdInstance.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IAPIError.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IChooseAsyncOptions.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ICodedError.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IConnectedPlayer.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IContextPlayer.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IContextSizeResponse.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ICustomUpdatePayload.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IFBContext.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IFBInstant.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IFBPlayer.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ILeaderboard.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ILeaderboardEntry.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ILeaderboardPlayer.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ILeaderboardUpdatePayload.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ILocalizableContent.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ILocalizationsDict.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IPayments.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IProduct.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IPurchase.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IPurchaseConfig.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ISharePayload.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\ISignedPlayerInfo.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\IUpdatePayload.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\Platform.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\SharePayloadIntent.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\fbInstant\UpdateAction.d.ts" />
-    <TypeScriptCompile Include="src\fb-instant-definitions\dist\index.d.ts" />
     <TypeScriptCompile Include="src\game\game.ts" />
     <TypeScriptCompile Include="src\game\wordScore.ts" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ContextFilter.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ErrorCodeType.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\FBContextType.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IAdInstance.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IAPIError.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IChooseAsyncOptions.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ICodedError.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IConnectedPlayer.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IContextPlayer.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IContextSizeResponse.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ICustomUpdatePayload.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IFBContext.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IFBInstant.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IFBPlayer.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ILeaderboard.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ILeaderboardEntry.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ILeaderboardPlayer.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ILeaderboardUpdatePayload.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ILocalizableContent.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ILocalizationsDict.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IPayments.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IProduct.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IPurchase.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IPurchaseConfig.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ISharePayload.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\ISignedPlayerInfo.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\IUpdatePayload.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\Platform.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\SharePayloadIntent.js" />
-    <Content Include="src\fb-instant-definitions\dist\fbInstant\UpdateAction.js" />
-    <Content Include="src\fb-instant-definitions\dist\index.js" />
     <Content Include="src\phaser\typescript\tslint.json" />
     <Content Include="src\phaser\typescript\typings.json" />
     <Content Include="assets\deck\deck.json" />
@@ -194,8 +132,6 @@
     <None Include="assets\validwords\X-words.json" />
     <None Include="assets\validwords\Y-words.json" />
     <None Include="assets\validwords\Z-words.json" />
-    <Content Include="src\fb-instant-definitions\package.json" />
-    <Content Include="src\fb-instant-definitions\README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -259,7 +195,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>10202</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44347/</IISUrl>
+          <IISUrl>https://localhost:44322</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
