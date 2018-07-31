@@ -1,6 +1,8 @@
 ﻿
 
 namespace Wordily {
+    declare var FBInstant: any;
+
     export class Game extends Phaser.Game {
 
         static ScaleFactor: number = 0.72;
@@ -43,6 +45,10 @@ namespace Wordily {
             if (Game._instance) {
                 throw new Error("Error: Instantiation failed: Use Game.getInstance() instead of new.");
             }
+
+            let pixelW = window.innerWidth * window.devicePixelRatio;
+            let pixelH = window.innerHeight * window.devicePixelRatio;
+
             super(1280, 720, Phaser.CANVAS, 'content');
 
             this.state.add('Boot', Boot, false);
@@ -100,6 +106,17 @@ namespace Wordily {
                 let index: number = firstLetter.charCodeAt(0) - 'a'.charCodeAt(0);
                 return (Game._validWords[index].indexOf(wordToCheck) != -1)
             }
+        }
+
+        static initializeFacebookInstantGame(): void {            
+            Game.isFacebookInstantGame = true;
+            Game.FacebookId = FBInstant.player.getID();
+            Game.FacebookDisplayName = FBInstant.player.getName();
+            Game.FacebookPhoto = FBInstant.player.getPhoto();
+            FBInstant.player.getSignedPlayerInfoAsync(Game.FacebookId).then(function (result) {
+                Game.FacebookSignature = result.getSignature();
+            });
+
         }
 
     }

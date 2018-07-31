@@ -17,6 +17,8 @@ var Wordily;
             if (Game._instance) {
                 throw new Error("Error: Instantiation failed: Use Game.getInstance() instead of new.");
             }
+            var pixelW = window.innerWidth * window.devicePixelRatio;
+            var pixelH = window.innerHeight * window.devicePixelRatio;
             _this = _super.call(this, 1280, 720, Phaser.CANVAS, 'content') || this;
             _this.state.add('Boot', Wordily.Boot, false);
             _this.state.add('SplashScreen', Wordily.SplashScreen, false);

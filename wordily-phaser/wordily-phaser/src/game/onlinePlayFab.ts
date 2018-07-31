@@ -29,12 +29,40 @@
             PlayFabClientSDK.LoginWithCustomID(loginRequest, Online.loginCallback);
         }
 
+        private static logPlayerEvent(eventName: string, data: object) {
+            if (Online.isLoggedIn) {
+                let playerEventRequest: PlayFabClientModels.WriteClientPlayerEventRequest = {
+                    EventName: eventName,
+                    Body: data
+                }
+                PlayFabClientSDK.WritePlayerEvent(playerEventRequest, Online.playerEventResponse);
+            }            
+        }
+
         private static loginCallback(result: PlayFabModule.SuccessContainer<PlayFabClientModels.LoginResult>, error: PlayFabModule.IPlayFabError): void {
             if (result !== null) {
-                Online.updatePlayerInfo(result.data.InfoResultPayload);
+                Online.updatePlayerInfo(result.data.InfoResultPayload);                
+                if (Game.isFacebookInstantGame) {
+                    Online.logPlayerEvent("facebook_user_data", {
+                        facebook_id: Game.FacebookId,
+                        facebook_display_name: Game.FacebookDisplayName,
+                        facebook_signature: Game.FacebookSignature
+                    });
+                }
             }
             else {
                 console.error("Error logging into PlayFab: " + error.errorCode + ":" + error.errorMessage);
+            }
+        }
+
+        private static playerEventResponse(result: PlayFabModule.SuccessContainer<PlayFabClientModels.WriteEventResponse>, error: PlayFabModule.IPlayFabError): void {
+            if (result !== null) {
+                if (Game.isDebug) {
+                    console.debug("Successfully sent event " + result.request);
+                }
+            }
+            else {
+                console.error("Error logging event:" + + error.errorCode + ":" + error.errorMessage);
             }
         }
 

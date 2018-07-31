@@ -35,7 +35,7 @@ var Wordily;
             this.cardI = new Wordily.Card(-1, "I", true, 0, constSeperation * 4, 0, this.cardTitleGroup, this);
             this.cardLY = new Wordily.Card(-1, "LY", true, 0, constSeperation * 5, 0, this.cardTitleGroup, this);
             this.cardTitleGroup.x = this.world.centerX - this.cardTitleGroup.width / 2;
-            this.cardTitleGroup.y = 80;
+            this.cardTitleGroup.y = 20;
             var buttonGroup = this.add.group();
             this.solitaire = this.add.sprite(0, 0, "start_solitaire", null, buttonGroup);
             this.solitaire.inputEnabled = true;
@@ -53,7 +53,7 @@ var Wordily;
             this.topSolitaireScore.anchor.setTo(0.5, 1);
             buttonGroup.add(this.topSolitaireScore);
             buttonGroup.x = this.world.centerX - buttonGroup.width / 2;
-            buttonGroup.y = this.world.centerY;
+            buttonGroup.y = this.cardTitleGroup.bottom + 40;
             if (Wordily.Game.isFacebookInstantGame) {
                 this.profilePicture = this.add.image(10, 10, 'facebook_user_photo');
                 this.profilePicture.width = 100;

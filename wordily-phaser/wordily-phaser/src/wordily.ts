@@ -13,27 +13,24 @@ module Wordily {
     }
 
 
-
-
-    
+       
     declare var FBInstant: any;
 
     window.onload = () => {
-        try {
-
+        if (typeof FBInstant != 'undefined') {
+            console.debug("starting fb instant game");
             FBInstant.initializeAsync().then(function () {
                 FBInstant.setLoadingProgress(100);
                 FBInstant.startGameAsync().then(function () {
-                    Game.isFacebookInstantGame = true;
-                    Game.FacebookId = FBInstant.player.getID();
-                    Game.FacebookDisplayName = FBInstant.player.getName();
-                    Game.FacebookPhoto = FBInstant.player.getPhoto();
+
+                    Game.initializeFacebookInstantGame();
+                    
                     var activeGame = new Game();
                     
                 })
             });
         }
-        catch (ex) {
+        else {
             console.debug("Not running as Facebook Instant Game");
             Game.isFacebookInstantGame = false;
             var activeGame = new Game();            

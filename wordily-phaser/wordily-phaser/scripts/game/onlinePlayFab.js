@@ -26,12 +26,38 @@ var Wordily;
             };
             PlayFabClientSDK.LoginWithCustomID(loginRequest, Online.loginCallback);
         };
+        Online.logPlayerEvent = function (eventName, data) {
+            if (Online.isLoggedIn) {
+                var playerEventRequest = {
+                    EventName: eventName,
+                    Body: data
+                };
+                PlayFabClientSDK.WritePlayerEvent(playerEventRequest, Online.playerEventResponse);
+            }
+        };
         Online.loginCallback = function (result, error) {
             if (result !== null) {
                 Online.updatePlayerInfo(result.data.InfoResultPayload);
+                if (Wordily.Game.isFacebookInstantGame) {
+                    Online.logPlayerEvent("facebook_user_data", {
+                        facebook_id: Wordily.Game.FacebookId,
+                        facebook_display_name: Wordily.Game.FacebookDisplayName,
+                        facebook_signature: Wordily.Game.FacebookSignature
+                    });
+                }
             }
             else {
                 console.error("Error logging into PlayFab: " + error.errorCode + ":" + error.errorMessage);
+            }
+        };
+        Online.playerEventResponse = function (result, error) {
+            if (result !== null) {
+                if (Wordily.Game.isDebug) {
+                    console.debug("Successfully sent event " + result.request);
+                }
+            }
+            else {
+                console.error("Error logging event:" + +error.errorCode + ":" + error.errorMessage);
             }
         };
         Online.submitSolitaireGameResult = function (gameId, score, bestWord, bestWordScore) {
