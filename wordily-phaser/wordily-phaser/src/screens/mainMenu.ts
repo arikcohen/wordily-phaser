@@ -15,6 +15,8 @@
         dailySolitaire: Phaser.Sprite;
         multiplayer: Phaser.Sprite;
 
+        profilePicture: Phaser.Image;
+
         topSolitaireScore: Phaser.Text;
 
         preload() {
@@ -22,6 +24,8 @@
             this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
             this.load.image('start_daily', 'assets/mainmenu/daily.png');
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
+            if (Game.isFacebookInstantGame)
+                this.load.image('facebook_user_photo', Game.FacebookPhoto);
         }
 
         create() {
@@ -69,6 +73,15 @@
             buttonGroup.x = this.world.centerX - buttonGroup.width / 2;
             buttonGroup.y = this.world.centerY;
 
+            if (Game.isFacebookInstantGame) {
+                this.profilePicture = this.add.image(10, 10, 'facebook_user_photo');
+                this.profilePicture.width = 100;
+                this.profilePicture.height = 100;
+                
+                let profileName = this.add.text(this.profilePicture.centerX, this.profilePicture.bottom + 5, Game.FacebookDisplayName + "\n"+ Game.FacebookId, { font: "12px cutive", align: "center", fill: "white" });
+                profileName.anchor.setTo(0.5, 0);
+
+            }
 
         }
         

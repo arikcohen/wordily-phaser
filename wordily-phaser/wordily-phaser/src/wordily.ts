@@ -19,36 +19,24 @@ module Wordily {
     declare var FBInstant: any;
 
     window.onload = () => {
-        
-        if (typeof FBInstant != 'undefined') {
-            console.debug("starting fb instant game");
+        try {
+
             FBInstant.initializeAsync().then(function () {
-                console.debug("starting fb instant game - setting loading progress");
                 FBInstant.setLoadingProgress(100);
-                console.debug("starting fb instant game - starting game");
                 FBInstant.startGameAsync().then(function () {
                     Game.isFacebookInstantGame = true;
-
-                    var contextId = FBInstant.context.getID();
-                    var contextType = FBInstant.context.getType();
-
-                    var playerName = FBInstant.player.getName();
-                    var playerPic = FBInstant.player.getPhoto();
-                    var playerId = FBInstant.player.getID();
-
-                    console.log(playerName);
-
+                    Game.FacebookId = FBInstant.player.getID();
+                    Game.FacebookDisplayName = FBInstant.player.getName();
+                    Game.FacebookPhoto = FBInstant.player.getPhoto();
                     var activeGame = new Game();
                     
                 })
             });
         }
-        else {
-
+        catch (ex) {
             console.debug("Not running as Facebook Instant Game");
             Game.isFacebookInstantGame = false;
-            var activeGame = new Game();
+            var activeGame = new Game();            
         }
-        
     };
 }

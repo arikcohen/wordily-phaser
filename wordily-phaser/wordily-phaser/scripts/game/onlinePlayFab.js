@@ -16,6 +16,9 @@ var Wordily;
                 return;
             }
             var user = Wordily.Game.AnonymousUser;
+            if (Wordily.Game.isFacebookInstantGame) {
+                user = Wordily.Game.FacebookId;
+            }
             var loginRequest = {
                 CustomId: user,
                 CreateAccount: true,
