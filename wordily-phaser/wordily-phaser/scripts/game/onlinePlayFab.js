@@ -35,15 +35,36 @@ var Wordily;
                 PlayFabClientSDK.WritePlayerEvent(playerEventRequest, Online.playerEventResponse);
             }
         };
+        Online.UpdateDisplayNameAndAvatar = function (displayName, avatarURL) {
+            if (displayName) {
+                var displayRequest = {
+                    DisplayName: displayName
+                };
+                PlayFabClientSDK.UpdateUserTitleDisplayName(displayRequest, null);
+            }
+            if (avatarURL) {
+                var avatarRequest = {
+                    ImageUrl: avatarURL
+                };
+                PlayFabClientSDK.UpdateAvatarUrl(avatarRequest, null);
+            }
+        };
         Online.loginCallback = function (result, error) {
             if (result !== null) {
                 Online.updatePlayerInfo(result.data.InfoResultPayload);
-                if (Wordily.Game.isFacebookInstantGame) {
-                    Online.logPlayerEvent("facebook_user_data", {
-                        facebook_id: Wordily.Game.FacebookId,
-                        facebook_display_name: Wordily.Game.FacebookDisplayName,
-                        facebook_signature: Wordily.Game.FacebookSignature
-                    });
+                if (result.data.NewlyCreated) {
+                    if (Wordily.Game.isFacebookInstantGame) {
+                        Online.logPlayerEvent("facebook_new_user_data", {
+                            facebook_id: Wordily.Game.FacebookId,
+                            facebook_display_name: Wordily.Game.FacebookDisplayName,
+                            facebook_signature: Wordily.Game.FacebookSignature,
+                            facebook_photo: Wordily.Game.FacebookPhoto
+                        });
+                        Online.UpdateDisplayNameAndAvatar(Wordily.Game.FacebookDisplayName, Wordily.Game.FacebookPhoto);
+                    }
+                    else {
+                        Online.UpdateDisplayNameAndAvatar(null, "https://api.adorable.io/avatars/200/" + result.data.PlayFabId);
+                    }
                 }
             }
             else {

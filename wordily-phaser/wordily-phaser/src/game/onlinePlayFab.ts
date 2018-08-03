@@ -39,16 +39,42 @@
             }            
         }
 
+        private static UpdateDisplayNameAndAvatar(displayName?: string, avatarURL?: string) {
+
+            if (displayName) {
+                let displayRequest: PlayFabClientModels.UpdateUserTitleDisplayNameRequest = {
+                    DisplayName: displayName
+                };
+                PlayFabClientSDK.UpdateUserTitleDisplayName(displayRequest, null);
+            }
+
+            if (avatarURL) {
+                let avatarRequest: PlayFabClientModels.UpdateAvatarUrlRequest = {
+                    ImageUrl: avatarURL
+                };
+                PlayFabClientSDK.UpdateAvatarUrl(avatarRequest, null);
+            }
+
+        }
+
         private static loginCallback(result: PlayFabModule.SuccessContainer<PlayFabClientModels.LoginResult>, error: PlayFabModule.IPlayFabError): void {
             if (result !== null) {
                 Online.updatePlayerInfo(result.data.InfoResultPayload);                
-                if (Game.isFacebookInstantGame) {
-                    Online.logPlayerEvent("facebook_user_data", {
-                        facebook_id: Game.FacebookId,
-                        facebook_display_name: Game.FacebookDisplayName,
-                        facebook_signature: Game.FacebookSignature
-                    });
+                if (result.data.NewlyCreated) {
+                    if (Game.isFacebookInstantGame) {
+                        Online.logPlayerEvent("facebook_new_user_data", {
+                            facebook_id: Game.FacebookId,
+                            facebook_display_name: Game.FacebookDisplayName,
+                            facebook_signature: Game.FacebookSignature,
+                            facebook_photo: Game.FacebookPhoto
+                        });
+                        Online.UpdateDisplayNameAndAvatar(Game.FacebookDisplayName, Game.FacebookPhoto);
+                    }
+                    else {
+                        Online.UpdateDisplayNameAndAvatar(null, "https://api.adorable.io/avatars/200/" + result.data.PlayFabId);
+                    }
                 }
+
             }
             else {
                 console.error("Error logging into PlayFab: " + error.errorCode + ":" + error.errorMessage);

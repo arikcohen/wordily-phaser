@@ -24,7 +24,7 @@ namespace Wordily {
         static FacebookId: string ;
         static FacebookSignature: string;
         static FacebookDisplayName: string;
-        static FacebookPhoto: any;
+        static FacebookPhoto: string;
         
 
         static get DefaultCardWidth(): number {
@@ -49,7 +49,7 @@ namespace Wordily {
             let pixelW = window.innerWidth * window.devicePixelRatio;
             let pixelH = window.innerHeight * window.devicePixelRatio;
 
-            super(1280, 720, Phaser.CANVAS, 'content');
+            super(pixelW, pixelH, Phaser.CANVAS, 'content');
 
             this.state.add('Boot', Boot, false);
             this.state.add('SplashScreen', SplashScreen, false);
@@ -113,6 +113,7 @@ namespace Wordily {
             Game.FacebookId = FBInstant.player.getID();
             Game.FacebookDisplayName = FBInstant.player.getName();
             Game.FacebookPhoto = FBInstant.player.getPhoto();
+            console.debug("photo: " + Game.FacebookPhoto);
             FBInstant.player.getSignedPlayerInfoAsync(Game.FacebookId).then(function (result) {
                 Game.FacebookSignature = result.getSignature();
             });

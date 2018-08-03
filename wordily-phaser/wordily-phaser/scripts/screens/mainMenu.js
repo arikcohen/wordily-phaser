@@ -58,7 +58,8 @@ var Wordily;
                 this.profilePicture = this.add.image(10, 10, 'facebook_user_photo');
                 this.profilePicture.width = 100;
                 this.profilePicture.height = 100;
-                var profileName = this.add.text(this.profilePicture.centerX, this.profilePicture.bottom + 5, Wordily.Game.FacebookDisplayName + "\n" + Wordily.Game.FacebookId, { font: "12px cutive", align: "center", fill: "white" });
+                var profileName = this.add.text(this.profilePicture.centerX, this.profilePicture.bottom + 5, Wordily.Game.FacebookPhoto + "\n" + Wordily.Game.FacebookId, { font: "12px cutive", align: "center", fill: "white" });
+                console.log("photo:" + Wordily.Game.FacebookPhoto);
                 profileName.anchor.setTo(0.5, 0);
             }
         };

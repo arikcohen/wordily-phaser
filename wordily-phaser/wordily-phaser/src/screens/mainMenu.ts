@@ -78,7 +78,8 @@
                 this.profilePicture.width = 100;
                 this.profilePicture.height = 100;
                 
-                let profileName = this.add.text(this.profilePicture.centerX, this.profilePicture.bottom + 5, Game.FacebookDisplayName + "\n"+ Game.FacebookId, { font: "12px cutive", align: "center", fill: "white" });
+                let profileName = this.add.text(this.profilePicture.centerX, this.profilePicture.bottom + 5, Game.FacebookPhoto + "\n"+ Game.FacebookId, { font: "12px cutive", align: "center", fill: "white" });
+                console.log("photo:" + Game.FacebookPhoto);
                 profileName.anchor.setTo(0.5, 0);
 
             }
