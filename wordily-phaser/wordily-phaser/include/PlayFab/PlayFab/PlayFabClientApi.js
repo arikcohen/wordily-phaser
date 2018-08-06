@@ -540,6 +540,24 @@ PlayFab.ClientApi = {
         PlayFab._internalSettings.ExecuteRequest(PlayFab._internalSettings.GetServerUrl() + "/Client/LoginWithAndroidDeviceID", request, null, null, overloadCallback, customData, extraHeaders);
     },
 
+    LoginWithFacebookInstantGamesID: function (request, callback, customData, extraHeaders) {
+        request.TitleId = PlayFab.settings.titleId ? PlayFab.settings.titleId : request.TitleId; if (!request.TitleId) throw PlayFab._internalSettings.errorTitleId;
+        var overloadCallback = function (result, error) {
+            if (result != null) {
+                if (result.data.SessionTicket != null) {
+                    PlayFab._internalSettings.sessionTicket = result.data.SessionTicket;
+                }
+                if (result.data.EntityToken != null) {
+                    PlayFab._internalSettings.entityToken = result.data.EntityToken.EntityToken;
+                }
+                PlayFab.ClientApi._MultiStepClientLogin(result.data.SettingsForUser.NeedsAttribution);
+            }
+            if (callback != null && typeof (callback) == "function")
+                callback(result, error);
+        };
+        PlayFab._internalSettings.ExecuteRequest(PlayFab._internalSettings.GetServerUrl() + "/Client/LoginWithFacebookInstantGamesID", request, null, null, overloadCallback, customData, extraHeaders);
+    },
+
     LoginWithCustomID: function (request, callback, customData, extraHeaders) {
         request.TitleId = PlayFab.settings.titleId ? PlayFab.settings.titleId : request.TitleId; if (!request.TitleId) throw PlayFab._internalSettings.errorTitleId;
         var overloadCallback = function (result, error) {

@@ -29,7 +29,29 @@
             let loginRequest: PlayFabClientModels.LoginWithCustomIDRequest = {
                 CustomId: user,
                 CreateAccount: true,
-                InfoRequestParameters: { GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false,  GetTitleData: true, GetUserAccountInfo: false,  GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false }
+                InfoRequestParameters: {
+                    GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
+                    //ProfileConstraints: {
+                    //    ShowDisplayName: true,
+                    //    ShowAvatarUrl: true,
+                    //    ShowCreated: false,
+                    //    ShowOrigination: false,
+                    //    ShowLastLogin: false,
+                    //    ShowBannedUntil: false,
+                    //    ShowStatistics: false,
+                    //    ShowCampaignAttributions: false,
+                    //    ShowPushNotificationRegistrations: false,
+                    //    ShowLinkedAccounts: false,
+                    //    ShowContactEmailAddresses: false,
+                    //    ShowTotalValueToDateInUsd: false,
+                    //    ShowValuesToDate: false,
+                    //    ShowVirtualCurrencyBalances: false,
+                    //    ShowTags: false,
+                    //    ShowLocations: false,                        
+                    //    ShowMemberships: false
+                    //}                                    
+                }
+
             };
 
             PlayFabClientSDK.LoginWithCustomID(loginRequest, Online.loginCallback);
@@ -121,8 +143,7 @@
                 //refresh player stats
                 let getPlayerRequest: PlayFabClientModels.GetPlayerCombinedInfoRequest = {
                     InfoRequestParameters: {
-                        GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,                        
-                        ProfileConstraints: 4                                                 
+                        GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false                                                                                                 
                     }                    
                 };
 
@@ -140,7 +161,7 @@
                 if (info.PlayerProfile && true) {
                     //Online.CurrentPlayer.haveProfileData = true;
                     //Online.CurrentPlayer.DisplayName = info.PlayerProfile.DisplayName;
-                    //console.log('made it');
+                    console.log('Player profile:   DisplayName:' + info.PlayerProfile.DisplayName + " AvatarUrl " + info.PlayerProfile.AvatarUrl);
                     //Online.CurrentPlayer.AvatarURL = info.PlayerProfile.AvatarUrl;
                 }
 

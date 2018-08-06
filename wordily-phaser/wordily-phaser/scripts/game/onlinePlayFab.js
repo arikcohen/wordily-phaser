@@ -22,7 +22,9 @@ var Wordily;
             var loginRequest = {
                 CustomId: user,
                 CreateAccount: true,
-                InfoRequestParameters: { GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false }
+                InfoRequestParameters: {
+                    GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
+                }
             };
             PlayFabClientSDK.LoginWithCustomID(loginRequest, Online.loginCallback);
         };
@@ -100,8 +102,7 @@ var Wordily;
                 //refresh player stats
                 var getPlayerRequest = {
                     InfoRequestParameters: {
-                        GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
-                        ProfileConstraints: 4
+                        GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false
                     }
                 };
                 PlayFabClientSDK.GetPlayerCombinedInfo(getPlayerRequest, Online.getPlayerCombinedInfoCallback);
@@ -115,7 +116,7 @@ var Wordily;
                 if (info.PlayerProfile && true) {
                     //Online.CurrentPlayer.haveProfileData = true;
                     //Online.CurrentPlayer.DisplayName = info.PlayerProfile.DisplayName;
-                    //console.log('made it');
+                    console.log('Player profile:   DisplayName:' + info.PlayerProfile.DisplayName + " AvatarUrl " + info.PlayerProfile.AvatarUrl);
                     //Online.CurrentPlayer.AvatarURL = info.PlayerProfile.AvatarUrl;
                 }
                 if (info.PlayerStatistics) {
