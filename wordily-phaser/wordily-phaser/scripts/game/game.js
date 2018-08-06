@@ -17,13 +17,14 @@ var Wordily;
             if (Game._instance) {
                 throw new Error("Error: Instantiation failed: Use Game.getInstance() instead of new.");
             }
-            _this = _super.call(this, 1280, 720, Phaser.CANVAS, 'content') || this;
+            var pixelW = window.innerWidth * window.devicePixelRatio;
+            var pixelH = window.innerHeight * window.devicePixelRatio;
+            _this = _super.call(this, pixelW, pixelH, Phaser.CANVAS, 'content') || this;
             _this.state.add('Boot', Wordily.Boot, false);
             _this.state.add('SplashScreen', Wordily.SplashScreen, false);
             _this.state.add('MainMenu', Wordily.MainMenu, false);
+            _this.state.add('Multiplayer', Wordily.MultiplayerScreen, false);
             _this.state.add('Solitaire', Wordily.SolitaireGame, false);
-            _this.state.add('MultiplayerLobby', Wordily.MultiplayerLobby, false);
-            _this.state.add('MultiplayerGame', Wordily.MultiplayerGame, false);
             _this.state.start('Boot');
             PlayFab.settings.titleId = "9CB1";
             Game._instance = _this;
@@ -96,9 +97,15 @@ var Wordily;
             Game.FacebookId = FBInstant.player.getID();
             Game.FacebookDisplayName = FBInstant.player.getName();
             Game.FacebookPhoto = FBInstant.player.getPhoto();
+            Game.FacebookContextId = FBInstant.context.getID();
+            Game.FacebookContextType = FBInstant.context.getType();
             FBInstant.player.getSignedPlayerInfoAsync(Game.FacebookId).then(function (result) {
                 Game.FacebookSignature = result.getSignature();
             });
+            //Online.CurrentPlayer.haveProfileData = true;
+            //Online.CurrentPlayer.AvatarURL = Game.FacebookPhoto;
+            //Online.CurrentPlayer.DisplayName = Game.FacebookDisplayName;            
+            console.debug('here end');
         };
         Game.ScaleFactor = 0.72;
         Game.BaseCardWidth = 187;

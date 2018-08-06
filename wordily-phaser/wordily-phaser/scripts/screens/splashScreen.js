@@ -36,9 +36,9 @@ var Wordily;
             }
         };
         SplashScreen.prototype.create = function () {
-            var showSplash = true;
-            var delay = 350;
-            var duration = 500;
+            var showSplash = false;
+            var delay = 250;
+            var duration = 400;
             if (showSplash) {
                 var constSeperation = Wordily.Game.DefaultCardWidth + 10;
                 var tweenW = this.add.tween(this.cardW).to({ x: 0, y: 0 }, duration, Phaser.Easing.Linear.None, true);
@@ -57,6 +57,7 @@ var Wordily;
             else {
                 this.startMainMenu();
             }
+            Wordily.Online.login();
         };
         SplashScreen.prototype.shutdown = function () {
             this.cardTitleGroup.destroy(true);

@@ -18,6 +18,7 @@ var Wordily;
             FBInstant.initializeAsync().then(function () {
                 FBInstant.setLoadingProgress(100);
                 FBInstant.startGameAsync().then(function () {
+                    console.debug('test');
                     Wordily.Game.initializeFacebookInstantGame();
                     var activeGame = new Wordily.Game();
                 });

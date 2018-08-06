@@ -20,8 +20,9 @@ var Wordily;
             this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
             this.load.image('start_daily', 'assets/mainmenu/daily.png');
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
-            if (Wordily.Game.isFacebookInstantGame)
-                this.load.image('facebook_user_photo', Wordily.Game.FacebookPhoto);
+            if (Wordily.Game.isFacebookInstantGame) {
+                this.load.image('user_avatar', Wordily.Game.FacebookPhoto);
+            }
         };
         MainMenu.prototype.create = function () {
             Wordily.Online.login();
@@ -44,8 +45,7 @@ var Wordily;
             this.dailySolitaire.inputEnabled = true;
             this.dailySolitaire.events.onInputDown.add(this.startDailySolitaire, this);
             this.multiplayer = this.add.sprite(this.dailySolitaire.right + 35, 0, "start_multiplayer", null, buttonGroup);
-            this.multiplayer.alpha = 0.25;
-            this.multiplayer.inputEnabled = false;
+            this.multiplayer.inputEnabled = true;
             this.multiplayer.events.onInputDown.add(this.startMultiplayerGame, this);
             this.topSolitaireScore = this.add.text(this.solitaire.centerX, this.solitaire.bottom - 20, "", { font: "18px cutive", align: "center", fill: "white" });
             this.topSolitaireScore.setShadow(2, 2, "black");
@@ -55,12 +55,12 @@ var Wordily;
             buttonGroup.x = this.world.centerX - buttonGroup.width / 2;
             buttonGroup.y = this.cardTitleGroup.bottom + 40;
             if (Wordily.Game.isFacebookInstantGame) {
-                this.profilePicture = this.add.image(10, 10, 'facebook_user_photo');
+                var profileName = this.add.text(this.world.centerX, buttonGroup.bottom + 10, "Welcome\n" + Wordily.Game.FacebookDisplayName, { font: "18px cutive", align: "center", fill: "white" });
+                profileName.anchor.setTo(0.5, 0);
+                this.profilePicture = this.add.image(this.world.centerX, profileName.bottom + 10, 'user_avatar');
                 this.profilePicture.width = 100;
                 this.profilePicture.height = 100;
-                var profileName = this.add.text(this.profilePicture.centerX, this.profilePicture.bottom + 5, Wordily.Game.FacebookPhoto + "\n" + Wordily.Game.FacebookId, { font: "12px cutive", align: "center", fill: "white" });
-                console.log("photo:" + Wordily.Game.FacebookPhoto);
-                profileName.anchor.setTo(0.5, 0);
+                this.profilePicture.anchor.setTo(0.5, 0);
             }
         };
         MainMenu.prototype.flipCard = function (c, delay) {
@@ -76,6 +76,17 @@ var Wordily;
             this.game.state.start('Solitaire', true, false, id, "Daily");
         };
         MainMenu.prototype.startMultiplayerGame = function () {
+            this.game.state.start('Multiplayer');
+            //FBInstant.context.chooseAsync({                
+            //    minSize: 2,
+            //    maxSize: 6
+            //})
+            //    .then(function () {
+            //        Game.FacebookContextId = FBInstant.context.getID();
+            //        Game.FacebookContextType = FBInstant.context.getType();
+            //        console.log('starting fb multiplayer game:' + Game.FacebookContextType + ":" + Game.FacebookContextId);
+            //        Game.getInstance().state.start('Multiplayer', true, false);
+            //});
         };
         MainMenu.prototype.update = function () {
             var strSolitaireUpdate = "";

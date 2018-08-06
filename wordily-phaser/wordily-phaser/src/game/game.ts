@@ -25,6 +25,8 @@ namespace Wordily {
         static FacebookSignature: string;
         static FacebookDisplayName: string;
         static FacebookPhoto: string;
+        static FacebookContextId: string;
+        static FacebookContextType: string;
         
 
         static get DefaultCardWidth(): number {
@@ -54,9 +56,8 @@ namespace Wordily {
             this.state.add('Boot', Boot, false);
             this.state.add('SplashScreen', SplashScreen, false);
             this.state.add('MainMenu', MainMenu, false);
-            this.state.add('Solitaire', SolitaireGame, false);
-            this.state.add('MultiplayerLobby', MultiplayerLobby, false);
-            this.state.add('MultiplayerGame', MultiplayerGame, false);
+            this.state.add('Multiplayer', MultiplayerScreen, false);
+            this.state.add('Solitaire', SolitaireGame, false);                        
             this.state.start('Boot');
 
             PlayFab.settings.titleId = "9CB1";
@@ -108,16 +109,23 @@ namespace Wordily {
             }
         }
 
-        static initializeFacebookInstantGame(): void {            
+        static initializeFacebookInstantGame(): void {                                    
             Game.isFacebookInstantGame = true;
             Game.FacebookId = FBInstant.player.getID();
             Game.FacebookDisplayName = FBInstant.player.getName();
             Game.FacebookPhoto = FBInstant.player.getPhoto();
-            console.debug("photo: " + Game.FacebookPhoto);
+            Game.FacebookContextId = FBInstant.context.getID();
+            Game.FacebookContextType = FBInstant.context.getType();            
             FBInstant.player.getSignedPlayerInfoAsync(Game.FacebookId).then(function (result) {
                 Game.FacebookSignature = result.getSignature();
             });
 
+
+            //Online.CurrentPlayer.haveProfileData = true;
+            //Online.CurrentPlayer.AvatarURL = Game.FacebookPhoto;
+            //Online.CurrentPlayer.DisplayName = Game.FacebookDisplayName;            
+
+            console.debug('here end');
         }
 
     }

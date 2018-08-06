@@ -48,10 +48,10 @@
 
         create() {                                   
 
-            var showSplash: boolean = true;
+            var showSplash: boolean = false;
 
-            let delay: number = 350;
-            let duration: number = 500;
+            let delay: number = 250;
+            let duration: number = 400;
 
             if (showSplash) {
                 var constSeperation: number = Game.DefaultCardWidth + 10;
@@ -72,7 +72,7 @@
             else {
                 this.startMainMenu();
             }
-                                               
+            Online.login();       
         }
 
         shutdown() {

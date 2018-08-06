@@ -99,7 +99,10 @@ var Wordily;
             if (result !== null) {
                 //refresh player stats
                 var getPlayerRequest = {
-                    InfoRequestParameters: { GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false }
+                    InfoRequestParameters: {
+                        GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
+                        ProfileConstraints: 4
+                    }
                 };
                 PlayFabClientSDK.GetPlayerCombinedInfo(getPlayerRequest, Online.getPlayerCombinedInfoCallback);
             }
@@ -109,6 +112,12 @@ var Wordily;
         };
         Online.updatePlayerInfo = function (info) {
             if (info) {
+                if (info.PlayerProfile && true) {
+                    //Online.CurrentPlayer.haveProfileData = true;
+                    //Online.CurrentPlayer.DisplayName = info.PlayerProfile.DisplayName;
+                    //console.log('made it');
+                    //Online.CurrentPlayer.AvatarURL = info.PlayerProfile.AvatarUrl;
+                }
                 if (info.PlayerStatistics) {
                     var bestSolitaireScoreStat = info.PlayerStatistics.filter(function (sv) { return sv.StatisticName == "SolitaireGamesBestScore"; });
                     if (bestSolitaireScoreStat.length == 1) {
@@ -132,6 +141,11 @@ var Wordily;
             else {
                 console.error("Error logging into PlayFab: " + error.errorCode + ":" + error.errorMessage);
             }
+        };
+        Online.CurrentPlayer = {
+            haveProfileData: false,
+            DisplayName: "",
+            AvatarURL: ""
         };
         Online.numPlayed = 0;
         Online.bestSolitaireScore = 0;

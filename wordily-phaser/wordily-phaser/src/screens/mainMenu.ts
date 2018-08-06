@@ -1,6 +1,7 @@
 ﻿module Wordily {
-
+    declare var FBInstant: any;
     export class MainMenu extends Phaser.State {
+        
 
         background: Phaser.TileSprite;
         cardW: Card;
@@ -24,8 +25,10 @@
             this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
             this.load.image('start_daily', 'assets/mainmenu/daily.png');
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
-            if (Game.isFacebookInstantGame)
-                this.load.image('facebook_user_photo', Game.FacebookPhoto);
+            
+            if (Game.isFacebookInstantGame) {
+                this.load.image('user_avatar', Game.FacebookPhoto);                
+            }
         }
 
         create() {
@@ -58,9 +61,8 @@
             this.dailySolitaire.inputEnabled = true;
             this.dailySolitaire.events.onInputDown.add(this.startDailySolitaire, this);        
 
-            this.multiplayer = this.add.sprite(this.dailySolitaire.right + 35, 0, "start_multiplayer", null, buttonGroup);            
-            this.multiplayer.alpha = 0.25;
-            this.multiplayer.inputEnabled = false;
+            this.multiplayer = this.add.sprite(this.dailySolitaire.right + 35, 0, "start_multiplayer", null, buttonGroup);                        
+            this.multiplayer.inputEnabled = true;
             this.multiplayer.events.onInputDown.add(this.startMultiplayerGame, this);
 
 
@@ -74,14 +76,14 @@
             buttonGroup.y = this.cardTitleGroup.bottom + 40;
 
             if (Game.isFacebookInstantGame) {
-                this.profilePicture = this.add.image(10, 10, 'facebook_user_photo');
-                this.profilePicture.width = 100;
-                this.profilePicture.height = 100;
-                
-                let profileName = this.add.text(this.profilePicture.centerX, this.profilePicture.bottom + 5, Game.FacebookPhoto + "\n"+ Game.FacebookId, { font: "12px cutive", align: "center", fill: "white" });
-                console.log("photo:" + Game.FacebookPhoto);
+                let profileName = this.add.text(this.world.centerX, buttonGroup.bottom + 10, "Welcome\n" + Game.FacebookDisplayName, { font: "18px cutive", align: "center", fill: "white" });
                 profileName.anchor.setTo(0.5, 0);
 
+                this.profilePicture = this.add.image(this.world.centerX, profileName.bottom + 10, 'user_avatar');
+                this.profilePicture.width = 100;
+                this.profilePicture.height = 100;
+                this.profilePicture.anchor.setTo(0.5, 0);
+                                
             }
 
         }
@@ -101,6 +103,18 @@
         }
 
         startMultiplayerGame() {
+            this.game.state.start('Multiplayer');
+            //FBInstant.context.chooseAsync({                
+            //    minSize: 2,
+            //    maxSize: 6
+
+            //})
+            //    .then(function () {
+            //        Game.FacebookContextId = FBInstant.context.getID();
+            //        Game.FacebookContextType = FBInstant.context.getType();
+            //        console.log('starting fb multiplayer game:' + Game.FacebookContextType + ":" + Game.FacebookContextId);
+            //        Game.getInstance().state.start('Multiplayer', true, false);
+            //});
         }
 
         update() {

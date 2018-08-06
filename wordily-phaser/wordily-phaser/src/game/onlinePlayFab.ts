@@ -5,6 +5,12 @@
             return PlayFab.ClientApi.IsClientLoggedIn();
         }
 
+        static CurrentPlayer = {
+            haveProfileData: false,
+            DisplayName: "",
+            AvatarURL: ""
+        };
+
         static numPlayed:number  =0;
         static bestSolitaireScore: number = 0;
         static bestSolitaireWordScore: number = 0;
@@ -68,7 +74,7 @@
                             facebook_signature: Game.FacebookSignature,
                             facebook_photo: Game.FacebookPhoto
                         });
-                        Online.UpdateDisplayNameAndAvatar(Game.FacebookDisplayName, Game.FacebookPhoto);
+                        Online.UpdateDisplayNameAndAvatar(Game.FacebookDisplayName, Game.FacebookPhoto);                        
                     }
                     else {
                         Online.UpdateDisplayNameAndAvatar(null, "https://api.adorable.io/avatars/200/" + result.data.PlayFabId);
@@ -114,7 +120,10 @@
             if (result !== null) {
                 //refresh player stats
                 let getPlayerRequest: PlayFabClientModels.GetPlayerCombinedInfoRequest = {
-                    InfoRequestParameters: { GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false }
+                    InfoRequestParameters: {
+                        GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,                        
+                        ProfileConstraints: 4                                                 
+                    }                    
                 };
 
                 PlayFabClientSDK.GetPlayerCombinedInfo(getPlayerRequest, Online.getPlayerCombinedInfoCallback);
@@ -127,6 +136,14 @@
 
         private static updatePlayerInfo(info: PlayFabClientModels.GetPlayerCombinedInfoResultPayload) {
             if (info) {
+
+                if (info.PlayerProfile && true) {
+                    //Online.CurrentPlayer.haveProfileData = true;
+                    //Online.CurrentPlayer.DisplayName = info.PlayerProfile.DisplayName;
+                    //console.log('made it');
+                    //Online.CurrentPlayer.AvatarURL = info.PlayerProfile.AvatarUrl;
+                }
+
                 if (info.PlayerStatistics) {
                     let bestSolitaireScoreStat = info.PlayerStatistics.filter(sv => { return sv.StatisticName == "SolitaireGamesBestScore"; });
                     if (bestSolitaireScoreStat.length == 1) {

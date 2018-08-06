@@ -14,10 +14,13 @@
     <AssemblyName>wordily-phaser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44379</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -98,7 +101,7 @@
     <Content Include="include\phaser.js" />
     <Content Include="include\PlayFab\PlayFab\PlayFabClientApi.js" />
     <Content Include="include\PlayFab\PlayFab\PlayFabEntityApi.js" />
-    <TypeScriptCompile Include="src\screens\game.ts" />
+    <TypeScriptCompile Include="src\game\game.ts" />
     <TypeScriptCompile Include="src\game\wordScore.ts" />
     <Content Include="src\phaser\typescript\tslint.json" />
     <Content Include="src\phaser\typescript\typings.json" />
@@ -170,7 +173,6 @@
     <Folder Include="src\util\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\screens\multiplayerLobby.ts" />
     <TypeScriptCompile Include="src\screens\multiplayerGame.ts" />
     <TypeScriptCompile Include="src\screens\solitaireGame.ts" />
     <TypeScriptCompile Include="src\screens\mainMenu.ts" />
