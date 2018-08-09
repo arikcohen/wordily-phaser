@@ -46,7 +46,8 @@
             this.cardR = new Card(-1,"R", true, 0, constSeperation * 2, 0, this.cardTitleGroup, this);
             this.cardD = new Card(-1,"D", true, 0, constSeperation * 3, 0, this.cardTitleGroup, this);
             this.cardI = new Card(-1,"I", true, 0, constSeperation * 4, 0, this.cardTitleGroup, this);
-            this.cardLY = new Card(-1,"LY", true, 0, constSeperation * 5, 0, this.cardTitleGroup, this);            
+            this.cardLY = new Card(-1, "LY", true, 0, constSeperation * 5, 0, this.cardTitleGroup, this);            
+            this.cardTitleGroup.scale.setTo(0.5, 0.5);
             this.cardTitleGroup.x = this.world.centerX - this.cardTitleGroup.width / 2;
             this.cardTitleGroup.y = 20;
 
@@ -127,7 +128,7 @@
                     Game.FacebookContextId = FBInstant.context.getID();
                     Game.FacebookContextType = FBInstant.context.getType();
                     console.log('starting fb multiplayer game:' + Game.FacebookContextType + ":" + Game.FacebookContextId);
-                    Game.getInstance().state.start('Multiplayer', true, false), FBInstant.context.getID();
+                    Game.getInstance().state.start('Multiplayer', true, false, Game.FacebookContextId);
             });
         }
 

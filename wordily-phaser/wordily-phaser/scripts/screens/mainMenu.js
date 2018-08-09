@@ -36,6 +36,7 @@ var Wordily;
             this.cardD = new Wordily.Card(-1, "D", true, 0, constSeperation * 3, 0, this.cardTitleGroup, this);
             this.cardI = new Wordily.Card(-1, "I", true, 0, constSeperation * 4, 0, this.cardTitleGroup, this);
             this.cardLY = new Wordily.Card(-1, "LY", true, 0, constSeperation * 5, 0, this.cardTitleGroup, this);
+            this.cardTitleGroup.scale.setTo(0.5, 0.5);
             this.cardTitleGroup.x = this.world.centerX - this.cardTitleGroup.width / 2;
             this.cardTitleGroup.y = 20;
             var buttonGroup = this.add.group();
@@ -94,7 +95,7 @@ var Wordily;
                 Wordily.Game.FacebookContextId = FBInstant.context.getID();
                 Wordily.Game.FacebookContextType = FBInstant.context.getType();
                 console.log('starting fb multiplayer game:' + Wordily.Game.FacebookContextType + ":" + Wordily.Game.FacebookContextId);
-                Wordily.Game.getInstance().state.start('Multiplayer', true, false), FBInstant.context.getID();
+                Wordily.Game.getInstance().state.start('Multiplayer', true, false, Wordily.Game.FacebookContextId);
             });
         };
         MainMenu.prototype.update = function () {

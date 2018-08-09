@@ -19,7 +19,7 @@ var Wordily;
             }
             var pixelW = window.innerWidth * window.devicePixelRatio;
             var pixelH = window.innerHeight * window.devicePixelRatio;
-            _this = _super.call(this, pixelW, pixelH, Phaser.CANVAS, 'content') || this;
+            _this = _super.call(this, 1280, 720, Phaser.CANVAS, 'content') || this;
             _this.state.add('Boot', Wordily.Boot, false);
             _this.state.add('SplashScreen', Wordily.SplashScreen, false);
             _this.state.add('MainMenu', Wordily.MainMenu, false);

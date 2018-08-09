@@ -56,7 +56,7 @@ module Wordily {
             //this.settingsTitle = this.add.text(this.world.centerX, this.cardTitleGroup.bottom + 50, "Settings", settingsTitleTextStyle);
             //this.settingsTitle.anchor.setTo(0.5, 0);
 
-            this.labelName = this.add.text(this.world.centerX - 10, this.cardTitleGroup.bottom + 150, "Name:", labelTextStyle);
+            this.labelName = this.add.text(this.world.centerX - 10, this.cardTitleGroup.bottom + 50, "Name:", labelTextStyle);
             this.labelName.anchor.setTo(1, 0);
 
             this.displayName = this.add.text(this.labelName.right + 20, this.labelName.y, Online.CurrentPlayer.DisplayName, basicTextStyle);
@@ -73,12 +73,17 @@ module Wordily {
 
             let displayPlayerId = this.add.text(labelPlayerId.right + 20, labelPlayerId.y, Online.CurrentPlayer.PlayFabId, basicTextStyle);
 
+            let labelFBPlayerId = this.add.text(this.world.centerX - 10, displayPlayerId.bottom + 20, "Facebook PlayerId:", labelTextStyle);
+            labelFBPlayerId.anchor.setTo(1, 0);
+
+            let displayFBPlayerId = this.add.text(labelFBPlayerId.right + 20, labelFBPlayerId.y, Game.FacebookId, basicTextStyle);
 
 
-            this.exit = this.add.sprite(this.world.right, 0, 'exit');
+
+            this.exit = this.add.sprite(this.world.right-10, 10, 'exit');
             this.exit.anchor.setTo(1, 0);
-            this.exit.width = 40;
-            this.exit.height = 40;
+            this.exit.width = 50;
+            this.exit.height = 50;
             this.exit.inputEnabled = true;
             this.exit.events.onInputDown.add(this.switchToMainMenu, this);            
 

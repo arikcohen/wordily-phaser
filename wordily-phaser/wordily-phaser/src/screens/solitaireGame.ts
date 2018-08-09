@@ -59,8 +59,7 @@ module Wordily {
 
         }
 
-        preload() {            
-            this.game.load.image('howToPlay', 'assets/gameplay/howToPlay.png');
+        preload() {                        
             this.game.load.image('submit', 'assets/gameplay/submitWord.png');
             this.game.load.image('clear', 'assets/gameplay/clear.png');
             this.game.load.image('error', 'assets/gameplay/wordError.png')

@@ -26,36 +26,36 @@
                 user = Game.FacebookId;
             }
 
-            //let facebookIGLoginRequest: PlayFabClientModels.LoginWithFacebookInstantGamesIDRequest = {
-            //    FacebookInstantGamesSignature: Game.FacebookSignature,
-            //    CreateAccount: true,
-            //    InfoRequestParameters: {
-            //        GetPlayerProfile: true,
-            //        GetUserData: true,
-            //        GetPlayerStatistics: true,
-            //        GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
-            //        ProfileConstraints: {
-            //            "ShowDisplayName": true,                        
-            //            "ShowAvatarUrl": true                        
-            //        }
-            //    }
-            //};
-
-            //PlayFabClientSDK.LoginWithFacebookInstantGamesID(facebookIGLoginRequest, Online.loginCallback);
-
-            let loginRequest: PlayFabClientModels.LoginWithCustomIDRequest = {
-                CustomId: user,
+            let facebookIGLoginRequest: PlayFabClientModels.LoginWithFacebookInstantGamesIDRequest = {
+                FacebookInstantGamesSignature: Game.FacebookSignature,
                 CreateAccount: true,
                 InfoRequestParameters: {
-                    GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
+                    GetPlayerProfile: true,
+                    GetUserData: true,
+                    GetPlayerStatistics: true,
+                    GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
                     ProfileConstraints: {
-                        "ShowDisplayName": true,
-                        "ShowAvatarUrl": true
+                        "ShowDisplayName": true,                        
+                        "ShowAvatarUrl": true                        
                     }
                 }
             };
 
-            PlayFabClientSDK.LoginWithCustomID(loginRequest, Online.loginCallback);
+            PlayFabClientSDK.LoginWithFacebookInstantGamesID(facebookIGLoginRequest, Online.loginCallback);
+
+            //let loginRequest: PlayFabClientModels.LoginWithCustomIDRequest = {
+            //    CustomId: user,
+            //    CreateAccount: true,
+            //    InfoRequestParameters: {
+            //        GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
+            //        ProfileConstraints: {
+            //            "ShowDisplayName": true,
+            //            "ShowAvatarUrl": true
+            //        }
+            //    }
+            //};
+
+            //PlayFabClientSDK.LoginWithCustomID(loginRequest, Online.loginCallback);
         }
 
         private static logPlayerEvent(eventName: string, data: object) {

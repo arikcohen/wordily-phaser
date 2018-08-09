@@ -51,7 +51,7 @@ namespace Wordily {
             let pixelW = window.innerWidth * window.devicePixelRatio;
             let pixelH = window.innerHeight * window.devicePixelRatio;
 
-            super(pixelW, pixelH, Phaser.CANVAS, 'content');
+            super(1280, 720, Phaser.CANVAS, 'content');
 
             this.state.add('Boot', Boot, false);
             this.state.add('SplashScreen', SplashScreen, false);
