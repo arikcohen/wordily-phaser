@@ -55,12 +55,18 @@ namespace Wordily {
 
             this.state.add('Boot', Boot, false);
             this.state.add('SplashScreen', SplashScreen, false);
-            this.state.add('MainMenu', MainMenu, false);
+
+            this.state.add('MainMenu', MainMenu, false);            
+            this.state.add('Settings', SettingsScreen, false);
+
+            this.state.add('Solitaire', SolitaireGame, false);
             this.state.add('Multiplayer', MultiplayerScreen, false);
-            this.state.add('Solitaire', SolitaireGame, false);                        
+            
+            
             this.state.start('Boot');
 
             PlayFab.settings.titleId = "9CB1";
+            //PlayFab.settings.titleId = "56505380";
             Game._instance = this;
         }
 
@@ -124,8 +130,7 @@ namespace Wordily {
             //Online.CurrentPlayer.haveProfileData = true;
             //Online.CurrentPlayer.AvatarURL = Game.FacebookPhoto;
             //Online.CurrentPlayer.DisplayName = Game.FacebookDisplayName;            
-
-            console.debug('here end');
+            
         }
 
     }

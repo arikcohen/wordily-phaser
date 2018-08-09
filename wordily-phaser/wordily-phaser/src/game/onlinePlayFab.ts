@@ -8,7 +8,8 @@
         static CurrentPlayer = {
             haveProfileData: false,
             DisplayName: "",
-            AvatarURL: ""
+            AvatarURL: "",
+            PlayFabId: ""
         };
 
         static numPlayed:number  =0;
@@ -25,33 +26,33 @@
                 user = Game.FacebookId;
             }
 
+            //let facebookIGLoginRequest: PlayFabClientModels.LoginWithFacebookInstantGamesIDRequest = {
+            //    FacebookInstantGamesSignature: Game.FacebookSignature,
+            //    CreateAccount: true,
+            //    InfoRequestParameters: {
+            //        GetPlayerProfile: true,
+            //        GetUserData: true,
+            //        GetPlayerStatistics: true,
+            //        GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
+            //        ProfileConstraints: {
+            //            "ShowDisplayName": true,                        
+            //            "ShowAvatarUrl": true                        
+            //        }
+            //    }
+            //};
+
+            //PlayFabClientSDK.LoginWithFacebookInstantGamesID(facebookIGLoginRequest, Online.loginCallback);
 
             let loginRequest: PlayFabClientModels.LoginWithCustomIDRequest = {
                 CustomId: user,
                 CreateAccount: true,
                 InfoRequestParameters: {
                     GetPlayerProfile: true, GetUserData: true, GetPlayerStatistics: true, GetCharacterInventories: false, GetCharacterList: false, GetTitleData: true, GetUserAccountInfo: false, GetUserInventory: false, GetUserReadOnlyData: false, GetUserVirtualCurrency: false,
-                    //ProfileConstraints: {
-                    //    ShowDisplayName: true,
-                    //    ShowAvatarUrl: true,
-                    //    ShowCreated: false,
-                    //    ShowOrigination: false,
-                    //    ShowLastLogin: false,
-                    //    ShowBannedUntil: false,
-                    //    ShowStatistics: false,
-                    //    ShowCampaignAttributions: false,
-                    //    ShowPushNotificationRegistrations: false,
-                    //    ShowLinkedAccounts: false,
-                    //    ShowContactEmailAddresses: false,
-                    //    ShowTotalValueToDateInUsd: false,
-                    //    ShowValuesToDate: false,
-                    //    ShowVirtualCurrencyBalances: false,
-                    //    ShowTags: false,
-                    //    ShowLocations: false,                        
-                    //    ShowMemberships: false
-                    //}                                    
+                    ProfileConstraints: {
+                        "ShowDisplayName": true,
+                        "ShowAvatarUrl": true
+                    }
                 }
-
             };
 
             PlayFabClientSDK.LoginWithCustomID(loginRequest, Online.loginCallback);
@@ -158,11 +159,13 @@
         private static updatePlayerInfo(info: PlayFabClientModels.GetPlayerCombinedInfoResultPayload) {
             if (info) {
 
-                if (info.PlayerProfile && true) {
-                    //Online.CurrentPlayer.haveProfileData = true;
-                    //Online.CurrentPlayer.DisplayName = info.PlayerProfile.DisplayName;
-                    console.log('Player profile:   DisplayName:' + info.PlayerProfile.DisplayName + " AvatarUrl " + info.PlayerProfile.AvatarUrl);
-                    //Online.CurrentPlayer.AvatarURL = info.PlayerProfile.AvatarUrl;
+                if (info.PlayerProfile) {
+                    Online.CurrentPlayer.haveProfileData = true;
+                    Online.CurrentPlayer.DisplayName = info.PlayerProfile.DisplayName;
+                    
+                    Online.CurrentPlayer.AvatarURL = info.PlayerProfile.AvatarUrl;
+                    Online.CurrentPlayer.PlayFabId = info.PlayerProfile.PlayerId;
+                    console.log('Player profile:   DisplayName:' + info.PlayerProfile.DisplayName + " AvatarUrl:" + info.PlayerProfile.AvatarUrl);
                 }
 
                 if (info.PlayerStatistics) {

@@ -14,13 +14,10 @@
     <AssemblyName>wordily-phaser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44379</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -94,6 +91,7 @@
     <Content Include="assets\gameplay\exit.png" />
     <Content Include="assets\mainmenu\settings.png" />
     <Content Include="assets\preload\Software.png" />
+    <Content Include="assets\settings\playfab.png" />
     <Content Include="assets\settings\speaker-off.png" />
     <Content Include="assets\settings\speaker.png" />
     <Content Include="assets\settings\wrongWord.png" />
@@ -174,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\screens\multiplayerGame.ts" />
+    <TypeScriptCompile Include="src\screens\settingsScreen.ts" />
     <TypeScriptCompile Include="src\screens\solitaireGame.ts" />
     <TypeScriptCompile Include="src\screens\mainMenu.ts" />
     <TypeScriptCompile Include="src\screens\splashScreen.ts" />

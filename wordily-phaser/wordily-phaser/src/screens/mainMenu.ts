@@ -15,6 +15,7 @@
         solitaire: Phaser.Sprite;
         dailySolitaire: Phaser.Sprite;
         multiplayer: Phaser.Sprite;
+        settings: Phaser.Sprite;
 
         profilePicture: Phaser.Image;
 
@@ -25,9 +26,10 @@
             this.load.image('start_solitaire', 'assets/mainmenu/solitaire.png');
             this.load.image('start_daily', 'assets/mainmenu/daily.png');
             this.load.image('start_multiplayer', 'assets/mainmenu/multiplayer.png');
+            this.load.image('settings', 'assets/mainmenu/settings.png');
             
-            if (Game.isFacebookInstantGame) {
-                this.load.image('user_avatar', Game.FacebookPhoto);                
+            if (Online.CurrentPlayer.haveProfileData) {
+                this.load.image('user_avatar', Online.CurrentPlayer.AvatarURL);                
             }
         }
 
@@ -76,7 +78,7 @@
             buttonGroup.y = this.cardTitleGroup.bottom + 40;
 
             if (Game.isFacebookInstantGame) {
-                let profileName = this.add.text(this.world.centerX, buttonGroup.bottom + 10, "Welcome\n" + Game.FacebookDisplayName, { font: "18px cutive", align: "center", fill: "white" });
+                let profileName = this.add.text(this.world.centerX, buttonGroup.bottom + 10, "Welcome\n" + Online.CurrentPlayer.DisplayName, { font: "18px cutive", align: "center", fill: "white" });
                 profileName.anchor.setTo(0.5, 0);
 
                 this.profilePicture = this.add.image(this.world.centerX, profileName.bottom + 10, 'user_avatar');
@@ -86,10 +88,22 @@
                                 
             }
 
+            this.settings = this.add.sprite(this.world.right - 50, 0, 'settings');
+            this.settings.height = 50;
+            this.settings.width = 50;
+            this.settings.inputEnabled = true;
+            this.settings.events.onInputDown.add(this.launchSettings, this);
+
+
+
         }
         
         flipCard(c: Card, delay:number=0) {
             c.cardFlip(delay);
+        }
+
+        launchSettings() {
+            this.game.state.start('Settings', true, false);
         }
 
         startSolitaireGame() {            
@@ -104,17 +118,17 @@
 
         startMultiplayerGame() {
             this.game.state.start('Multiplayer');
-            //FBInstant.context.chooseAsync({                
-            //    minSize: 2,
-            //    maxSize: 6
+            FBInstant.context.chooseAsync({                
+                minSize: 2,
+                maxSize: 6
 
-            //})
-            //    .then(function () {
-            //        Game.FacebookContextId = FBInstant.context.getID();
-            //        Game.FacebookContextType = FBInstant.context.getType();
-            //        console.log('starting fb multiplayer game:' + Game.FacebookContextType + ":" + Game.FacebookContextId);
-            //        Game.getInstance().state.start('Multiplayer', true, false);
-            //});
+            })
+                .then(function () {
+                    Game.FacebookContextId = FBInstant.context.getID();
+                    Game.FacebookContextType = FBInstant.context.getType();
+                    console.log('starting fb multiplayer game:' + Game.FacebookContextType + ":" + Game.FacebookContextId);
+                    Game.getInstance().state.start('Multiplayer', true, false), FBInstant.context.getID();
+            });
         }
 
         update() {

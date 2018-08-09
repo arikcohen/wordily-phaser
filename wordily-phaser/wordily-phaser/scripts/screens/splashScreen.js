@@ -36,7 +36,7 @@ var Wordily;
             }
         };
         SplashScreen.prototype.create = function () {
-            var showSplash = false;
+            var showSplash = true;
             var delay = 250;
             var duration = 400;
             if (showSplash) {

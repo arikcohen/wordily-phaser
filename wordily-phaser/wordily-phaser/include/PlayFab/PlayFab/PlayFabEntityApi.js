@@ -23,7 +23,7 @@ if(!PlayFab._internalSettings) {
         entityToken: null,
         sdkVersion: "1.27.180716",
         sessionTicket: null,
-        productionServerUrl: ".playfabapi.com",
+        //productionServerUrl: ".playfabapi.com",
         errorTitleId: "Must be have PlayFab.settings.titleId set to call this method",
         errorLoggedIn: "Must be logged in to call this method",
         errorEntityToken: "You must successfully call GetEntityToken before calling this",

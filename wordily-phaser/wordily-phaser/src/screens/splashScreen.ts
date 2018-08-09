@@ -48,7 +48,7 @@
 
         create() {                                   
 
-            var showSplash: boolean = false;
+            var showSplash: boolean = true;
 
             let delay: number = 250;
             let duration: number = 400;

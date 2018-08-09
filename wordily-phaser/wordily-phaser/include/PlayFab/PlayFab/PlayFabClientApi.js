@@ -17,12 +17,15 @@ if(!PlayFab.settings) {
         AD_TYPE_ANDROID_ID: "Adid"
     }
 }
+//productionServerUrl: ".playfabapi.com",
+//productionServerUrl: ".player-svcs.playfabapi.com",       
 
-if(!PlayFab._internalSettings) {
+if (!PlayFab._internalSettings) {
     PlayFab._internalSettings = {
         entityToken: null,
         sdkVersion: "1.27.180716",
         sessionTicket: null,
+
         productionServerUrl: ".playfabapi.com",
         errorTitleId: "Must be have PlayFab.settings.titleId set to call this method",
         errorLoggedIn: "Must be logged in to call this method",
